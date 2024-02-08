@@ -1,19 +1,20 @@
-from app.models import db, User, environment, SCHEMA
+from app.models import db, Album, environment, SCHEMA
 from sqlalchemy.sql import text
 
 
 # Adds a demo user, you can add other users here if you want
-def seed_users():
-    demo = User(
-        firstname='Demo', lastname='lition', username='Demo', email='demo@aa.io', password='password', profile_url='image1.url')
-    marnie = User(
-        firstname='Marnie', lastname='Leo', username='marnie', email='marnie@aa.io', password='password', profile_url='image2.url')
-    bobbie = User(
-        firstname='Bobbie', lastname='Jean', username='bobbie', email='bobbie@aa.io', password='password', profile_url='image3.url')
+def seed_albums():
+    album1 = Album(
+        title='album1', description='This is album1. Looks good', userId=1)
+    album2 = Album(
+        title='album2', description='This is album2. Looks nice', userId=2)
+    album3 = Album(
+        title='album3', description='This is album3. Looks wonderful', userId=3)
+    
 
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
+    db.session.add(album1)
+    db.session.add(album2)
+    db.session.add(album3)
     db.session.commit()
 
 
@@ -23,10 +24,10 @@ def seed_users():
 # incrementing primary key, CASCADE deletes any dependent entities.  With
 # sqlite3 in development you need to instead use DELETE to remove all data and
 # it will reset the primary keys for you as well.
-def undo_users():
+def undo_albums():
     if environment == "production":
         db.session.execute(f"TRUNCATE table {SCHEMA}.users RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM users"))
+        db.session.execute(text("DELETE FROM albums"))
         
     db.session.commit()
