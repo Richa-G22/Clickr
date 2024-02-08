@@ -10,9 +10,23 @@ class User(db.Model, UserMixin):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
+<<<<<<< HEAD
+    firstname = db.Column(db.String(50), nullable=False)
+    lastname = db.Column(db.String(50), nullable=False)
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+    profile_url = db.Column(db.String(1000)
+                            )
+    albums = db.relationship("Album", cascade="all, delete", back_populates="user")
+    comments = db.relationship("Comment", cascade="all, delete", back_populates="user")
+    photos = db.relationship("Photo", cascade="all, delete", back_populates="user")
+    favorites = db.relationship("Favorite", cascade="all, delete", back_populates="user")
+=======
+    username = db.Column(db.String(40), nullable=False, unique=True)
+    email = db.Column(db.String(255), nullable=False, unique=True)
+    hashed_password = db.Column(db.String(255), nullable=False)
+>>>>>>> staging
 
     @property
     def password(self):
@@ -28,6 +42,14 @@ class User(db.Model, UserMixin):
     def to_dict(self):
         return {
             'id': self.id,
+<<<<<<< HEAD
+            'firstname': self.firstname,
+            'lastname': self.lastname,
+            'username': self.username,
+            'email': self.email,
+            'profile_url': self.profile_url,
+=======
             'username': self.username,
             'email': self.email
+>>>>>>> staging
         }
