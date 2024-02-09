@@ -1,11 +1,10 @@
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
-<<<<<<< HEAD
 from .comments import seed_comments, undo_comments
 from .albums import seed_albums, undo_albums
 from .photos import seed_photos, undo_photos
-=======
->>>>>>> staging
+from .favorites import seed_favorites, undo_favorites
+from .photoalbums import seed_photoalbums, undo_photoalbums
 
 from app.models.db import db, environment, SCHEMA
 
@@ -21,30 +20,29 @@ def seed():
         # Before seeding in production, you want to run the seed undo 
         # command, which will  truncate all tables prefixed with 
         # the schema name (see comment in users.py undo_users function).
-        # Make sure to add all your other model's undo functions below
-        undo_users()
-<<<<<<< HEAD
-        undo_photos()
-        undo_albums()
+        # Make sure to add all your other model's undo functions below  
+        undo_photoalbums()
+        undo_favorites()
         undo_comments()
+        undo_albums()
+        undo_photos()
+        undo_users()
     seed_users()
     seed_photos()
     seed_albums()
     seed_comments()
-=======
-    seed_users()
->>>>>>> staging
+    seed_favorites()
+    seed_photoalbums()
     # Add other seed functions here
 
 
 # Creates the `flask seed undo` command
 @seed_commands.command('undo')
 def undo():
-    undo_users()
-<<<<<<< HEAD
-    undo_photos()
-    undo_albums()
+    undo_photoalbums()
+    undo_favorites()
     undo_comments()
-=======
->>>>>>> staging
+    undo_albums()
+    undo_photos()
+    undo_users()
     # Add other undo functions here
