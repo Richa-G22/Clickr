@@ -83,4 +83,7 @@ def downgrade():
     op.drop_table('photos')
     op.drop_table('albums')
     op.drop_table('users')
+
+
+    
     # ### end Alembic commands ###
