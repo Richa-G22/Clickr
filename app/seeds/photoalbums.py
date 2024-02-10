@@ -5,23 +5,26 @@ from sqlalchemy.sql import text
 
 # Adds a demo user, you can add other users here if you want
 def seed_photoalbums():
-    #Photoalbum1 = photoalbums(photoId=1, albumId=1)
-    photo5 = Photo(
-        label='Abc', title='XYZ', description='Its a nice phot', url='https://upload.wikimedia.org/wikipedia/commons/e/ea/Spring_Lake%2C_New_Jersey_Beach_at_Sunrise.jpg', userId=1)
    
-    db.session.add(photo5)
+    # photo5 = Photo(
+    #     label='Abc', title='XYZ', description='Its a nice phot', url='https://upload.wikimedia.org/wikipedia/commons/e/ea/Spring_Lake%2C_New_Jersey_Beach_at_Sunrise.jpg', userId=1)
+   
+    # db.session.add(photo5)
 
-    album5 = Album(
-        title='album1', description='This is album1. Looks good', userId=1)
+    # album5 = Album(
+    #     title='album1', description='This is album1. Looks good', userId=1)
     
-    db.session.add(album5)
-    #db.session.add(Photoalbum1)
-    
-    photo5.albums.extend([album5])
-    #album5.photos.extend([photo5])
-    #Photoalbum1 = photoalbums(photoId=1, albumId=1) 
+    # db.session.add(album5)
+    # photo5.albums.extend([album5])
+  
+    # db.session.commit()
+    photo5 = Photo.query.filter_by(id = 1).first()
+    album5 = Album.query.filter_by(id = 1).first()
+    photo5.albums.append(album5)
     db.session.commit()
-    
+
+    # photoalbum = (Photo.id, Album.id) 
+    # photoalbum.albums.extend([])
 
 
 # Uses a raw SQL query to TRUNCATE or DELETE the users table. SQLAlchemy doesn't
