@@ -17,6 +17,24 @@ def all_photos():
     return jsonify(photo_list)
 
 
+# Get all photos by userId
+@photo_routes.route('/current')
+@login_required
+def user_photos():
+    user_photos = Photo.query.filter_by(userId=current_user.id).all()
+
+    photo_list = [{
+        'id': photo.id,
+        'label': photo.label,
+        'title': photo.title,
+        'description': photo.description,
+        'url': photo.url,
+        'userId': photo.userId
+        } for photo in user_photos]
+
+    return jsonify(photo_list)
+
+
 # Get an photo for the logged in User by photo id
 @photo_routes.route('/<int:photoId>')
 @login_required
@@ -55,14 +73,13 @@ def create_photo():
         print(new_photo)
         db.session.add(new_photo)
         db.session.commit()
-
-        # return redirect("/api/photo/all")
+        return new_photo.to_dict()
 
     if form.errors:
-        print(form.errors, 401)
-        return render_template("create_photo.html", form=form, errors=form.errors)
+        return form.errors, 401
+        #return render_template("create_photo.html", form=form, errors=form.errors)
 
-    return render_template("create_photo.html", form=form, errors=None)
+    #return render_template("create_photo.html", form=form, errors=None)
 
 
 # Update an photo by id:
@@ -89,10 +106,11 @@ def update_photo(id):
         photo_to_be_updated.url = data["url"]
         photo_to_be_updated.description = data["description"]
         db.session.commit()
+        return photo_to_be_updated.to_dict() 
 
     if form.errors:
-        print(form.errors, 401)
-    return render_template("update_photo.html", form=form, errors=form.errors)
+        return form.errors, 401
+    #return render_template("update_photo.html", form=form, errors=form.errors)
 
 
 # Delete an photo by id:
