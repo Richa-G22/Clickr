@@ -3,14 +3,14 @@ from flask_login import current_user
 from app.models import db, Photo
 from flask_login import login_required
 from app.forms import CreatePhotoForm
-from app.forms.update_form import UpdatePhotoForm
+
 
 
 photo_routes = Blueprint('photos', __name__)
 
 
 # get all photos
-@photo_routes.route('/')
+@photo_routes.route('/all')
 def all_photos():
     all_photos = Photo.query.all()
     photo_list = [{'id':photo.id,'label':photo.label, 'title': photo.title, 'description': photo.description, 'url': photo.url,'userId': photo.userId} for photo in all_photos]
@@ -18,79 +18,59 @@ def all_photos():
     return jsonify(photo_list)
 
 
-# create new post
-@photo_routes.route('/upload', methods=['GET','POST'])
+# Get an photo for the logged in User by photo id
+@photo_routes.route('/<int:photoId>')
 @login_required
-def create_post():
+def get_photo_by_id(photoId):
+    all_photos = Photo.query.filter_by(userId=current_user.id).all()
+
+    one_photo = [{
+        'id': photo.id,
+        'label': photo.label,
+        'title': photo.title,
+        'description': photo.description,
+        'url': photo.url,
+        'userId': photo.userId
+        } for photo in all_photos if photo.id == photoId ]
+
+    return jsonify(one_photo)
 
 
-    if request.method == "GET":
-        form = CreatePhotoForm()
-        form['csrf_token'].data = request.cookies['csrf_token']
-        return render_template("create_photo.html", form=form)
-    elif form.validate_on_submit():
-            data = form.data
-            create_post = Photo(
+# Create a new photo
+@photo_routes.route("/new", methods=["GET","POST"])
+@login_required
+def create_photo():
+
+    form = CreatePhotoForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    if form.validate_on_submit():
+        data= form.data
+        new_photo = Photo(
             label=data["label"],
             title=data["title"],
             description=data["description"],
             url=data["url"],
             userId=current_user.id
         )
-            db.session.add(create_post)
-            db.session.commit()
-            return create_post.to_dict()
-    else :
-        return form.errors, 401
+
+        print(new_photo)
+        db.session.add(new_photo)
+        db.session.commit()
+
+        return redirect("/api/photo/all")
+
+    if form.errors:
+        print(form.errors, 401)
+        return render_template("create_photo.html", form=form, errors=form.errors)
+
+    return render_template("create_photo.html", form=form, errors=None)
 
 
-# # update new post
-# @photo_routes.route('/<int:photoId>', methods=['GET','PUT'])
-# @login_required
-# def update_post(photoId):
-#     if request.method == "GET":
-#         form = CreatePhotoForm()
-#         form['csrf_token'].data = request.cookies['csrf_token']
-#         return render_template("update_photo.html", form=form)
-
-
-
-#     # # user must be logged in
-#     # if not current_user:
-#     #     return jsonify({'error': 'must be logged in to update a photo'}), 401
-
-#     else :
-#         photo = Photo.query.get(photoId)
-#         if not (photo or  not photo.userId != current_user.id):
-#             return jsonify({'error': 'could not find photo'}), 404
-
-#     # if not owner of photo
-#     # if photo.userId != current_user.id:
-#     #     return jsonify({'error': 'unauthorized'}), 403
-
-
-
-#     if form.validate_on_submit():
-#         print("reached here")
-#         data = form.data
-#         photo.label=data["label"]
-#         photo.title=data["title"]
-#         photo.description=data["description"]
-#         photo.url=data["url"],
-
-
-
-
-
-#         db.session.commit()
-#         return photo.to_dict()
-#     return form.errors, 401
-
-
-@photo_routes.route('/<int:photoId>', methods=['GET','PUT'])
+@photo_routes.route('/update/<int:photoId>', methods=['GET','PUT'])
 @login_required
 def update_post(photoId):
-    form = UpdatePhotoForm()
+    form = CreatePhotoForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if request.method == "GET":
@@ -114,26 +94,23 @@ def update_post(photoId):
         return form.errors, 401
 
 
-# delete photo by Id
 
-@photo_routes.route('/<int:photoId>', methods=['DELETE'])
+# Delete an photo by id:
+@photo_routes.route('/delete/<int:photoId>', methods=['GET','DELETE'])
 @login_required
 def delete_photo(photoId):
-    # user must be logged in
-    if not current_user:
-        return jsonify({'error': 'must be logged in to delete a photo'}), 401
 
-    photo = Photo.query.get(photoId).first()
-    print("********", photo)
-    # photo = Photo.query.get(id)
+    photo_to_be_deleted = Photo.query.get(photoId)
+    print(photo_to_be_deleted)
 
-    # if photo not exists
-    if not photo:
-        return jsonify({'error': 'could not find photo'}), 404
+    # If photo selected does not exist
+    if not photo_to_be_deleted:
+        return jsonify({'error': 'Could not find the selected photo'}, 404 )
 
-    # if not owner of photo
-    if photo.userId != current_user.id:
-        return jsonify({'error': 'unauthorized'}), 403
-    db.session.delete(photo)
+    # If logged in user is not the owner of the photo selected
+    if photo_to_be_deleted.id != current_user.id:
+        return jsonify({'error': 'Unauthorized'}, 403 )
+
+    db.session.delete(photo_to_be_deleted)
     db.session.commit()
-    return jsonify({'message': 'Photo deleted successfully'}), 200
+    return jsonify({'message': 'photo deleted successfully'}, 200)
