@@ -24,6 +24,7 @@ def get_all_comments(photoId):
 
 
 @comments_routes.route("/<int:photoId>/postComments", methods=["GET", "POST"])
+@login_required
 def post_comment(photoId):
     form = PostCommentForm()
 
@@ -92,4 +93,3 @@ def delete_comment(id):
     db.session.delete(comment_to_be_deleted)
     db.session.commit()
     return jsonify({'message': 'comment deleted successfully'})
-
