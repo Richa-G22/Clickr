@@ -1,4 +1,4 @@
-from flask import Blueprint,session, request,redirect, jsonify, render_template
+from flask import Blueprint,session, request, jsonify, render_template
 from flask_login import current_user
 from app.models import db, Photo
 from flask_login import login_required
@@ -35,8 +35,7 @@ def get_photo_by_id(photoId):
 
     return jsonify(one_photo)
 
-
-# Create a new photo
+ # Create a new photo
 @photo_routes.route("/new", methods=["GET","POST"])
 @login_required
 def create_photo():
@@ -58,7 +57,7 @@ def create_photo():
         db.session.add(new_photo)
         db.session.commit()
 
-        return redirect("/api/photo/all")
+        # return redirect("/api/photo/all")
 
     if form.errors:
         print(form.errors, 401)
@@ -67,40 +66,42 @@ def create_photo():
     return render_template("create_photo.html", form=form, errors=None)
 
 
-@photo_routes.route('/update/<int:photoId>', methods=['GET','PUT'])
+# Update an photo by id:
+@photo_routes.route('/update/<int:id>', methods=['GET','PUT'])
 @login_required
-def update_post(photoId):
+def update_photo(id):
+
+    photo_to_be_updated = Photo.query.get(id)
+
+# If photo selected does not exist
+    if not photo_to_be_updated:
+        return jsonify({'error': 'Could not find the selected photo'}, 404 )
+
+    # # If logged in user is not the owner of the album selected
+    if photo_to_be_updated.userId != current_user.id:
+        return jsonify({'error': 'Unauthorized'}, 403 )
     form = CreatePhotoForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
-    if request.method == "GET":
-        photo = Photo.query.get(photoId)
+    if form.validate_on_submit():
+        data = form.data
+        photo_to_be_updated.label = data["label"]
+        photo_to_be_updated.title = data["title"]
+        photo_to_be_updated.url = data["url"]
+        photo_to_be_updated.description = data["description"]
+        db.session.commit()
 
-        if not photo :
-            return jsonify({'error': 'could not find photo'}), 404
-
-        if photo.userId != current_user.id:
-            return jsonify({'error': 'unauthorized'}), 403
-        return render_template("update_photo.html",form=form, photo=photo)
-    else:
-        if form.validate_on_submit():
-            data = form.data
-            photo.label=data["label"]
-            photo.title=data["title"]
-            photo.description=data["description"]
-            photo.url=data["url"]
-            db.session.commit()
-            return photo.to_dict()
-        return form.errors, 401
-
+    if form.errors:
+        print(form.errors, 401)
+    return render_template("update_photo.html", form=form, errors=form.errors)
 
 
 # Delete an photo by id:
-@photo_routes.route('/delete/<int:photoId>', methods=['GET','DELETE'])
+@photo_routes.route('/delete/<int:id>', methods=['GET','DELETE'])
 @login_required
-def delete_photo(photoId):
+def delete_photo(id):
 
-    photo_to_be_deleted = Photo.query.get(photoId)
+    photo_to_be_deleted = Photo.query.get(id)
     print(photo_to_be_deleted)
 
     # If photo selected does not exist
@@ -108,7 +109,7 @@ def delete_photo(photoId):
         return jsonify({'error': 'Could not find the selected photo'}, 404 )
 
     # If logged in user is not the owner of the photo selected
-    if photo_to_be_deleted.id != current_user.id:
+    if photo_to_be_deleted.userId != current_user.id:
         return jsonify({'error': 'Unauthorized'}, 403 )
 
     db.session.delete(photo_to_be_deleted)
