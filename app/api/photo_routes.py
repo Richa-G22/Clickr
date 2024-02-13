@@ -8,7 +8,6 @@ from app.forms import CreatePhotoForm
 
 photo_routes = Blueprint('photos', __name__)
 
-
 # get all photos
 @photo_routes.route('/all')
 def all_photos():
@@ -100,18 +99,21 @@ def update_photo(id):
 @photo_routes.route('/delete/<int:id>', methods=['GET','DELETE'])
 @login_required
 def delete_photo(id):
+    print("hello")
 
     photo_to_be_deleted = Photo.query.get(id)
     print(photo_to_be_deleted)
 
     # If photo selected does not exist
     if not photo_to_be_deleted:
-        return jsonify({'error': 'Could not find the selected photo'}, 404 )
+        return jsonify({'error': 'Could not find the selected photo'} ), 404
 
     # If logged in user is not the owner of the photo selected
     if photo_to_be_deleted.userId != current_user.id:
-        return jsonify({'error': 'Unauthorized'}, 403 )
+        return jsonify({'error': 'Unauthorized'} ), 403
 
     db.session.delete(photo_to_be_deleted)
     db.session.commit()
-    return jsonify({'message': 'photo deleted successfully'}, 200)
+    return jsonify({'message': 'photo deleted successfully'})
+
+print("hellooo")
