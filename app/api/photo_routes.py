@@ -75,6 +75,7 @@ def create_photo():
         db.session.commit()
         return new_photo.to_dict()
 
+
     if form.errors:
         return form.errors, 401
         #return render_template("create_photo.html", form=form, errors=form.errors)
@@ -106,7 +107,7 @@ def update_photo(id):
         photo_to_be_updated.url = data["url"]
         photo_to_be_updated.description = data["description"]
         db.session.commit()
-        return photo_to_be_updated.to_dict() 
+        return photo_to_be_updated.to_dict()
 
     if form.errors:
         return form.errors, 401
@@ -134,4 +135,4 @@ def delete_photo(id):
     db.session.commit()
     return jsonify({'message': 'photo deleted successfully'})
 
-print("hellooo")
+# print("hellooo")
