@@ -1,0 +1,15 @@
+<!-- <form method="put" action="/api/photo/update/<int:photoId>> -->
+<form method="PUT" action="/api/photo/update/<int:commentId>">
+    {{ form.csrf_token }}
+    {{ form.label.label }}
+    {{ form.label() }}
+    {{ form.title.label }}
+    {{ form.title() }}
+    {{ form.description.label }}
+    {{ form.description() }}
+    {{ form.url.label }}
+    {{ form.url() }}
+    {{ form.submit }}
+
+
+</form>
