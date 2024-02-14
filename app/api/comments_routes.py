@@ -6,7 +6,7 @@ from app.forms import UpdateCommentForm, PostCommentForm
 
 comments_routes = Blueprint("comments_routes", __name__)
 
-@comments_routes.route("/<int:photoId>/comments", methods=["GET"])
+@comments_routes.route("/<int:photoId>", methods=["GET"])
 def get_all_comments(photoId):
 
     comments = Comment.query.filter_by(photoId=photoId).all()
