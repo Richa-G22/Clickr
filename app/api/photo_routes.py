@@ -94,7 +94,7 @@ def update_photo(id):
     if not photo_to_be_updated:
         return jsonify({'error': 'Could not find the selected photo'}, 404 )
 
-    # # If logged in user is not the owner of the album selected
+    # If logged in user is not the owner of the photo selected
     if photo_to_be_updated.userId != current_user.id:
         return jsonify({'error': 'Unauthorized'}, 403 )
     form = CreatePhotoForm()

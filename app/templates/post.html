@@ -1,0 +1,6 @@
+<form method="POST" action="/api/comments/{{ photoId }}/postComments">
+    {{ form.csrf_token }}
+    {{ form.comment.label }}
+    {{ form.comment() }}
+    {{ form.submit() }}
+</form>
