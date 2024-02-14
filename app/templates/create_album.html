@@ -1,0 +1,10 @@
+<form method="POST" action='/api/albums/new'>
+    {{ form.csrf_token }}
+    {{ form.title.label }}
+    {{ form.title() }}
+    {{ form.description.label }}
+    {{ form.description() }}
+    {{ form.userId.label }}
+    {{ form.userId() }}
+    {{ form.submit }}
+</form>
