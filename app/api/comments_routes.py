@@ -23,25 +23,33 @@ def get_all_comments(photoId):
     return jsonify(comments_data)
 
 
-@comments_routes.route("/<int:photoId>/postComments", methods=["GET", "POST"])
+@comments_routes.route("/<int:id>/postComments", methods=["GET", "POST"])
 @login_required
-def post_comment(photoId):
+def post_comment(id):
     form = PostCommentForm()
 
     if form.validate_on_submit():
         comment_text = form.comment.data
 
-        new_comment = Comment(comment=comment_text)
+        # Create a new comment with the provided data
+        new_comment = Comment(
+            comment=comment_text,
+            photoId=id,  # Assign the photo ID from the URL parameter
+            userId=current_user.id,  # Assign the current user's ID
+        )
+
+        # Add the new comment to the database and commit the transaction
         db.session.add(new_comment)
         db.session.commit()
 
+        # Return a success message
         return jsonify({"message": "Comment added successfully"}), 201
 
-    form.photoId.data = photoId
-
+    # If the request method is GET, render the template with the form
     if request.method == "GET":
-        return render_template("post.html", form=form, photoId=photoId)
+        return render_template("post.html", form=form, photoId=id)
 
+    # If the form validation fails, return an error message
     return jsonify({"error": "Form validation failed"}), 400
 
 
