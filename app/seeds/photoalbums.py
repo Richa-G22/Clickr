@@ -1,6 +1,7 @@
 from app.models import db, Photo, Album, User, environment, SCHEMA
 #from app.models import db, photoalbums, environment, SCHEMA
 from sqlalchemy.sql import text
+from .photos import Photo
 
 
 # Adds a demo user, you can add other users here if you want
