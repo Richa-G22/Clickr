@@ -52,7 +52,7 @@ function UpdatePhoto() {
             navigate('/');
         } catch (error) {
             console.error('Error updating photo:', error);
-            // Handle errors as needed
+    
         }
     };
 

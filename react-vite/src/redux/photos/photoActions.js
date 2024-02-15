@@ -45,7 +45,7 @@ export const fetchPhotos = () => async (dispatch) => {
     }
     const data = await response.json();
 
-    console.log('API Response for fetchPhotos:', data); // Add this line
+    console.log('API Response for fetchPhotos:', data);
 
     dispatch(fetchPhotosSuccess(data));
   } catch (error) {
@@ -77,6 +77,7 @@ export const createPhoto = (photoData) => async (dispatch) => {
 
         // Dispatch the action to update the photos state with the new data
         dispatch(fetchPhotosSuccess(data));
+
 
 
     } catch (error) {
