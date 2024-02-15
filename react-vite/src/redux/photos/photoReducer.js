@@ -2,7 +2,8 @@ import { FETCH_PHOTOS_SUCCESS,
   CREATE_PHOTO_SUCCESS,
   UPDATE_PHOTO_REQUEST,
   UPDATE_PHOTO_SUCCESS,
-  UPDATE_PHOTO_FAILURE, } from './photoActions';
+    UPDATE_PHOTO_FAILURE,
+    DELETE_PHOTO_SUCCESS} from './photoActions';
 
 const initialState = {
   photos: [],
@@ -51,9 +52,15 @@ const photoReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
+    case DELETE_PHOTO_SUCCESS: // Handle the action for deleting a photo
+      return {
+        ...state,
+        photos: state.photos.filter(photo => photo.id !== action.payload),
+      };
     default:
       return state;
   }
 };
 
 export default photoReducer;
+

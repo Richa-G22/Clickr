@@ -5,7 +5,6 @@ from flask_login import login_required
 from app.forms import CreatePhotoForm
 
 
-
 photo_routes = Blueprint('photos', __name__)
 
 # get all photos
@@ -52,7 +51,7 @@ def get_photo_by_id(photoId):
 
     return jsonify(one_photo)
 
- # Create a new photo
+# Create a new photo
 @photo_routes.route("/new", methods=["GET","POST"])
 @login_required
 def create_photo():
@@ -87,10 +86,11 @@ def create_photo():
 @photo_routes.route('/update/<int:id>', methods=['GET','PUT'])
 @login_required
 def update_photo(id):
+    print("Received ID:", id)
 
     photo_to_be_updated = Photo.query.get(id)
 
-# If photo selected does not exist
+    # If photo selected does not exist
     if not photo_to_be_updated:
         return jsonify({'error': 'Could not find the selected photo'}, 404 )
 
@@ -111,7 +111,7 @@ def update_photo(id):
 
     if form.errors:
         return form.errors, 401
-    #return render_template("update_photo.html", form=form, errors=form.errors)
+    return render_template("update_photo.html", form=form, errors=form.errors)
 
 
 # Delete an photo by id:

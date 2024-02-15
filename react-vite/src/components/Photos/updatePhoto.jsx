@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchPhotos, updatePhoto }  from "../../redux/photos/photoActions";
+import { fetchPhotos, fetchPhotosSuccess, updatePhoto }  from "../../redux/photos/photoActions";
 
 function UpdatePhoto() {
+    const { id } = useParams();
+    console.log("ID from useParams:", id); // Add console log to check id
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { id } = useParams(); // Get the photoId from the URL params
-    const photos = useSelector(state => state.photo.photos);
-    const photo = photos.find(p => p.id === parseInt(id)); // Find the photo with the matching id
+    const photo = useSelector(state => state.photo.photo); // Accessing the photo object from Redux state
 
     // State to hold form input values
     const [formFields, setFormFields] = useState({
@@ -19,22 +19,26 @@ function UpdatePhoto() {
         url: ''
     });
 
-    // Fetch photos when the component mounts
+    // Fetch photo when the component mounts
     useEffect(() => {
-        dispatch(fetchPhotos());
-    }, [dispatch]);
-
-    // Populate form fields with photo data when photo is available or changes
-    useEffect(() => {
-        if (photo) {
-            setFormFields({
-                label: photo.label || '',
-                title: photo.title || '',
-                description: photo.description || '',
-                url: photo.url || ''
-            });
+        // Perform API request to fetch the photo with the given ID
+        if (id) {
+            // Use the id parameter in the API request
+            fetch(`/api/photo/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    dispatch(fetchPhotosSuccess(data));
+                    // Set form fields with photo data
+                    setFormFields({
+                        label: data.label || '',
+                        title: data.title || '',
+                        description: data.description || '',
+                        url: data.url || ''
+                    });
+                })
+                .catch(error => console.error('Error fetching photo:', error));
         }
-    }, [photo]);
+    }, [dispatch, id]);
 
     // Function to handle input changes
     const handleInputChange = (e) => {
@@ -44,6 +48,7 @@ function UpdatePhoto() {
 
     // Function to handle form submission
     const handleSubmit = async (e) => {
+<<<<<<< Updated upstream
         e.preventDefault();
         try {
             // Dispatch the updatePhoto action with photo ID and updated data
@@ -55,33 +60,47 @@ function UpdatePhoto() {
     
         }
     };
+=======
+    e.preventDefault();
+    try {
+        console.log('ID:', id); // Check the value of the id parameter
+        console.log('Form Data:', formFields); // Check the form data being submitted
+        // Dispatch the updatePhoto action with photo ID (id) and updated data (formFields)
+        await dispatch(updatePhoto(id, formFields)); // Pass id instead of photo.id
+        // Navigate to another route after successful update
+        navigate('/');
+    } catch (error) {
+        console.error('Error updating photo:', error);
+        // Handle errors as needed
+    }
+};
+
+>>>>>>> Stashed changes
 
     return (
         <div>
             <h2>Update Photo</h2>
-            {photo && (
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>Label</label>
-                        <input type="text" name="label" value={formFields.label} onChange={handleInputChange} />
-                    </div>
-                    <div>
-                        <label>Title</label>
-                        <input type="text" name="title" value={formFields.title} onChange={handleInputChange} />
-                    </div>
-                    <div>
-                        <label>Description</label>
-                        <input type="text" name="description" value={formFields.description} onChange={handleInputChange} />
-                    </div>
-                    <div>
-                        <label>Photo URL</label>
-                        <input type="text" name="url" value={formFields.url} onChange={handleInputChange} />
-                    </div>
-                    <div>
-                        <button type="submit">Submit</button>
-                    </div>
-                </form>
-            )}
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Label</label>
+                    <input type="text" name="label" value={formFields.label} onChange={handleInputChange} />
+                </div>
+                <div>
+                    <label>Title</label>
+                    <input type="text" name="title" value={formFields.title} onChange={handleInputChange} />
+                </div>
+                <div>
+                    <label>Description</label>
+                    <input type="text" name="description" value={formFields.description} onChange={handleInputChange} />
+                </div>
+                <div>
+                    <label>Photo URL</label>
+                    <input type="text" name="url" value={formFields.url} onChange={handleInputChange} />
+                </div>
+                <div>
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
         </div>
     );
 }

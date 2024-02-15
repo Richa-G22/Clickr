@@ -3,7 +3,7 @@ import LoginFormPage from '../components/LoginFormPage';
 import SignupFormPage from '../components/SignupFormPage';
 import GetAllPhotos from '../components/Photos/GetAllPhotos';
 import AddPhoto from '../components/Photos/addPhoto';
-
+import DeletePhotos from '../components/Photos/deletePhoto';
 import UpdatePhoto from '../components/Photos/updatePhoto';
 
 
@@ -23,8 +23,13 @@ export const router = createBrowserRouter([
 
       },
       {
-        path: "/update/:photoId",
+        path: "/update/:id",
         element: <UpdatePhoto />
+
+      },
+      {
+        path: "/delete/:id",
+        element: <DeletePhotos />
 
       },
 
