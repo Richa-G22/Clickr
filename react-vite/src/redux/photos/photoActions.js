@@ -78,8 +78,6 @@ export const createPhoto = (photoData) => async (dispatch) => {
         // Dispatch the action to update the photos state with the new data
         dispatch(fetchPhotosSuccess(data));
 
-        // Optionally, you can navigate to another route after creating the photo
-        // Example: navigate('/')
 
     } catch (error) {
         console.error('Error creating photo:', error.message);

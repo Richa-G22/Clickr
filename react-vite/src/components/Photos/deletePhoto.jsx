@@ -8,15 +8,11 @@ function DeletePhotos() {
 
   const handleDelete = (id) => {
     dispatch(deletePhoto(id));
-    // Optionally, you can perform additional actions after deletion, such as fetching updated photos
-    // dispatch(fetchPhotos());
   };
 
   return (
     <div>
       <h1>Delete</h1>
-      {/* Example usage: */}
-      {/* <button onClick={() => handleDelete(photoId)}>Delete Photo</button> */}
     </div>
   );
 }
