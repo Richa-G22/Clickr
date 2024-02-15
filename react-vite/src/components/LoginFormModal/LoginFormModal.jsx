@@ -30,29 +30,50 @@ function LoginFormModal() {
 
   return (
     <>
-      <h1>Log In</h1>
+      <i className="fa-brands fa-flickr"></i>
+      <h1>Log in to Clickr </h1>
       <form onSubmit={handleSubmit}>
-        <label>
-          Email
+        <div className="email">
           <input
+            placeholder="Email address"
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
+        </div>
+
         {errors.email && <p>{errors.email}</p>}
-        <label>
-          Password
+        <div>
           <input
+            placeholder="Password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
+        </div>
         {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        <div
+          style={{
+            backgroundColor: "blue ",
+            color: "white",
+            boxShadow: "5px 5px 5px black",
+            height: "30px",
+          }}
+        >
+          <button type="submit">Sign In</button>
+        </div>
+
+        <div className="remember_email">
+          <div>
+            <h3>Remember email address</h3>
+          </div>
+        </div>
+        <div>Forgot password?</div>
+        <div>
+          Not a Clickr member? <a href>Sign up here</a>
+        </div>
       </form>
     </>
   );
