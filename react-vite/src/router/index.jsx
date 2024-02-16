@@ -5,7 +5,7 @@ import GetAllPhotos from '../components/Photos/GetAllPhotos';
 import AddPhoto from '../components/Photos/addPhoto';
 import DeletePhotos from '../components/Photos/deletePhoto';
 import UpdatePhoto from '../components/Photos/updatePhoto';
-
+import GetPhotoDetails from '../components/Photos/getInfoByPhotoId';
 
 import Layout from './Layout';
 
@@ -20,7 +20,10 @@ export const router = createBrowserRouter([
       {
         path: "/new",
         element: <AddPhoto />
-
+      },
+      {
+        path: "/:id",
+        element: <GetPhotoDetails />
       },
       {
         path: "/update/:id",
@@ -32,8 +35,6 @@ export const router = createBrowserRouter([
         element: <DeletePhotos />
 
       },
-
-
       {
         path: "login",
         element: <LoginFormPage />,

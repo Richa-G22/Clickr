@@ -1,9 +1,6 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import { deletePhoto, updatePhoto } from '../../redux/photos/photoActions';
-import DeletePhotos from './deletePhoto';
-import UpdatePhoto from './updatePhoto';
+import { deletePhoto } from '../../redux/photos/photoReducer';
 import { useNavigate } from 'react-router-dom';
 
 function ManagePhotoModal({ id }) {

@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { deletePhoto } from '../../redux/photos/photoActions';
+import { useDispatch} from 'react-redux';
+import { deletePhoto } from '../../redux/photos/photoReducer';
 
 function DeletePhotos() {
   const dispatch = useDispatch();

@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { fetchPhotos, fetchPhotosSuccess, updatePhoto }  from "../../redux/photos/photoActions";
+import {updatePhoto }  from "../../redux/photos/photoReducer";
 
 function UpdatePhoto() {
     const { id } = useParams();
-    console.log("ID from useParams:", id); // Add console log to check id
+    console.log("ID from useParams:", id);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const photo = useSelector(state => state.photo.photo); // Accessing the photo object from Redux state
+    const photo = useSelector(state => state.photo.photo);
 
-    // State to hold form input values
+
     const [formFields, setFormFields] = useState({
         label: '',
         title: '',
@@ -19,63 +19,36 @@ function UpdatePhoto() {
         url: ''
     });
 
-    // Fetch photo when the component mounts
-    useEffect(() => {
-        // Perform API request to fetch the photo with the given ID
-        if (id) {
-            // Use the id parameter in the API request
-            fetch(`/api/photo/${id}`)
-                .then(response => response.json())
-                .then(data => {
-                    dispatch(fetchPhotosSuccess(data));
-                    // Set form fields with photo data
-                    setFormFields({
-                        label: data.label || '',
-                        title: data.title || '',
-                        description: data.description || '',
-                        url: data.url || ''
-                    });
-                })
-                .catch(error => console.error('Error fetching photo:', error));
-        }
-    }, [dispatch, id]);
 
-    // Function to handle input changes
+    useEffect(() => {
+        if (photo) {
+            setFormFields({
+                label: photo.label || '',
+                title: photo.title || '',
+                description: photo.description || '',
+                url: photo.url || ''
+            });
+        }
+    }, [dispatch, id, photo]);
+
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormFields({ ...formFields, [name]: value });
     };
 
-    // Function to handle form submission
     const handleSubmit = async (e) => {
-<<<<<<< Updated upstream
-        e.preventDefault();
-        try {
-            // Dispatch the updatePhoto action with photo ID and updated data
-            await dispatch(updatePhoto(id, formFields)); // Use the id from the URL params
-            // Navigate to another route after successful update
-            navigate('/');
-        } catch (error) {
-            console.error('Error updating photo:', error);
-    
-        }
-    };
-=======
     e.preventDefault();
     try {
-        console.log('ID:', id); // Check the value of the id parameter
-        console.log('Form Data:', formFields); // Check the form data being submitted
-        // Dispatch the updatePhoto action with photo ID (id) and updated data (formFields)
-        await dispatch(updatePhoto(id, formFields)); // Pass id instead of photo.id
-        // Navigate to another route after successful update
-        navigate('/');
+        console.log('ID:', id);
+        console.log('Form Data:', formFields);
+
+        await dispatch(updatePhoto(id, formFields));
+        navigate(`/${id}`); // Navigate to the updated photo details page
     } catch (error) {
         console.error('Error updating photo:', error);
-        // Handle errors as needed
     }
-};
-
->>>>>>> Stashed changes
+    };
 
     return (
         <div>
