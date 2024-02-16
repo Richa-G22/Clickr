@@ -48,7 +48,6 @@ function UpdatePhoto() {
 
     // Function to handle form submission
     const handleSubmit = async (e) => {
-<<<<<<< Updated upstream
         e.preventDefault();
         try {
             // Dispatch the updatePhoto action with photo ID and updated data
@@ -57,25 +56,9 @@ function UpdatePhoto() {
             navigate('/');
         } catch (error) {
             console.error('Error updating photo:', error);
-    
+
         }
     };
-=======
-    e.preventDefault();
-    try {
-        console.log('ID:', id); // Check the value of the id parameter
-        console.log('Form Data:', formFields); // Check the form data being submitted
-        // Dispatch the updatePhoto action with photo ID (id) and updated data (formFields)
-        await dispatch(updatePhoto(id, formFields)); // Pass id instead of photo.id
-        // Navigate to another route after successful update
-        navigate('/');
-    } catch (error) {
-        console.error('Error updating photo:', error);
-        // Handle errors as needed
-    }
-};
-
->>>>>>> Stashed changes
 
     return (
         <div>
