@@ -44,7 +44,7 @@ function UpdatePhoto() {
         console.log('Form Data:', formFields);
 
         await dispatch(updatePhoto(id, formFields));
-        navigate(`/${id}`); // Navigate to the updated photo details page
+        navigate(`/${id}`); 
     } catch (error) {
         console.error('Error updating photo:', error);
     }

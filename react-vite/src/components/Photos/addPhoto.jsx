@@ -5,7 +5,7 @@ import { createPhoto } from "../../redux/photos/photoReducer";
 
 function AddPhotos() {
     const dispatch = useDispatch();
-    const errors = useSelector(state => state.photo.error); // Accessing error state from Redux
+    const errors = useSelector(state => state.photo.error);
     console.log(errors, '**********')
     const [photoData, setPhotoData] = useState({
         label: '',
@@ -35,27 +35,27 @@ function AddPhotos() {
     return (
         <div>
             <h2>Add Photo</h2>
-            {errors && errors.message && <p className="error">{errors.message}</p>} {/* Rendering general error message */}
+            {errors && errors.message && <p className="error">{errors.message}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Label</label>
                     <input type="text" name="label" value={photoData.label} onChange={handleChange} />
-                    {errors && errors.label && <p className="error">{errors.label}</p>} {/* Rendering label error */}
+                    {errors && errors.label && <p className="error">{errors.label}</p>}
                 </div>
                 <div>
                     <label>Title</label>
                     <input type="text" name="title" value={photoData.title} onChange={handleChange} />
-                    {errors && errors.title && <p className="error">{errors.title}</p>} {/* Rendering title error */}
+                    {errors && errors.title && <p className="error">{errors.title}</p>}
                 </div>
                 <div>
                     <label>Description</label>
                     <input type="text" name="description" value={photoData.description} onChange={handleChange} />
-                    {errors && errors.description && <p className="error">{errors.description}</p>} {/* Rendering description error */}
+                    {errors && errors.description && <p className="error">{errors.description}</p>}
                 </div>
                 <div>
                     <label>URL</label>
                     <input type="text" name="url" value={photoData.url} onChange={handleChange} />
-                    {errors && errors.url && <p className="error">{errors.url}</p>} {/* Rendering URL error */}
+                    {errors && errors.url && <p className="error">{errors.url}</p>}
                 </div>
                 <div>
                     <button type="submit">Submit</button>
