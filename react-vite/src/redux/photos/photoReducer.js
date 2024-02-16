@@ -91,18 +91,17 @@ export const createPhoto = (photoData) => async (dispatch) => {
     });
 
     if (!response.ok) {
-      // Parse the error response
+
       const errorResponse = await response.json();
-      // Throw an error with the message from the backend
-      throw new Error(errorResponse.errors.url); // Assuming the error message is in the "url" field
-    }
+
+      throw new Error(errorResponse.errors.url);
 
     const data = await response.json();
 
     dispatch(createPhotoSuccess(data));
   } catch (error) {
     console.error('Error creating photo:', error.message);
-    // Return the error message to be handled in the component
+
     return error.message;
   }
 };
