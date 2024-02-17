@@ -59,14 +59,12 @@ function AddPhotos() {
                 navigate('/');
             } catch (error) {
                 console.error('Error creating photo:', error.message);
-                // Handle error appropriately
+            
             }
         } else {
-            // If there are validation errors, don't navigate and update state
+
             console.log('Form has errors:', formErrors);
-            // Update state with errors
-            // This is just an example, you might want to handle errors differently
-            // Set the errors in redux state or local state for displaying on the form
+
         }
     };
 

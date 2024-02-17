@@ -34,10 +34,7 @@ function GetAllPhotos() {
         setShowModal(!showModal);
     };
 
-    // const handleUpdate = () => {
-    //     setShowModal(false);
-    // };
-
+   
     return (
         <div>
 
