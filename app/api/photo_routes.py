@@ -35,21 +35,25 @@ def user_photos():
 
 
 # Get an photo for the logged in User by photo id
-@photo_routes.route('/<int:photoId>')
+@photo_routes.route("/<int:id>")
 @login_required
-def get_photo_by_id(photoId):
-    all_photos = Photo.query.filter_by(userId=current_user.id).all()
+def get_photo_by_id(id):
+    photo = Photo.query.filter_by(id=id).first()
 
-    one_photo = [{
-        'id': photo.id,
-        'label': photo.label,
-        'title': photo.title,
-        'description': photo.description,
-        'url': photo.url,
-        'userId': photo.userId
-        } for photo in all_photos if photo.id == photoId ]
+    if not photo:
+        return jsonify({"error": "Photo not found"}), 404
 
-    return jsonify(one_photo)
+    return jsonify(
+        {
+            "id": photo.id,
+            "label": photo.label,
+            "title": photo.title,
+            "description": photo.description,
+            "url": photo.url,
+            "userId": photo.userId,
+        }
+    )
+
 
 # Create a new photo
 @photo_routes.route("/new", methods=["GET","POST"])

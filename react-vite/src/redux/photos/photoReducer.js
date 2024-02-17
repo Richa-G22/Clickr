@@ -91,20 +91,18 @@ export const createPhoto = (photoData) => async (dispatch) => {
     });
 
     if (!response.ok) {
-
       const errorResponse = await response.json();
-
       throw new Error(errorResponse.errors.url);
+    }
 
     const data = await response.json();
-
     dispatch(createPhotoSuccess(data));
   } catch (error) {
     console.error('Error creating photo:', error.message);
-
     return error.message;
   }
 };
+
 
 export const updatePhoto = (id, updatedPhotoData) => async (dispatch) => {
   try {
@@ -146,6 +144,7 @@ export const deletePhoto = (id) => async (dispatch) => {
 
 const initialState = {
   photos: [],
+  photoDetails: null,
   loading: false,
   error: null,
 };
@@ -158,17 +157,16 @@ const photoReducer = (state = initialState, action) => {
         ...state,
         photos: action.payload,
       };
-      case FETCH_PHOTO_DETAILS_SUCCESS:
+     case FETCH_PHOTO_DETAILS_SUCCESS:
       return {
         ...state,
-        photoDetails: action.payload,
         loading: false,
         error: null,
+        photoDetails: action.payload,
       };
     case FETCH_PHOTO_DETAILS_FAILURE:
       return {
         ...state,
-        photoDetails: null,
         loading: false,
         error: action.payload,
       };
