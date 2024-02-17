@@ -37,7 +37,9 @@ const delete_Comment = (commentId) => {
 
 export const get_comments_thunk = () => async (dispatch) => {
     try {
+
         const response = await fetch(`/api/comments/${photoId}`)
+        console.log("$$$$$$$$$$", photoId)
 
         if (response.ok) {
             const data = await response.json();
@@ -124,6 +126,7 @@ const commentReducer = (state=initialState, action)=> {
     let new_state = {...state};
     switch(action.type){
         case GET_COMMENTS:
+            console.log("**************", action.payload);
             new_state.allComments = action.payload;
             for(let comment of action.payload){
                 new_state.byId[comment.id] = comment

@@ -6,8 +6,10 @@ import { get_comments_thunk } from "../../../redux/comments";
 
 const GetAllComments = () => {
   const dispatch = useDispatch();
+
   const { id } = useParams();
   const allComments = (useSelector((state) => state.comments.allComments));
+
   // const user = useSelector((state) => state.session.user.id);
 
   useEffect(() => {

@@ -103,6 +103,7 @@ export const createPhoto = (photoData) => async (dispatch) => {
   }
 };
 
+
 export const updatePhoto = (id, updatedPhotoData) => async (dispatch) => {
   try {
     dispatch(updatePhotoRequest());
@@ -143,6 +144,7 @@ export const deletePhoto = (id) => async (dispatch) => {
 
 const initialState = {
   photos: [],
+  photoDetails: null,
   loading: false,
   error: null,
 };
@@ -155,17 +157,16 @@ const photoReducer = (state = initialState, action) => {
         ...state,
         photos: action.payload,
       };
-      case FETCH_PHOTO_DETAILS_SUCCESS:
+     case FETCH_PHOTO_DETAILS_SUCCESS:
       return {
         ...state,
-        photoDetails: action.payload,
         loading: false,
         error: null,
+        photoDetails: action.payload,
       };
     case FETCH_PHOTO_DETAILS_FAILURE:
       return {
         ...state,
-        photoDetails: null,
         loading: false,
         error: action.payload,
       };

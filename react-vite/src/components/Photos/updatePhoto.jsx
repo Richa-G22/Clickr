@@ -9,6 +9,7 @@ function UpdatePhoto() {
     console.log("ID from useParams:", id);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [errors, setErrors] = useState({});
     const photo = useSelector(state => state.photo.photo);
 
 
@@ -30,6 +31,32 @@ function UpdatePhoto() {
             });
         }
     }, [dispatch, id, photo]);
+
+    const validate = () => {
+        let errors = {};
+
+        if (!formFields.label.trim()) {
+            errors.label = 'Label is required';
+        }
+
+        if (!formFields.title.trim()) {
+            errors.title = 'Title is required';
+        }
+
+        if (!formFields.description.trim()) {
+            errors.description = 'Description is required';
+        }
+
+        if (!formFields.url.trim()) {
+            errors.url = 'Photo URL is required';
+        } else if (!/^http(s)?:\/\/.+\..+$/.test(formFields.url.trim())) {
+            errors.url = 'Enter a valid URL';
+        }
+
+        setErrors(errors);
+
+        return Object.keys(errors).length === 0;
+    };
 
 
     const handleInputChange = (e) => {
@@ -57,18 +84,22 @@ function UpdatePhoto() {
                 <div>
                     <label>Label</label>
                     <input type="text" name="label" value={formFields.label} onChange={handleInputChange} />
+                    {errors.label && <span>{errors.label}</span>}
                 </div>
                 <div>
                     <label>Title</label>
                     <input type="text" name="title" value={formFields.title} onChange={handleInputChange} />
+                    {errors.title && <span>{errors.title}</span>}
                 </div>
                 <div>
                     <label>Description</label>
                     <input type="text" name="description" value={formFields.description} onChange={handleInputChange} />
+                    {errors.description && <span>{errors.description}</span>}
                 </div>
                 <div>
                     <label>Photo URL</label>
                     <input type="text" name="url" value={formFields.url} onChange={handleInputChange} />
+                    {errors.url && <span>{errors.url}</span>}
                 </div>
                 <div>
                     <button type="submit">Submit</button>
