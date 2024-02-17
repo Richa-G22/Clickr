@@ -7,7 +7,6 @@ function GetPhotoDetails() {
     const dispatch = useDispatch();
     const { id } = useParams();
     const photoDetails = useSelector(state => state.photo.photoDetails);
-
     console.log(photoDetails, "!!!!!!!!!")
     useEffect(() => {
         dispatch(fetchPhotoDetails(id));
@@ -18,11 +17,12 @@ function GetPhotoDetails() {
             <h1>Photo Details</h1>
             {photoDetails && (
                 <div>
-                    <p>{photoDetails.label}</p>
-                    <p>{photoDetails.title}</p>
-                    <p>{photoDetails.description}</p>
-                    <img src={photoDetails.url} alt={photoDetails.title} />
 
+                    <p>Title: {photoDetails.title}</p>
+                    <p>Description: {photoDetails.description}</p>
+
+                    <img src={photoDetails.url} alt={photoDetails.title} />
+               
                 </div>
             )}
         </div>

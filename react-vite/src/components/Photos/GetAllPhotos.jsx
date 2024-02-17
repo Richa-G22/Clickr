@@ -12,7 +12,7 @@ function GetAllPhotos() {
     const photos = useSelector(state => state.photo.photos);
 
     useEffect(() => {
-        dispatch(fetchPhotos());
+        dispatch(fetchPhotos(photos));
     }, [dispatch]);
 
     const handleImageClick = (id) => {
@@ -40,7 +40,7 @@ function GetAllPhotos() {
 
     return (
         <div>
-        
+
             <button onClick={() => navigate('/new')}>Add Photo</button>
 
             <div>
