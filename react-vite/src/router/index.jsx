@@ -5,6 +5,11 @@ import GetAllPhotos from '../components/Photos/GetAllPhotos';
 import AddPhoto from '../components/Photos/addPhoto';
 import DeletePhotos from '../components/Photos/deletePhoto';
 import UpdatePhoto from '../components/Photos/updatePhoto';
+import GetAllComments from "../components/Comments/GetAllComments/GetAllComments";
+import CreateNewComment from "../components/Comments/CreateNewComment/CreateNewComment"
+import EditComment from '../components/Comments/EditComment/EditCommentModal';
+import DeleteComment from '../components/Comments/DeleteComment/DeleteCommentModal';
+
 import GetPhotoDetails from '../components/Photos/getInfoByPhotoId';
 
 import Layout from './Layout';
@@ -19,21 +24,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/new",
-        element: <AddPhoto />
+        element: <AddPhoto />,
       },
       {
         path: "/:id",
-        element: <GetPhotoDetails />
+        element: <GetPhotoDetails />,
       },
       {
         path: "/update/:id",
-        element: <UpdatePhoto />
-
+        element: <UpdatePhoto />,
       },
       {
         path: "/delete/:id",
-        element: <DeletePhotos />
-
+        element: <DeletePhotos />,
       },
       {
         path: "login",
@@ -42,6 +45,23 @@ export const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignupFormPage />,
+      },
+      {
+        path: "/:id/comments",
+        // path: "/comments/all",
+        element: <GetAllComments />,
+      },
+      {
+        path: "/:id/comments/new",
+        element: <CreateNewComment />,
+      },
+      {
+        path: "/comments/:id/update",
+        element: <EditComment />,
+      },
+      {
+        path: "/comments/:id/delete",
+        element: <DeleteComment />,
       },
     ],
   },

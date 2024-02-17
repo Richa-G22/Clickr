@@ -65,20 +65,18 @@ function UpdatePhoto() {
     };
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
-    const isValid = validate();
-    if (isValid) {
+        e.preventDefault();
         try {
-            await dispatch(updatePhoto(id, formFields));
-            navigate(`/${id}`);
+            // Dispatch the updatePhoto action with photo ID and updated data
+            await dispatch(updatePhoto(id, formFields)); // Use the id from the URL params
+            // Navigate to another route after successful update
+            navigate('/');
         } catch (error) {
             console.error('Error updating photo:', error);
+
         }
-    } else {
-       
-        console.log('Form has errors');
-    }
-};
+    };
+
     return (
         <div>
             <h2>Update Photo</h2>
