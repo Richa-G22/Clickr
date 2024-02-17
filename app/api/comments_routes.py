@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template, Blueprint, session, redirect
+from flask import Flask, jsonify, request, render_template, Blueprint, session, redirect;
 from flask_login import current_user
 from app.models import Comment, db
 from flask_login import login_required
@@ -6,7 +6,7 @@ from app.forms import UpdateCommentForm, PostCommentForm
 
 comments_routes = Blueprint("comments_routes", __name__)
 
-@comments_routes.route("/<int:photoId>/all", methods=["GET"])
+@comments_routes.route("/<int:photoId>", methods=["GET"])
 def get_all_comments(photoId):
 
     print("@@@@@@@@@@@@@@Received photoId:", photoId)
@@ -27,34 +27,40 @@ def get_all_comments(photoId):
     return jsonify(comments_data)
 
 
-@comments_routes.route("/<int:id>/postComments", methods=["GET", "POST"])
+@comments_routes.route("/<int:photoId>/postComments", methods=["POST"])
 @login_required
-def post_comment(id):
+def post_comment(photoId):
+    # print(dir(request.form.to_dict))
+    print("*****newComment")
     form = PostCommentForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
-        comment_text = form.comment.data
-
         # Create a new comment with the provided data
         new_comment = Comment(
-            comment=comment_text,
-            photoId=id,  # Assign the photo ID from the URL parameter
+            comment=form.data["comment"],
+            # comment=form.comment.data,
+            photoId=photoId,  # Assign the photo ID from the URL parameter
             userId=current_user.id,  # Assign the current user's ID
         )
 
         # Add the new comment to the database and commit the transaction
         db.session.add(new_comment)
         db.session.commit()
+        return new_comment.to_dict()
 
-        # Return a success message
-        return jsonify({"message": "Comment added successfully"}), 201
+    if form.errors:
+        return form.errors, 401
 
-    # If the request method is GET, render the template with the form
-    if request.method == "GET":
-        return render_template("post.html", form=form, photoId=id)
+    #     # Return a success message
+    #     return jsonify({"message": "Comment added successfully"}), 201
 
-    # If the form validation fails, return an error message
-    return jsonify({"error": "Form validation failed"}), 400
+    # # If the request method is GET, render the template with the form
+    # if request.method == "GET":
+    #     return render_template("post.html", form=form, photoId=photoId)
+
+    # # If the form validation fails, return an error message
+    # return jsonify({"error": "Form validation failed"}), 400
 
 
 @comments_routes.route("/update/<int:id>", methods=["GET", "POST"])

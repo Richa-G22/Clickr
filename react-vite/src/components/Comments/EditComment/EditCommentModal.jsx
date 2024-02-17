@@ -2,14 +2,17 @@ import "./editcommentModal.css";
 import {useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { edit_comment_thunk } from "../../../redux/comments";
+import { useParams } from "react-router-dom";
 import { useModal } from "../../../context/Modal";
 
-const EditComment = ({photoId, comment}) => {
+const EditComment = () => {
     const dispatch = useDispatch();
+    const { id } = useParams();
     const { closeModal } = useModal();
-    const commentId = comment.id;
-    const [editedComment, setEditedComment] = useState(comment);
+    // const commentId = comment.id;
+    const [editedComment, setEditedComment] = useState("");
     const [validationErrors, setValidationErrors] = useState({});
+    const currentUser = useSelector((state) => state.session.user.id)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,15 +21,15 @@ const EditComment = ({photoId, comment}) => {
             comment: editedComment
         }
 
-        if (!validationErrors.length) {
+        // if (!validationErrors.length) {
           const response = await dispatch(
-            edit_comment_thunk(commentId, Acomment)
+            edit_comment_thunk(id, Acomment)
           );
           if (!response.ok) {
             const errors = await response.json();
             setValidationErrors(errors);
           }
-        }
+        // }
 
 
     }

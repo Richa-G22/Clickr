@@ -52,7 +52,7 @@ export const router = createBrowserRouter([
         element: <GetAllComments />,
       },
       {
-        path: "/:id/comments/new",
+        path: "/:id/postComments",
         element: <CreateNewComment />,
       },
       {

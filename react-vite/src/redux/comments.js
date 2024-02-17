@@ -19,10 +19,10 @@ const add_Comment = (comment) => {
     }
 }
 
-const edit_Comment = (commentId, comment) => {
+const edit_Comment = (comment) => {
     return {
         type: EDIT_COMMENT,
-        payload:{commentId,comment},
+        payload:comment
     }
 }
 
@@ -35,11 +35,12 @@ const delete_Comment = (commentId) => {
 
 // Thunks
 
-export const get_comments_thunk = () => async (dispatch) => {
+export const get_comments_thunk = (photoId) => async (dispatch) => {
     try {
+        // console.log("$$$$$$$$$$", photoId)
 
         const response = await fetch(`/api/comments/${photoId}`)
-        console.log("$$$$$$$$$$", photoId)
+        // console.log("$$$$$$$$$$", photoId)
 
         if (response.ok) {
             const data = await response.json();
@@ -55,16 +56,30 @@ export const get_comments_thunk = () => async (dispatch) => {
     }
 };
 
-export const add_comment_thunk=(photoId, comment)=>async(dispatch)=>{
+export const add_comment_thunk=(photoId,comment)=>async(dispatch)=>{
+
     try {
+        // console.log("_________inside thunk")
+        // console.log("+++++++", comment)
+        // console.log("-----photoId", photoId)
+        // console.log("-----payload", payload.comment)
+        console.log("^^^^^^^^^^id", photoId, comment)
+
+
         const response = await fetch(`/api/comments/${photoId}/postComments`, {
+
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(comment),
 
+
         });
+        console.log("______response", response)
+
         if (response.ok) {
+
             const data = await response.json();
+            console.log("!!!!!!data", data)
             dispatch(add_Comment(data));
             return data;
         }else {
@@ -126,18 +141,23 @@ const commentReducer = (state=initialState, action)=> {
     let new_state = {...state};
     switch(action.type){
         case GET_COMMENTS:
-            console.log("**************", action.payload);
+            // console.log("**************", action.payload);
             new_state.allComments = action.payload;
             for(let comment of action.payload){
                 new_state.byId[comment.id] = comment
             }
             return new_state;
         case ADD_COMMENT:
+            console.log("%%%%%%%%%%%%", action.payload)
             new_state.allComments.push(action.payload);
             new_state.byId[action.payload.id] = action.payload;
-            return new_state
+            return new_state;
         case EDIT_COMMENT:
-            return { ...state, [action.comment.id]: action.comment };
+            const index = new_state.allComments.findIndex((comment) => comment.id === action.payload.id);
+            new_state.allComments[index] = action.payload;
+            new_state.byId[action.payload.id] = action.payload;
+            return new_state;
+
         case DELETE_COMMENT:
             new_state.allComments = new_state.allComments.filter((comment) => comment.id !== action.payload.commentId); delete new_state.byId[action.payload];
             return new_state;
