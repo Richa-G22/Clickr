@@ -19,7 +19,7 @@ def get_all_comments(photoId):
         }
         for comment in comments
     ]
-
+    # print("we are here")
     return jsonify(comments_data)
 
 
