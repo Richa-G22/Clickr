@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import {updatePhoto }  from "../../redux/photos/photoReducer";
+import { updatePhoto } from '../../redux/photoReducer';
 
 function UpdatePhoto() {
     const { id } = useParams();
@@ -75,7 +75,7 @@ function UpdatePhoto() {
             console.error('Error updating photo:', error);
         }
     } else {
-       
+
         console.log('Form has errors');
     }
 };

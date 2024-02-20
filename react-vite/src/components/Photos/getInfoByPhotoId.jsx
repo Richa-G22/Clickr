@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPhotoDetails } from '../../redux/photos/photoReducer';
+import { fetchPhotoDetails } from '../../redux/photoReducer';
 
 function GetPhotoDetails() {
     const dispatch = useDispatch();
@@ -22,7 +22,7 @@ function GetPhotoDetails() {
                     <p>Description: {photoDetails.description}</p>
 
                     <img src={photoDetails.url} alt={photoDetails.title} />
-               
+
                 </div>
             )}
         </div>

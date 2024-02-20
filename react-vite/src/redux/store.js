@@ -1,16 +1,13 @@
-import {
-  legacy_createStore as createStore,
-  applyMiddleware,
-  compose,
-  combineReducers,
-} from "redux";
+import {legacy_createStore as createStore, applyMiddleware, compose, combineReducers} from "redux";
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
-import photoReducer from "./photos/photoReducer";
+import favoritesReducer from "./favorites";
+import photoReducer from "./photoReducer";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   photo: photoReducer,
+  favorites: favoritesReducer,
 });
 
 let enhancer;
