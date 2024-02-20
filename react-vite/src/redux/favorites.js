@@ -34,7 +34,7 @@ export const removeFromFavoritesSuccess = (photoId) => ({
 
 export const fetchFavorites = () => async (dispatch) => {
   try {
-        const response = await fetch('/api/favorites/all'); // Adjust the API endpoint as needed
+        const response = await fetch('/api/favorites/all'); 
         if (!response.ok) {
             throw new Error(`Failed to fetch user favorites (${response.status})`);
         }

@@ -1,25 +1,18 @@
+import { NavLink } from "react-router-dom";
 import ProfileButton from "./ProfileButton";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFlickr } from '@fortawesome/free-brands-svg-icons';
 import "./Navigation.css";
-import { useState } from "react";
 
 function Navigation() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
   return (
-    <div className="nav-bar">
-      <div className={`profile-dropdown ${menuOpen ? 'active' : ''}`}>
-        <FontAwesomeIcon icon={faFlickr} />
+    <ul className="nav-menu">
+      <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
+
+      <li className="profile-button">
         <ProfileButton />
-      </div>
-      <div className="profile-button" onClick={toggleMenu}>
-      </div>
-    </div>
+      </li>
+    </ul>
   );
 }
 

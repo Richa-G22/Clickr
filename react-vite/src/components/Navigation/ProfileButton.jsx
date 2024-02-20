@@ -13,7 +13,7 @@ function ProfileButton() {
   const ulRef = useRef();
 
   const toggleMenu = (e) => {
-    e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+    e.stopPropagation();
     setShowMenu(!showMenu);
   };
 
@@ -51,11 +51,11 @@ function ProfileButton() {
               <li>
                 <NavLink to="/">Home</NavLink>
               </li>
-              <li>Hi, {user.username}</li>
+              <li>{user.username}</li>
               <li>{user.email}</li>
               <li>
                 <button onClick={logout}>Log Out</button>
-              
+
               </li>
             </>
           ) : (
