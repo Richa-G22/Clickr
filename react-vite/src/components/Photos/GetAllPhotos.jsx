@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPhotos } from "../../redux/photoReducer";
-import { favoritePhoto, removeFromFavorites } from '../../redux/favorites';
+import { favoritePhoto, removeFromFavorites, fetchFavorites } from '../../redux/favorites';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import ManagePhotoModal from './managePhotoModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,34 +14,37 @@ function GetAllPhotos() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
-    const [favorites, setFavorites] = useState([]);
+    const [localFavorites, setLocalFavorites] = useState([]);
+    const favorites = useSelector(state => state.favorites.favorites);
     const photos = useSelector(state => state.photo.photos);
 
     useEffect(() => {
-        dispatch(fetchPhotos()); // Fetch photos from Redux store
+        dispatch(fetchPhotos());
+        dispatch(fetchFavorites());
     }, [dispatch]);
 
     useEffect(() => {
-        // Fetch user's favorites and update state
-        // You need to implement this according to your Redux setup
-        // This could be done through another Redux action and reducer
-        // or by directly accessing user's favorites from the Redux store
-    }, []);
+        setLocalFavorites(photos.filter(photo => photo.isFavorite));
+    }, [photos]);
+
+    useEffect(() => {
+        setLocalFavorites(favorites);
+    }, [favorites]);
 
     const handleImageClick = (id) => {
         console.log("Clicked photo id:", id);
         navigate(`/${id}`);
     };
 
-    const handleHeartClick = (photoId) => {
-        const isFavorite = favorites.find(fav => fav.photoId === photoId);
-
-        if (!isFavorite) {
-            dispatch(favoritePhoto(photoId)); // Dispatch action to add to favorites
-            setFavorites(prevFavorites => [...prevFavorites, { photoId }]); // Update local state
-        } else {
-            dispatch(removeFromFavorites(photoId)); // Dispatch action to remove from favorites
-            setFavorites(prevFavorites => prevFavorites.filter(fav => fav.photoId !== photoId)); // Update local state
+    const handleHeartClick = async (photoId) => {
+        try {
+            if (!localFavorites.some(fav => fav.photoId === photoId)) {
+                await dispatch(favoritePhoto(photoId));
+            } else {
+                await dispatch(removeFromFavorites(photoId));
+            }
+        } catch (error) {
+            console.error('Error handling heart click:', error);
         }
     };
 
