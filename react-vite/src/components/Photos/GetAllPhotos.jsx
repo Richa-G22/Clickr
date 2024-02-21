@@ -18,13 +18,12 @@ import { useModal } from '../../context/Modal';
 function GetAllPhotos() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { showModal, setModalContent } = useModal();
-  const [selectedPhotoId, setSelectedPhotoId] = useState(null);
+    const { showModal, setShowModal, setModalContent } = useModal();
+    const [selectedPhotoId, setSelectedPhotoId] = useState(null);
     const [favorites, setFavorites] = useState([]);
     const photos = useSelector(state => state.photo.photos);
 
     useEffect(() => {
-        dispatch(fetchPhotos());
         dispatch(fetchPhotos());
     }, [dispatch]);
 
@@ -32,10 +31,17 @@ function GetAllPhotos() {
         setShowModal(false);
     };
 
-    const handleManageClick = (id) => {
-    setSelectedPhotoId(id);
-    setModalContent(<ManagePhotoModal id={id} />);
-  };
+     const handleManageClick = (id) => {
+        setSelectedPhotoId(id);
+        setModalContent(<ManagePhotoModal id={id} />);
+        setShowModal(true);
+    };
+
+
+    const handleImageClick = (id) => {
+        console.log("Clicked photo id:", id);
+        navigate(`/${id}`);
+    };
 
     const handleHeartClick = (photoId) => {
         const isFavorite = favorites.find(fav => fav.photoId === photoId);
@@ -58,7 +64,7 @@ function GetAllPhotos() {
             <OpenModalButton
                 buttonText="Manage"
                 modalComponent={<ManagePhotoModal id={id} />}
-                onButtonClick={toggleModal}
+                onButtonClick={() => handleManageClick(id)} // Pass the id to handleManageClick
             />
         );
     };
