@@ -5,5 +5,6 @@ from .album import Album
 from .photo import Photo
 from .comment import Comment
 from .favorite import Favorite
+from .photoalbum import photoalbums
 
 

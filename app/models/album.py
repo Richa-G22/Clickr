@@ -13,6 +13,7 @@ class Album(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50))
     description = db.Column(db.String(50))
+    image_url = db.Column(db.String(1000))
     userId = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod("users.id")))
 
     user = db.relationship("User", back_populates="albums")
@@ -23,5 +24,6 @@ class Album(db.Model, UserMixin):
             'id': self.id,
             'title': self.title,
             'description': self.description,
+            'image_url': self.image_url,
             'userId': self.userId,
         }
