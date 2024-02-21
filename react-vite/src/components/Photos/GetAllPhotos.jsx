@@ -14,7 +14,7 @@ function GetAllPhotos() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
-    const [localFavorites, setLocalFavorites] = useState([]);
+    const [localFavorites, setLocalFavorites] = useState([false]);
     const favorites = useSelector(state => state.favorites.favorites);
     const photos = useSelector(state => state.photo.photos);
 

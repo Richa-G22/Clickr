@@ -10,7 +10,13 @@ function UpdatePhoto() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
-    const photo = useSelector(state => state.photo.photo);
+    const photo = useSelector(state => state.photo.photos);
+ 
+    const userId = useSelector(state => state.session.user.id);
+    console.log("!!!!!!!!!!", userId)
+
+
+
 
 
     const [formFields, setFormFields] = useState({
@@ -46,6 +52,10 @@ function UpdatePhoto() {
         if (!formFields.description.trim()) {
             errors.description = 'Description is required';
         }
+         if (photo.photos.userId !== userId) {
+             errors.unauthorized = 'Unauthorized';
+            }
+
 
         if (!formFields.url.trim()) {
             errors.url = 'Photo URL is required';
