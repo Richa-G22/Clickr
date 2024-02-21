@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPhotos } from "../../redux/photoReducer";
 import { favoritePhoto, removeFromFavorites, fetchFavorites } from '../../redux/favorites';
@@ -7,7 +7,10 @@ import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import ManagePhotoModal from './managePhotoModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
-import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart as regularHeart } from '@fortawesome/free-solid-svg-icons';
+import { useModal } from '../../context/Modal';
+// import '../Albums/GetCurrentUserAlbums.css'
+
 
 
 
@@ -15,35 +18,33 @@ import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 function GetAllPhotos() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [showModal, setShowModal] = useState(false);
+    const { showModal, setModalContent } = useModal();
+  const [selectedPhotoId, setSelectedPhotoId] = useState(null);
     const [favorites, setFavorites] = useState([]);
     const photos = useSelector(state => state.photo.photos);
 
     useEffect(() => {
-        dispatch(fetchPhotos()); // Fetch photos from Redux store
+        dispatch(fetchPhotos());
     }, [dispatch]);
 
-    useEffect(() => {
-        // Fetch user's favorites and update state
-        // You need to implement this according to your Redux setup
-        // This could be done through another Redux action and reducer
-        // or by directly accessing user's favorites from the Redux store
-    }, []);
-
-    const handleImageClick = (id) => {
-        console.log("Clicked photo id:", id);
-        navigate(`/${id}`);
+    const closeModal = () => {
+        setShowModal(false);
     };
+
+    const handleManageClick = (id) => {
+    setSelectedPhotoId(id);
+    setModalContent(<ManagePhotoModal id={id} />);
+  };
 
     const handleHeartClick = (photoId) => {
         const isFavorite = favorites.find(fav => fav.photoId === photoId);
 
         if (!isFavorite) {
-            dispatch(favoritePhoto(photoId)); // Dispatch action to add to favorites
-            setFavorites([...favorites, { photoId }]); // Update local state
+            dispatch(favoritePhoto(photoId));
+            setFavorites([...favorites, { photoId }]);
         } else {
-            dispatch(removeFromFavorites(photoId)); // Dispatch action to remove from favorites
-            setFavorites(favorites.filter(fav => fav.photoId !== photoId)); // Update local state
+            dispatch(removeFromFavorites(photoId));
+            setFavorites(favorites.filter(fav => fav.photoId !== photoId));
         }
     };
 
@@ -63,21 +64,23 @@ function GetAllPhotos() {
 
     return (
         <div>
-            <button onClick={() => navigate('/new')}>Add Photo</button>
+            <NavLink to="/new" className='menu no-outline' style={{ textDecoration: "none", color: 'grey', fontSize: '18px' }}>Add Photo</NavLink>
 
-            <div>
+            <div className='photos-grid'>
                 {photos.map(photo => (
-                    <div key={photo.id}>
-                        <img src={photo.url} alt={photo.title} onClick={() => handleImageClick(photo.id)} />
-                        {renderManageButton(photo.id)}
-                        <FontAwesomeIcon
-                            icon={favorites.find(fav => fav.photoId === photo.id) ? solidHeart : regularHeart}
-                            onClick={() => handleHeartClick(photo.id)}
-                        />
+                    <div key={photo.id} className='album-div'>
+                        <img src={photo.url} alt={photo.title} onClick={() => handleImageClick(photo.id)} className='line-1' />
+                        <div className='manage-buttons'>
+                            {renderManageButton(photo.id)}
+                            <FontAwesomeIcon
+                                icon={favorites.find(fav => fav.photoId === photo.id) ? solidHeart : regularHeart}
+                                onClick={() => handleHeartClick(photo.id)}
+                            />
+                        </div>
                     </div>
                 ))}
             </div>
-            {showModal && <ManagePhotoModal />}
+            {showModal && <Modal />}
         </div>
     );
 }

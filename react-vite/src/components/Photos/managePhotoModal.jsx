@@ -2,6 +2,8 @@ import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import { deletePhoto } from '../../redux/photoReducer';
 import { useNavigate } from 'react-router-dom';
+import "./ManagePhotos.css";
+
 
 function ManagePhotoModal({ id }) {
     const dispatch = useDispatch();
@@ -9,13 +11,14 @@ function ManagePhotoModal({ id }) {
     const navigate = useNavigate()
 
 
-    const handleDelete = () => {
-
+    const handleDelete = (event) => {
+        event.stopPropagation();
         dispatch(deletePhoto(id));
         closeModal();
     };
 
-    const handleUpdate = () => {
+    const handleUpdate = (event) => {
+        event.stopPropagation();
         closeModal();
         navigate(`/update/${id}`);
     };
@@ -23,11 +26,17 @@ function ManagePhotoModal({ id }) {
 
 
     return (
-        <div>
-            <h3>Manage Photo</h3>
+        <div className='manage-modal'>
+            <div className='manage-title'>
+                <h3>Manage Photo</h3>
+
+            </div>
+            <div className='manage-butt'>
             <button onClick={handleUpdate}>Update</button>
             <button onClick={handleDelete}>Delete</button>
             <button onClick={() => closeModal()}>Close</button>
+
+            </div>
         </div>
     );
 }
