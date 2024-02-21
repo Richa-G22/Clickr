@@ -5,7 +5,6 @@ from flask_login import login_required
 from app.forms import CreatePhotoForm
 
 
-
 photo_routes = Blueprint('photos', __name__)
 
 # get all photos
@@ -22,6 +21,7 @@ def all_photos():
 @login_required
 def user_photos():
     user_photos = Photo.query.filter_by(userId=current_user.id).all()
+    print("u@@@@@@@@@@user_photos", user_photos)
 
     photo_list = [{
         'id': photo.id,
@@ -36,23 +36,27 @@ def user_photos():
 
 
 # Get an photo for the logged in User by photo id
-@photo_routes.route('/<int:photoId>')
+@photo_routes.route("/<int:id>")
 @login_required
-def get_photo_by_id(photoId):
-    all_photos = Photo.query.filter_by(userId=current_user.id).all()
+def get_photo_by_id(id):
+    photo = Photo.query.filter_by(id=id).first()
 
-    one_photo = [{
-        'id': photo.id,
-        'label': photo.label,
-        'title': photo.title,
-        'description': photo.description,
-        'url': photo.url,
-        'userId': photo.userId
-        } for photo in all_photos if photo.id == photoId ]
+    if not photo:
+        return jsonify({"error": "Photo not found"}), 404
 
-    return jsonify(one_photo)
+    return jsonify(
+        {
+            "id": photo.id,
+            "label": photo.label,
+            "title": photo.title,
+            "description": photo.description,
+            "url": photo.url,
+            "userId": photo.userId,
+        }
+    )
 
- # Create a new photo
+
+# Create a new photo
 @photo_routes.route("/new", methods=["GET","POST"])
 @login_required
 def create_photo():
@@ -87,10 +91,11 @@ def create_photo():
 @photo_routes.route('/update/<int:id>', methods=['GET','PUT'])
 @login_required
 def update_photo(id):
+    print("Received ID:", id)
 
     photo_to_be_updated = Photo.query.get(id)
 
-# If photo selected does not exist
+    # If photo selected does not exist
     if not photo_to_be_updated:
         return jsonify({'error': 'Could not find the selected photo'}, 404 )
 
@@ -111,7 +116,7 @@ def update_photo(id):
 
     if form.errors:
         return form.errors, 401
-    #return render_template("update_photo.html", form=form, errors=form.errors)
+    return render_template("update_photo.html", form=form, errors=form.errors)
 
 
 # Delete an photo by id:

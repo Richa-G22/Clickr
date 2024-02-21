@@ -1,8 +1,10 @@
 import { useState } from "react";
+
 import { thunkLogin } from "../../redux/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
+
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -19,7 +21,7 @@ function LoginFormModal() {
         email,
         password,
       })
-    );
+      );
 
     if (serverResponse) {
       setErrors(serverResponse);
@@ -30,30 +32,50 @@ function LoginFormModal() {
 
   return (
     <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
-      </form>
+      <div className="login-div">
+        <i className="fa-brands fa-flickr"></i>
+
+        <h1>Log in to Clickr </h1>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <div className="div-login-label">
+            <input
+              className="login-input"
+              placeholder="Email address"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          {errors.email && <p>{errors.email}</p>}
+          <div className="div-login-label">
+            <input
+              className="login-input"
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          {errors.password && <p>{errors.password}</p>}
+
+          <button className="signIn-btn" type="submit">
+            Sign In
+          </button>
+
+          <div className="remember_email">
+            <div>
+              <h4>Remember email address</h4>
+            </div>
+          </div>
+          <div>Forgot password?</div>
+          <div>
+            Not a Clickr member? <a href>Sign up here</a>
+          </div>
+        </form>
+      </div>
     </>
   );
 }

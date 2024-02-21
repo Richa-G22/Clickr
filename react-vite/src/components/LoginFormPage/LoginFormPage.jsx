@@ -33,31 +33,39 @@ function LoginFormPage() {
 
   return (
     <>
-      <h1>Log In</h1>
+      <i className="fa-brands fa-flickr"></i>
+      <h1>Log in to Clickr</h1>
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
       <form onSubmit={handleSubmit}>
-        <label>
-          Email
-          <input
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </label>
+        {/* <label>
+          Email */}
+        <input
+          placeholder="Email address"
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        {/* </label> */}
         {errors.email && <p>{errors.email}</p>}
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
+        {/* <label>
+          Password */}
+        <input
+          placeholder="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        {/* </label> */}
         {errors.password && <p>{errors.password}</p>}
-        <button type="submit">Log In</button>
+        <button type="submit">Sign In</button>
+        <h3>Remember email address</h3>
+        <div>Forgot password?</div>
+        <h4>
+          Not a Clickr member? <a href>Sign up here</a>
+        </h4>
       </form>
     </>
   );
