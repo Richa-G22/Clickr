@@ -33,7 +33,8 @@ const DetailedAlbum = () => {
     if (!currentAlbum) { 
         return <h1>Loading...</h1>
     }
-
+    
+    
     return (
             <div>     
                 <div className='menu'>
@@ -50,9 +51,6 @@ const DetailedAlbum = () => {
                                     
                         </div> &nbsp; 
                         
-                        {/* <NavLink style={{ textDecoration: "none", color: 'grey', fontSize: '18px', borderLeftColor: '1px solid grey' }}
-                        to="/albums/update/albumId"><button style={{backgroundColor: "grey", color: "white", 
-                        boxShadow: "5px 5px 5px black", height: "30px", cursor: "pointer"}}>Update Album</button></NavLink>&nbsp;&nbsp;&nbsp; */}
                         <button style={{backgroundColor: "grey", color: "white", 
                                 boxShadow: "5px 5px 5px black", height: "30px", cursor: "pointer"}} 
                                 onClick={() => navigate(`/albums/update/${albumId}`)}>Update Album
@@ -77,6 +75,7 @@ const DetailedAlbum = () => {
                                     buttonText="Delete Photo"
                                     modalComponent={
                                         <DeletePhotoModal albumId={albumId} photoId={photo.id}  />
+                                        
                                     }       
                                 />    
                             </div>    

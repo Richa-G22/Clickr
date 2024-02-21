@@ -1,8 +1,8 @@
 import "./editcommentModal.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { edit_comment_thunk } from "../../../redux/comments";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { useModal } from "../../../context/Modal";
 
 const EditComment = (props) => {
@@ -20,14 +20,16 @@ const EditComment = (props) => {
   const [errors, setErrors] = useState({});
 
   const user = useSelector((state) => state.session.user);
+  // console.log("**************", props.props.comment);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     setErrors({});
 
-    dispatch(edit_comment_thunk(comment, commentId, photoId))
+    const response = dispatch(edit_comment_thunk(comment, commentId, photoId))
     closeModal();
+    // console.log("~~~~~~~~~~~~~~~", response)
   };
   const handleCancelSubmit = (e) => {
     e.preventDefault();
@@ -49,13 +51,14 @@ const EditComment = (props) => {
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Add a comment about this photo"
                 rows="10"
+                value={comment}
               ></textarea>
               <div className="edit-button">
                 <button type="submit">Edit comment</button>
               </div>
               <div className="edit-button">
                 <button type="button" onClick={handleCancelSubmit}>
-                  // Cancel //{" "}
+                  
                 </button>
               </div>
             </div>

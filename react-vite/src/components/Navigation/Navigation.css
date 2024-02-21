@@ -10,13 +10,13 @@
 .logo-div {
   display: flex;
   align-items: center;
-  padding-left: 120px; 
+  padding-left: 120px;
   text-decoration: none;
   font-family: Arial, Helvetica, sans-serif;
   color:white;
   font-size: 25px;
   font-weight: bolder;
-  
+
 }
 
 .nav-header {
@@ -26,7 +26,7 @@
   border-bottom: 2px solid rgb(230, 224, 224);
   text-decoration: none;
   background-color: black;
-  
+
 }
 
 .profile-menu-button{
@@ -40,7 +40,7 @@
 
 .create-new-album{
   color: rgb(35, 35, 124);
-  font-size: 20px;   
+  font-size: 20px;
 }
 
 .bottom-menu{
@@ -72,4 +72,3 @@
   height: 300px;
   width: 100%
 }
-
