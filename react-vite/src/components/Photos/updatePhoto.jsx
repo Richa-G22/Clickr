@@ -10,8 +10,8 @@ function UpdatePhoto() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
-    const photo = useSelector(state => state.photo.photos);
- 
+    const photo = useSelector(state => state.photo);
+
     const userId = useSelector(state => state.session.user.id);
     console.log("!!!!!!!!!!", userId)
 
@@ -52,9 +52,7 @@ function UpdatePhoto() {
         if (!formFields.description.trim()) {
             errors.description = 'Description is required';
         }
-         if (photo.photos.userId !== userId) {
-             errors.unauthorized = 'Unauthorized';
-            }
+     
 
 
         if (!formFields.url.trim()) {
@@ -75,7 +73,8 @@ function UpdatePhoto() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+    e.preventDefault();
+    if (validate()) {
         try {
             // Dispatch the updatePhoto action with photo ID and updated data
             await dispatch(updatePhoto(id, formFields)); // Use the id from the URL params
@@ -83,15 +82,11 @@ function UpdatePhoto() {
             navigate('/');
         } catch (error) {
             console.error('Error updating photo:', error);
-
         }
     } else {
-
         console.log('Form has errors');
     }
 };
-
-    };
     return (
         <div>
             <h2>Update Photo</h2>

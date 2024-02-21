@@ -18,7 +18,7 @@ const UpdateAlbum = () => {
     const [image_url, setImage_url] = useState(currentAlbum?.image_url);
     const [errors, setErrors] = useState({});
     //const sessionUser = useSelector((state) => state.session.user);
-    
+
     //console.log('.......currentAlbum........',currentAlbum);
     //const [isLoaded, setisLoaded] = useState(false);
 // const currentSpot = useSelector((state) => state.spots[spotId]);
@@ -35,28 +35,28 @@ useEffect(() => {
     dispatch(detailedAlbumThunk(albumId));
   }, [dispatch, albumId]);
 
-  if (!currentAlbum) { 
+  if (!currentAlbum) {
     return <h1>Loading...</h1>
   }
 
   console.log('..control here after detailed album current album...', currentAlbum)
 
-  
+
 const handleSubmit = async (e) => {
-    console.log('........state..........', state);
-    console.log('..........inside handle submit..........');
+    // console.log('........state..........', state);
+    // console.log('..........inside handle submit..........');
     e.preventDefault();
 
     try {
-        const updatedAlbum =  await dispatch( 
+        const updatedAlbum =  await dispatch(
         editAlbumThunk(albumId, { title, description, user, image_url }))
-        console.log('..........updatedAlbum.........', updatedAlbum);   
-    } catch (error) {  
+        console.log('..........updatedAlbum.........', updatedAlbum);
+    } catch (error) {
         const errors = await error.json();
         return errors;
-    };
-       
-       // navigate('/albums/all')     
+    }
+
+       // navigate('/albums/all')
     }
 
 

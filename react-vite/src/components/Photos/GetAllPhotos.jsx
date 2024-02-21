@@ -16,44 +16,34 @@ function GetAllPhotos() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
-    const [localFavorites, setLocalFavorites] = useState([false]);
-    const favorites = useSelector(state => state.favorites.favorites);
+    const [favorites, setFavorites] = useState([]);
     const photos = useSelector(state => state.photo.photos);
 
-
     useEffect(() => {
-        dispatch(fetchPhotos());
-        dispatch(fetchFavorites());
+        dispatch(fetchPhotos()); // Fetch photos from Redux store
     }, [dispatch]);
 
-
-
-
-
-
     useEffect(() => {
-        setLocalFavorites(photos.filter(photo => photo.isFavorite));
-    }, [photos]);
-
-    useEffect(() => {
-        setLocalFavorites(favorites);
-    }, [favorites]);
-
+        // Fetch user's favorites and update state
+        // You need to implement this according to your Redux setup
+        // This could be done through another Redux action and reducer
+        // or by directly accessing user's favorites from the Redux store
+    }, []);
 
     const handleImageClick = (id) => {
         console.log("Clicked photo id:", id);
         navigate(`/${id}`);
     };
 
-    const handleHeartClick = async (photoId) => {
-        try {
-            if (!localFavorites.some(fav => fav.photoId === photoId)) {
-                await dispatch(favoritePhoto(photoId));
-            } else {
-                await dispatch(removeFromFavorites(photoId));
-            }
-        } catch (error) {
-            console.error('Error handling heart click:', error);
+    const handleHeartClick = (photoId) => {
+        const isFavorite = favorites.find(fav => fav.photoId === photoId);
+
+        if (!isFavorite) {
+            dispatch(favoritePhoto(photoId)); // Dispatch action to add to favorites
+            setFavorites([...favorites, { photoId }]); // Update local state
+        } else {
+            dispatch(removeFromFavorites(photoId)); // Dispatch action to remove from favorites
+            setFavorites(favorites.filter(fav => fav.photoId !== photoId)); // Update local state
         }
     };
 
@@ -71,33 +61,8 @@ function GetAllPhotos() {
         );
     };
 
-
-    const toggleModal = () => {
-        setShowModal(!showModal);
-    };
-
-
-
     return (
-      <div>
         <div>
-
-          <button onClick={() => navigate("/new")}>Add Photo</button>
-
-          <div>
-            {photos.map((photo) => (
-              <div key={photo.id}>
-                <img
-                  src={photo.url}
-                  alt={photo.title}
-                  onClick={() => handleImageClick(photo.id)}
-                />
-                {renderManageButton(photo.id)}
-              </div>
-            ))}
-          </div>
-          {showModal && <ManagePhotoModal />}
-
             <button onClick={() => navigate('/new')}>Add Photo</button>
 
             <div>
@@ -113,11 +78,7 @@ function GetAllPhotos() {
                 ))}
             </div>
             {showModal && <ManagePhotoModal />}
-
         </div>
-
-        
-      </div>
     );
 }
 

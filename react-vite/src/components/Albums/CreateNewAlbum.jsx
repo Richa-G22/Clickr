@@ -17,16 +17,16 @@ const NewAlbum = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const newAlbum =  await dispatch( 
+        const newAlbum =  await dispatch(
         createNewAlbumThunk({ title, description, user, image_url }))
-           
-    } catch (error) {  
+
+    } catch (error) {
         const errors = await error.json();
         return errors;
-    };
-    navigate('/albums/all')  
+    }
+    navigate('/albums/all')
 };
-    
+
     return (
         <form className="create-album-form" onSubmit={handleSubmit}>
             <h2>Create a new Album</h2>

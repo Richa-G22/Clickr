@@ -1,8 +1,8 @@
 import "./editcommentModal.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { edit_comment_thunk } from "../../../redux/comments";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { useModal } from "../../../context/Modal";
 
 const EditComment = (props) => {
@@ -55,7 +55,7 @@ const EditComment = (props) => {
               </div>
               <div className="edit-button">
                 <button type="button" onClick={handleCancelSubmit}>
-                  // Cancel //{" "}
+                  
                 </button>
               </div>
             </div>
