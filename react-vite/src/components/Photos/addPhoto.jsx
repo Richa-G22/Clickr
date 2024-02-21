@@ -7,7 +7,7 @@ function AddPhotos() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const errors = useSelector(state => state.photo.error);
-    console.log(errors, '**********')
+    // console.log(errors, '**********')
     const [photoData, setPhotoData] = useState({
         label: '',
         title: '',

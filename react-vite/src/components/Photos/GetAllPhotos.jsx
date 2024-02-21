@@ -10,6 +10,8 @@ import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 
 
+
+
 function GetAllPhotos() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -18,10 +20,16 @@ function GetAllPhotos() {
     const favorites = useSelector(state => state.favorites.favorites);
     const photos = useSelector(state => state.photo.photos);
 
+
     useEffect(() => {
         dispatch(fetchPhotos());
         dispatch(fetchFavorites());
     }, [dispatch]);
+
+
+
+
+
 
     useEffect(() => {
         setLocalFavorites(photos.filter(photo => photo.isFavorite));
@@ -30,6 +38,7 @@ function GetAllPhotos() {
     useEffect(() => {
         setLocalFavorites(favorites);
     }, [favorites]);
+
 
     const handleImageClick = (id) => {
         console.log("Clicked photo id:", id);
@@ -62,8 +71,33 @@ function GetAllPhotos() {
         );
     };
 
+
+    const toggleModal = () => {
+        setShowModal(!showModal);
+    };
+
+
+
     return (
+      <div>
         <div>
+
+          <button onClick={() => navigate("/new")}>Add Photo</button>
+
+          <div>
+            {photos.map((photo) => (
+              <div key={photo.id}>
+                <img
+                  src={photo.url}
+                  alt={photo.title}
+                  onClick={() => handleImageClick(photo.id)}
+                />
+                {renderManageButton(photo.id)}
+              </div>
+            ))}
+          </div>
+          {showModal && <ManagePhotoModal />}
+
             <button onClick={() => navigate('/new')}>Add Photo</button>
 
             <div>
@@ -79,7 +113,11 @@ function GetAllPhotos() {
                 ))}
             </div>
             {showModal && <ManagePhotoModal />}
+
         </div>
+
+        
+      </div>
     );
 }
 

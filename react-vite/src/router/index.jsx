@@ -6,12 +6,16 @@ import AddPhoto from '../components/Photos/addPhoto';
 import DeletePhotos from '../components/Photos/deletePhoto';
 import UpdatePhoto from '../components/Photos/updatePhoto';
 
+// import GetAllComments from "../components/Comments/GetAllComments/GetAllComments";
+
+
 import CurrentUserAlbums from '../components/Albums/GetCurrentUserAlbums';
 import NewAlbum from '../components/Albums/CreateNewAlbum';
 import DetailedAlbum from '../components/Albums/DetailedAlbum';
 import UpdateAlbum from '../components/Albums/UpdateAlbum';
 
 import GetAllComments from "../components/Comments/GetAllComments/GetAllComments";
+
 import CreateNewComment from "../components/Comments/CreateNewComment/CreateNewComment"
 import EditComment from '../components/Comments/EditComment/EditCommentModal';
 import DeleteComment from '../components/Comments/DeleteComment/DeleteCommentModal';
@@ -87,11 +91,11 @@ export const router = createBrowserRouter([
         element: <CreateNewComment />,
       },
       {
-        path: "/comments/:id/update",
+        path: "/:id/:id/updateComment",
         element: <EditComment />,
       },
       {
-        path: "/comments/:id/delete",
+        path:"/:id/:id/commentDelete",
         element: <DeleteComment />,
       },
     ],
