@@ -5,7 +5,7 @@
     margin: 0px auto;
     padding-left: 100px;
   }
-  
+
 .album-div {
     display: flex;
     justify-content: center;
@@ -24,7 +24,7 @@
     align-items: center;
     height: 280px;
     margin-top:100px;
-      
+
   }
 
 .album-image {
@@ -32,7 +32,7 @@
     width: 80%;
     height: 250px;
 }
-  
+
 .desc-title {
     display: flex;
     justify-content: space-between;
@@ -53,4 +53,9 @@
   padding-top: 10px;
 }
 
-
+.manage-buttons {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}

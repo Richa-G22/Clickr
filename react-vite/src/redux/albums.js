@@ -39,8 +39,8 @@ const addPhotoToAlbum = (albumId, photo) => {
     return {
         type: ADD_PHOTO_TO_ALBUM,
         payload: {
-            albumId, 
-            photo 
+            albumId,
+            photo
         }
     }
 };
@@ -49,7 +49,7 @@ const deletePhotoFromAlbum = (albumId, photoId) => {
     return {
         type: DELETE_PHOTO_FROM_ALBUM,
         payload: {
-            albumId, 
+            albumId,
             photoId
         }
     };
@@ -58,8 +58,8 @@ const deletePhotoFromAlbum = (albumId, photoId) => {
 const editAlbum = (albumId, album) => {
     return {
         type: UPDATE_ALBUM,
-        payload: { 
-            albumId, 
+        payload: {
+            albumId,
             album
         }
     };
@@ -68,7 +68,7 @@ const editAlbum = (albumId, album) => {
 const getAlbumDetails = (albumId) => {
     return {
         type: GET_ALBUM_DETAILS,
-        payload: albumId 
+        payload: albumId
     };
 };
 
@@ -86,16 +86,16 @@ export const detailedAlbumThunk = (albumId) => async (dispatch) => {
             const data = await response.json();
             console.log('$$$$$$$$$$$$$$ before dispatch data', data)
             dispatch(getAlbumDetails(data));
-        
+
             console.log('$$$$$$$$$$$$$$ after dispatch data', data)
             return data;
         } else {
             throw response;
-        }   
+        }
     } catch (e) {
-        const errors = await response.json();
+        // const errors = await response.json();
         return errors;
-    }        
+    }
 };
 
 
@@ -114,11 +114,11 @@ export const getCurrentUserAlbumsThunk = (albums) => async (dispatch) => {
             return data;
         } else {
             throw response;
-        }   
+        }
     } catch (e) {
-        const errors = await response.json();
+        // const errors = await response.json();
         return errors;
-    }   
+    }
 };
 
 
@@ -130,7 +130,7 @@ export const createNewAlbumThunk = (album) => async (dispatch) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(album)
         });
-    
+
         if(response.ok) {
             const data = await response.json();
             dispatch(createNewAlbum(data));
@@ -139,21 +139,24 @@ export const createNewAlbumThunk = (album) => async (dispatch) => {
             throw response;
         }
     } catch (e) {
-        const errors = await response.json();
+        // const errors = await response.json();
         return errors;
     }
 };
 
 
 // Update an Album
-export const editAlbumThunk = (albumId, album) => async (dispatch) => {
+export const editAlbumThunk = (id, album) => async (dispatch) => {
+ 
     try {
+         console.log('...................reached edit album think............')
+         console.log('$$$$$$$$$$$$$$$$$ . id, album......',id, album)
         const response = await fetch(`/api/albums/update/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(album),
           });
-        console.log('&&&&&&&&&&&&&&response', response)
+        // console.log('&&&&&&&&&&&&&&response', response)
         if (response.ok) {
                 const data = await response.json();
                 dispatch(editAlbum(data));
@@ -162,14 +165,14 @@ export const editAlbumThunk = (albumId, album) => async (dispatch) => {
                 throw response;
         }
     } catch (e) {
-        const errors = await e.json();
+        // const errors = await e.json();
         return errors;
     }
 };
 
 
 // Add a photo to an Album
-export const addPhotoToAlbumThunk = (albumId, photo) => async (dispatch) => {  
+export const addPhotoToAlbumThunk = (albumId, photo) => async (dispatch) => {
     try {
         const response = await fetch(`/api/photo/${albumId}`, {
             method: "POST",
@@ -184,8 +187,8 @@ export const addPhotoToAlbumThunk = (albumId, photo) => async (dispatch) => {
         } else {
             throw response;
         }
-    } catch (e) {  
-        const errors = await e.json();
+    } catch (e) {
+        // const errors = await e.json();
         return errors;
     }
 };
@@ -208,10 +211,10 @@ export const deletePhotoFromAlbumThunk = (albumId, photoId) => async (dispatch) 
         } else {
                 throw response;
         }
-    } catch (e) {  
-        const errors = await response.json();
+    } catch (e) {
+        // const errors = await response.json();
         return errors;
-    } 
+    }
 };
 
 
@@ -232,9 +235,9 @@ export const deleteAlbumThunk = (albumId) => async (dispatch) => {
             throw response;
         }
     } catch (e) {
-        const errors = await response.json();
+        // const errors = await response.json();
         return errors;
-    }  
+    }
 };
 
 
@@ -253,12 +256,12 @@ const albumsReducer = (state = initialState, action) => {
             delete newState[action.payload.albumId];
             console.log('......newState after delete......', newState);
             return newState;
-        } 
+        }
 
         case UPDATE_ALBUM: {
             console.log('.....inside update Reducer....');
             console.log('......newState before update......', newState);
-            return { ...state, [action.album.id]: action.album };    
+            return { ...state, [action.album.id]: action.album };
         }
 
         case ADD_PHOTO_TO_ALBUM : {
@@ -277,7 +280,10 @@ const albumsReducer = (state = initialState, action) => {
             console.log('... payload ', action.payload)
             const photo = action.payload.photoId
             console.log('**********photo', photo)
-            newState.albums.allAlbums[0].photos.filter(photoId => photoId != photo);
+            //delete newState.albums[allAlbums[0].photos.filter(item => item.id = photo)];
+            console.log('*************', newState.allAlbums[0]),
+            console.log('^^^^^^^^^^', newState.byId.photos)
+            newState.allAlbums.map((album) => { return {...album, photos: album.photos.filter((photo) => photo.id !==photo)}})
             console.log('$$$$$$$$$$$$$$$$$$$newState', newState)
             return {...newState}
         }
@@ -288,7 +294,7 @@ const albumsReducer = (state = initialState, action) => {
             // console.log('... new state ', newState );
             // console.log('... payload ', action.payload);
             // action.payload.forEach((album) => (newState[action.albums.id] = album));
-            // return {...newState}; 
+            // return {...newState};
             console.log('@@@@@@@@@',action.payload);
             console.log('&&&&&&&&&&', newState);
             newState.allAlbums = action.payload;  //add payload to all albums
@@ -311,15 +317,15 @@ const albumsReducer = (state = initialState, action) => {
             console.log('@@@@@@@@@',action.payload);
             console.log('&&&&&&&&&&', newState);
             console.log('-------------initial state......', initialState)
-      
+
             newState.allAlbums = [action.payload];
             console.log('[[[[[[[[[[[[[[[[[[[',action.payload.album.id)
             newState.byId = {}
-            newState.byId[action.payload.album.id] = action.payload; 
+            newState.byId[action.payload.album.id] = action.payload;
             console.log('++++++++', newState);
             return newState;
         }
-        
+
         default:
             return newState;
     }

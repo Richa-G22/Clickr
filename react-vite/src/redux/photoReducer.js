@@ -197,8 +197,7 @@ const photoReducer = (state = initialState, action) => {
       return {
         ...state,
         photos: state.photos.filter(photo => photo.id !== action.payload),
-        loading: false,
-        error: null,
+       
       };
     default:
       return state;

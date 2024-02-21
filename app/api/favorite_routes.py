@@ -12,7 +12,7 @@ favorite_routes = Blueprint('favorites', __name__)
 def all_favorites():
     all_favorites = Favorite.query.filter_by(userId=current_user.id).all()
     favorite_list = [{
-                   'id': favorite.id, 
+                   'id': favorite.id,
                    'photoId': favorite.photoId,
                    'userId': favorite.userId
                 } for favorite in all_favorites]
@@ -24,7 +24,7 @@ def all_favorites():
 @favorite_routes.route('/fav/<int:id>', methods=["POST"])
 @login_required
 def favorite_a_photo(id):
-        
+
         new_fav = Favorite(
             photoId = id,
             userId = current_user.id
@@ -39,16 +39,18 @@ def favorite_a_photo(id):
 @favorite_routes.route('/unfav/<int:id>', methods=["DELETE"])
 @login_required
 def unfavorite_a_photo(id):
-        
-        photo_to_be_unfavorited = Photo.query.get(id)
 
-        # If logged in user is not the owner of the photo selected
-        if photo_to_be_unfavorited.userId != current_user.id:
-            return jsonify({'error': 'Unauthorized'}, 403 )
+    photo_to_be_unfavorited = Photo.query.get(id)
 
-        print(photo_to_be_unfavorited)
-        db.session.delete(photo_to_be_unfavorited)
+
+    if photo_to_be_unfavorited is None:
+        return jsonify({'error': 'Photo not found'}, 404)
+
+    favorite_entry = Favorite.query.filter_by(photoId=id, userId=current_user.id).first()
+
+    if favorite_entry:
+        db.session.delete(favorite_entry)
         db.session.commit()
-        return jsonify({'message': 'photo has been unfavorited successfully'})
-
-    
+        return jsonify({'message': 'Photo has been unfavorited successfully'})
+    else:
+        return jsonify({'error': 'Photo is not favorited by the current user'}, 403)

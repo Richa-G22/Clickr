@@ -17,8 +17,13 @@ import { fetchPhotoDetails } from '../../redux/photoReducer';
 function GetPhotoDetails() {
     const dispatch = useDispatch();
     const { id } = useParams();
+
     const photoDetails = useSelector(state => state.photo.photoDetails);
     console.log("**", photoDetails)
+
+    const photo = useSelector(state => state.photo);
+    console.log("********", photoDetails)
+
     const allComments = useSelector((state) => state.comments.allComments);
     const currentUser = useSelector((state)=> state.session.user)
 
@@ -36,9 +41,10 @@ return (
       <h1>Photo Details</h1>
       {photoDetails && (
         <div>
-          <p>Title: {photoDetails.title}</p>
+
+          <p>Title: {photo.title}</p>
           <p>Description: {photoDetails.description}</p>
-          <img src={photoDetails.url} alt={photoDetails.title} />
+          <img src={photo.url} alt={photo.title} />
         </div>
       )}
     </div>
@@ -50,7 +56,7 @@ return (
             <div>
               <h3>Be the first person to comment</h3>
 
-              {/* <img src={photoDetails.url} alt={photoDetails.title} /> */}
+              {/* <img src={photo.url} alt={photo.title} /> */}
             </div>
           </span>
         )}
@@ -85,6 +91,29 @@ return (
                   buttonText={"Delete Comment"}
                   modalComponent={<DeleteComment comment={comment} />}
                 />
+
+          <h1>Photo Details</h1>
+          {photoDetails && photoDetails.photoDetails && (
+            <div>
+              <p>Title: {photoDetails.photoDetails.title}</p>
+              <p>Description: {photoDetails.photoDetails.description}</p>
+              <img src={photoDetails.photoDetails.url} alt={photoDetails.photoDetails.title} />
+              </div>
+          )}
+        </div>
+        <div>
+          <h3>Comments</h3>
+          <div>
+            {allComments.length !== 0 && (
+              <span className="">
+                <div>
+                  <h3>Be the first person to comment</h3>
+
+                    <img src={photoDetails.url} alt={photoDetails.title} />
+
+
+                </div>
+
               </span>
             )}
           </div>
