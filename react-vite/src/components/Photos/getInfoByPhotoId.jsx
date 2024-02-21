@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchPhotoDetails } from '../../redux/photos/photoReducer';
 import { get_comments_thunk } from '../../redux/comments';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import CreateNewComment from '../Comments/CreateNewComment/CreateNewComment';
@@ -18,8 +17,8 @@ import { fetchPhotoDetails } from '../../redux/photoReducer';
 function GetPhotoDetails() {
     const dispatch = useDispatch();
     const { id } = useParams();
-    const photoDetails = useSelector(state => state.photo.photoDetails);
-    // console.log("********", photoDetails)
+    const photoDetails = useSelector(state => state.photo);
+    console.log("********", photoDetails)
     const allComments = useSelector((state) => state.comments.allComments);
     const currentUser = useSelector((state)=> state.session.user)
 
@@ -37,20 +36,18 @@ function GetPhotoDetails() {
       <div>
         <div>
           <h1>Photo Details</h1>
-          {photoDetails && (
+          {photoDetails && photoDetails.photoDetails && (
             <div>
-              <p>Title: {photoDetails.title}</p>
-              <p>Description: {photoDetails.description}</p>
-
-
-              <img src={photoDetails.url} alt={photoDetails.title} />
-            </div>
+              <p>Title: {photoDetails.photoDetails.title}</p>
+              <p>Description: {photoDetails.photoDetails.description}</p>
+              <img src={photoDetails.photoDetails.url} alt={photoDetails.photoDetails.title} />
+              </div>
           )}
         </div>
         <div>
           <h3>Comments</h3>
           <div>
-            {allComments.length === 0 && (
+            {allComments.length !== 0 && (
               <span className="">
                 <div>
                   <h3>Be the first person to comment</h3>
