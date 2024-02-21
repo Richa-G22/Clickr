@@ -7,6 +7,15 @@ function Navigation() {
   const sessionUser = useSelector(state => state.session.user);
 
   return (
+    <ul className="nav-menu">
+      <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
+
+      <li className="profile-button">
+        <ProfileButton />
+      </li>
+    </ul>
     <div> 
         <nav className="nav-header">
             <NavLink style={{ textDecoration: "none" }}  to="/">
