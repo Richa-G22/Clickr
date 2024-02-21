@@ -1,54 +1,80 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
+import { useDispatch, useSelector} from "react-redux";
 import "./createNewComment.css";
-import { useParams} from "react-router-dom";
-// import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate} from "react-router-dom";
+import { useState, useEffect } from "react";
+
 import { add_comment_thunk } from "../../../redux/comments";
 
 
 const CreateNewComment = () => {
-    const dispatch = useDispatch();
-    // const navigate= useNavigate()
-    const { id } = useParams();
-    const [comment, setComment] = useState("");
-    const [validationErrors, setValidationErrors] = useState({});
-    const currentUser = useSelector((state) => state.session.user.id)
-    // console.log("^^^^^^^", currentUser)
+  const dispatch = useDispatch();
+  const navigate= useNavigate()
+  const { id } = useParams();
+  // const comment = useSelector(state=> state.comment.comment)
+  const [comment1, setComment1] = useState("");
+   const userId = useSelector(state => state.session.user.id);
+  const [formErrors, setFormErrors] = useState({});
 
 
-    // if(!currentUser) {navigate('/') }
-
-    const handleSubmit = async(e) => {
-        e.preventDefault();
-
-        const newComment = { comment: comment,
-        userId: currentUser,
-      photoId: id}
-
-
-    if(!validationErrors.length){
-      const response = await dispatch(add_comment_thunk(id, newComment));
-      if(!response.ok) {
-        const errors = await response.json()
-        setValidationErrors(errors)
-      }
-    }
+  const user = useSelector((state) => state.session.user);
+  if (!user) {
+    navigate('/');
   }
 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await dispatch(add_comment_thunk( comment1))
+    // setComment1("")
+
+
+    // try {
+    //   await dispatch(add_comment_thunk(id, comment1));
+    //   setComment1("");
+    //   // navigate("/:id/comments");
+    // } catch (e) {
+    //   return e;
+    // }
+
+  };
+
   return (
-      <div>
-        <h2>Post new comment</h2>
+    <div>
+      {formErrors && (
+        <p>{formErrors.comment}</p>
+      )}
+      <div className="post-a-comment">
+        <div className="Heading">
+            <h2>Post new comment</h2>
+          </div>
         <form onSubmit={handleSubmit}>
-          <textarea
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="Add a comment about this photo"
-            required
-          ></textarea>
-          <button onClick={handleSubmit} type="submit">Add comment</button>
+          <div className="errors">{formErrors.comment}</div>
+          <div className="comment-input-field">
+            <div className="div-comment-input">
+              <textarea
+                id="input-comment"
+                type="text"
+                value={comment1}
+                onChange={(e) => setComment1(e.target.value)}
+                placeholder="Add a comment about this photo"
+                rows="10"
+                required
+              />
+            </div>
+
+            <div className="comment-input-button">
+              <button id="submit-button" type="submit">
+                Add comment
+              </button>
+            </div>
+          </div>
         </form>
       </div>
-    );
+
+    </div>
+  );
 }
 
 export default CreateNewComment

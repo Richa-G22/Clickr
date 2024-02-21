@@ -4,6 +4,3 @@ from wtforms.validators import DataRequired
 
 class PostCommentForm(FlaskForm):
     comment = TextAreaField('Comment', validators=[DataRequired()])
-    photoId = IntegerField('PhotoId'),
-    userId = IntegerField("UserId")
-    submit = SubmitField('Post Comment')

@@ -1,12 +1,13 @@
-export const FETCH_PHOTOS_SUCCESS = 'FETCH_PHOTOS_SUCCESS';
-export const CREATE_PHOTO_SUCCESS = 'CREATE_PHOTO_SUCCESS';
-export const CREATE_PHOTO_FAILURE = 'CREATE_PHOTO_FAILURE';
-export const UPDATE_PHOTO_REQUEST = 'UPDATE_PHOTO_REQUEST';
-export const UPDATE_PHOTO_SUCCESS = 'UPDATE_PHOTO_SUCCESS';
-export const UPDATE_PHOTO_FAILURE = 'UPDATE_PHOTO_FAILURE';
-export const DELETE_PHOTO_SUCCESS = 'DELETE_PHOTO_SUCCESS';
-export const FETCH_PHOTO_DETAILS_SUCCESS = 'FETCH_PHOTO_DETAILS_SUCCESS';
-export const FETCH_PHOTO_DETAILS_FAILURE = 'FETCH_PHOTO_DETAILS_FAILURE';
+const FETCH_PHOTOS_SUCCESS = 'FETCH_PHOTOS_SUCCESS';
+const FETCH_PHOTO_DETAILS_SUCCESS = 'FETCH_PHOTO_DETAILS_SUCCESS';
+const FETCH_PHOTO_DETAILS_FAILURE = 'FETCH_PHOTO_DETAILS_FAILURE';
+const CREATE_PHOTO_SUCCESS = 'CREATE_PHOTO_SUCCESS';
+const CREATE_PHOTO_FAILURE = 'CREATE_PHOTO_FAILURE';
+const UPDATE_PHOTO_REQUEST = 'UPDATE_PHOTO_REQUEST';
+const UPDATE_PHOTO_SUCCESS = 'UPDATE_PHOTO_SUCCESS';
+const UPDATE_PHOTO_FAILURE = 'UPDATE_PHOTO_FAILURE';
+const DELETE_PHOTO_SUCCESS = 'DELETE_PHOTO_SUCCESS';
+
 
 export const fetchPhotosSuccess = (data) => ({
   type: FETCH_PHOTOS_SUCCESS,
@@ -145,8 +146,7 @@ export const deletePhoto = (id) => async (dispatch) => {
 const initialState = {
   photos: [],
   photoDetails: null,
-  loading: false,
-  error: null,
+
 };
 
 const photoReducer = (state = initialState, action) => {
@@ -210,8 +210,7 @@ const photoReducer = (state = initialState, action) => {
       return {
         ...state,
         photos: state.photos.filter(photo => photo.id !== action.payload),
-        loading: false,
-        error: null,
+       
       };
     default:
       return state;

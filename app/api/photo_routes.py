@@ -21,6 +21,7 @@ def all_photos():
 @login_required
 def user_photos():
     user_photos = Photo.query.filter_by(userId=current_user.id).all()
+    print("u@@@@@@@@@@user_photos", user_photos)
 
     photo_list = [{
         'id': photo.id,
@@ -119,7 +120,7 @@ def update_photo(id):
 
 
 # Delete an photo by id:
-@photo_routes.route('/delete/<int:id>', methods=['GET','DELETE'])
+@photo_routes.route('/delete/<int:id>', methods=['DELETE'])
 @login_required
 def delete_photo(id):
     print("hello")

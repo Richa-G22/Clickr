@@ -1,0 +1,67 @@
+.edit_input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.header {
+    padding: 10px;
+
+}
+
+.input_comment {
+    width: 500px;
+    background-color: whitesmoke;
+    margin-bottom: 10px;
+    font-family:Arial, Helvetica, sans-serif
+}
+.edit-button {
+    color: black;
+    padding: 10px 20px;
+    display: inline-block;
+    font-size: 16px;
+    border: 5px;
+    cursor: pointer;
+    background-color: rgb(50, 138, 204);
+    margin-left: 8px;
+    margin-top: 10px;
+    justify-content: center;
+
+}
+.edit_comment h3{
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.edit_comment p{
+    color: #148bd0;
+    margin-bottom: 10px;
+}
+
+.comment-edit-form{
+    display: flex;
+    width:100%;
+    max-width: 400px;
+}
+
+.edit_comment form {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    text-align: center;
+}
+
+.edit_comment textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.edit_comment{
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 900px
+}

@@ -1,5 +1,5 @@
 import { useDispatch} from 'react-redux';
-import { deletePhoto } from '../../redux/photos/photoReducer';
+import { deletePhoto } from '../../redux/photoReducer';
 
 function DeletePhotos() {
   const dispatch = useDispatch();

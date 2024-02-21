@@ -1,23 +1,62 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPhotos } from "../../redux/photos/photoReducer";
+import { fetchPhotos } from "../../redux/photoReducer";
+import { favoritePhoto, removeFromFavorites, fetchFavorites } from '../../redux/favorites';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import ManagePhotoModal from './managePhotoModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as regularHeart } from '@fortawesome/free-solid-svg-icons';
+import { useModal } from '../../context/Modal';
+// import '../Albums/GetCurrentUserAlbums.css'
+
+
+
+
 
 function GetAllPhotos() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [showModal, setShowModal] = useState(false);
+    const { showModal, setShowModal, setModalContent } = useModal();
+    const [selectedPhotoId, setSelectedPhotoId] = useState(null);
+    const [favorites, setFavorites] = useState([]);
     const photos = useSelector(state => state.photo.photos);
 
     useEffect(() => {
-        dispatch(fetchPhotos(photos));
+        dispatch(fetchPhotos());
     }, [dispatch]);
+
+    const closeModal = () => {
+        setShowModal(false);
+    };
+
+     const handleManageClick = (id) => {
+        setSelectedPhotoId(id);
+        setModalContent(<ManagePhotoModal id={id} />);
+        setShowModal(true);
+    };
+
 
     const handleImageClick = (id) => {
         console.log("Clicked photo id:", id);
         navigate(`/${id}`);
+    };
+
+    const handleHeartClick = (photoId) => {
+        const isFavorite = favorites.find(fav => fav.photoId === photoId);
+
+        if (!isFavorite) {
+            dispatch(favoritePhoto(photoId));
+            setFavorites([...favorites, { photoId }]);
+        } else {
+            dispatch(removeFromFavorites(photoId));
+            setFavorites(favorites.filter(fav => fav.photoId !== photoId));
+        }
+    };
+
+    const toggleModal = () => {
+        setShowModal(!showModal);
     };
 
     const renderManageButton = (id) => {
@@ -25,30 +64,30 @@ function GetAllPhotos() {
             <OpenModalButton
                 buttonText="Manage"
                 modalComponent={<ManagePhotoModal id={id} />}
-                onButtonClick={toggleModal}
+                onButtonClick={() => handleManageClick(id)} // Pass the id to handleManageClick
             />
         );
     };
 
-    const toggleModal = () => {
-        setShowModal(!showModal);
-    };
-
-   
     return (
         <div>
+            <NavLink to="/new" className='menu no-outline' style={{ textDecoration: "none", color: 'grey', fontSize: '18px' }}>Add Photo</NavLink>
 
-            <button onClick={() => navigate('/new')}>Add Photo</button>
-
-            <div>
+            <div className='photos-grid'>
                 {photos.map(photo => (
-                    <div key={photo.id}>
-                        <img src={photo.url} alt={photo.title} onClick={() => handleImageClick(photo.id)}/>
-                        {renderManageButton(photo.id)}
+                    <div key={photo.id} className='album-div'>
+                        <img src={photo.url} alt={photo.title} onClick={() => handleImageClick(photo.id)} className='line-1' />
+                        <div className='manage-buttons'>
+                            {renderManageButton(photo.id)}
+                            <FontAwesomeIcon
+                                icon={favorites.find(fav => fav.photoId === photo.id) ? solidHeart : regularHeart}
+                                onClick={() => handleHeartClick(photo.id)}
+                            />
+                        </div>
                     </div>
                 ))}
             </div>
-            {showModal && <ManagePhotoModal />}
+            {showModal && <Modal />}
         </div>
     );
 }

@@ -1,13 +1,13 @@
 import {useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
-import { createPhoto } from "../../redux/photos/photoReducer";
+import { createPhoto } from '../../redux/photoReducer';
 
 function AddPhotos() {
     const dispatch = useDispatch();
     const navigate = useNavigate()
     const errors = useSelector(state => state.photo.error);
-    console.log(errors, '**********')
+    // console.log(errors, '**********')
     const [photoData, setPhotoData] = useState({
         label: '',
         title: '',
@@ -59,7 +59,7 @@ function AddPhotos() {
                 navigate('/');
             } catch (error) {
                 console.error('Error creating photo:', error.message);
-            
+
             }
         } else {
 
