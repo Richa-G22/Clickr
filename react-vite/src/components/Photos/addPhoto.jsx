@@ -1,7 +1,7 @@
 import {useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
-import { createPhoto } from "../../redux/photos/photoReducer";
+import { createPhoto } from '../../redux/photoReducer';
 
 function AddPhotos() {
     const dispatch = useDispatch();

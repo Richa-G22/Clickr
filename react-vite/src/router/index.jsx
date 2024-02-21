@@ -5,10 +5,21 @@ import GetAllPhotos from '../components/Photos/GetAllPhotos';
 import AddPhoto from '../components/Photos/addPhoto';
 import DeletePhotos from '../components/Photos/deletePhoto';
 import UpdatePhoto from '../components/Photos/updatePhoto';
+
 // import GetAllComments from "../components/Comments/GetAllComments/GetAllComments";
+
+
+import CurrentUserAlbums from '../components/Albums/GetCurrentUserAlbums';
+import NewAlbum from '../components/Albums/CreateNewAlbum';
+import DetailedAlbum from '../components/Albums/DetailedAlbum';
+import UpdateAlbum from '../components/Albums/UpdateAlbum';
+
+import GetAllComments from "../components/Comments/GetAllComments/GetAllComments";
+
 import CreateNewComment from "../components/Comments/CreateNewComment/CreateNewComment"
 import EditComment from '../components/Comments/EditComment/EditCommentModal';
 import DeleteComment from '../components/Comments/DeleteComment/DeleteCommentModal';
+
 
 import GetPhotoDetails from '../components/Photos/getInfoByPhotoId';
 
@@ -24,7 +35,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "/new",
-        element: <AddPhoto />,
+
+        element: <AddPhoto />
+      },
+      {
+        path: "/update/:id",
+        element: <UpdatePhoto />
+      },
+      {
+        path: "/delete/:id",
+        element: <DeletePhotos />
       },
       {
         path: "/:id",
@@ -46,22 +66,35 @@ export const router = createBrowserRouter([
         path: "signup",
         element: <SignupFormPage />,
       },
-      // {
-      //   path: "/:id/comments",
-      //   // path: "/comments/all",
-      //   element: <GetAllComments />,
-      // },
       {
-        path: "/:id/postComments",
+        path: "/albums/all",
+        element: <CurrentUserAlbums />
+      },
+      {
+        path: "/albums/new",
+        element: <NewAlbum />
+      },
+      {
+        path: "/albums/:id",
+        element: <DetailedAlbum />
+      },
+      {
+        path: "/albums/update/:id",
+        element: <UpdateAlbum />
+      },
+      {
+        path: "/:id/comments",
+        element: <GetAllComments />,
+      },
+      {
+        path: "/:id/comments/new",
         element: <CreateNewComment />,
       },
       {
-        // path: "/comments/:id/update",
         path: "/:id/:id/updateComment",
         element: <EditComment />,
       },
       {
-        // path: "/comments/:id/delete",
         path:"/:id/:id/commentDelete",
         element: <DeleteComment />,
       },

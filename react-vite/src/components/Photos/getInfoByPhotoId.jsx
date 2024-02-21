@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { fetchPhotoDetails } from '../../redux/photos/photoReducer';
 import { get_comments_thunk } from '../../redux/comments';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
@@ -9,6 +10,9 @@ import EditComment from '../Comments/EditComment/EditCommentModal'
 // import { delete_comment_thunk } from '../../redux/comments';
 import DeleteComment from '../Comments/DeleteComment/DeleteCommentModal'
 
+
+
+import { fetchPhotoDetails } from '../../redux/photoReducer';
 
 
 function GetPhotoDetails() {
@@ -38,6 +42,7 @@ function GetPhotoDetails() {
               <p>Title: {photoDetails.title}</p>
               <p>Description: {photoDetails.description}</p>
 
+
               <img src={photoDetails.url} alt={photoDetails.title} />
             </div>
           )}
@@ -49,6 +54,10 @@ function GetPhotoDetails() {
               <span className="">
                 <div>
                   <h3>Be the first person to comment</h3>
+
+                    <img src={photoDetails.url} alt={photoDetails.title} />
+
+
                 </div>
               </span>
             )}
