@@ -8,11 +8,12 @@ import UpdatePhoto from '../components/Photos/updatePhoto';
 
 
 
-
 import CurrentUserAlbums from '../components/Albums/GetCurrentUserAlbums';
 import NewAlbum from '../components/Albums/CreateNewAlbum';
 import DetailedAlbum from '../components/Albums/DetailedAlbum';
 import UpdateAlbum from '../components/Albums/UpdateAlbum';
+
+
 
 // import GetAllComments from "../components/Comments/GetAllComments/GetAllComments";
 
@@ -82,10 +83,6 @@ export const router = createBrowserRouter([
         path: "/albums/update/:id",
         element: <UpdateAlbum />
       },
-      // {
-      //   path: "/:id/comments",
-      //   element: <GetAllComments />,
-      // },
       {
         path: "/:id/comments/new",
         element: <CreateNewComment />,

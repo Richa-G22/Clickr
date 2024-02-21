@@ -89,6 +89,11 @@ function GetAllPhotos() {
             </div>
             {showModal && <Modal />}
         </div>
+
+
+
+      </div>
+
     );
 }
 

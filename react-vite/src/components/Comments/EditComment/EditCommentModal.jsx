@@ -20,14 +20,16 @@ const EditComment = (props) => {
   const [errors, setErrors] = useState({});
 
   const user = useSelector((state) => state.session.user);
+  // console.log("**************", props.props.comment);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     setErrors({});
 
-    dispatch(edit_comment_thunk(comment, commentId, photoId))
+    const response = dispatch(edit_comment_thunk(comment, commentId, photoId))
     closeModal();
+    // console.log("~~~~~~~~~~~~~~~", response)
   };
   const handleCancelSubmit = (e) => {
     e.preventDefault();
@@ -49,6 +51,7 @@ const EditComment = (props) => {
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Add a comment about this photo"
                 rows="10"
+                value={comment}
               ></textarea>
               <div className="edit-button">
                 <button type="submit">Edit comment</button>

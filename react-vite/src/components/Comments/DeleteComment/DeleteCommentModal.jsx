@@ -6,25 +6,28 @@ import './deletecommentModal.css';
 import { delete_comment_thunk } from "../../../redux/comments";
 
 const DeleteComment = (props)=>{
-  // console.log("______",props)
     const dispatch = useDispatch();
     const {id} = useParams()
     const commentId= props.comment.id
-    // console.log("&&&&&&", commentId)
-    // const [formErrors, setFormErrors] = useState({});
+    const [formErrors, setFormErrors] = useState({});
     const { closeModal } = useModal();
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      // setErrors({});
-      try{
-        await dispatch(delete_comment_thunk(commentId)).then(closeModal)
+      setFormErrors({});
+      return await dispatch(delete_comment_thunk(commentId)).then(closeModal).catch(async(response) =>{
+        if (response && response.message){
+          setFormErrors(response);
+        }
+      })
+      // try{
+      //   await dispatch(delete_comment_thunk(commentId)).then(closeModal)
 
 
-      } catch (e) {
-        return e
-      }
-   
+      // } catch (e) {
+      //   return e
+      // }
+
     };
 
     const handleCancelSubmit = (e) => {
