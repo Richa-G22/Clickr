@@ -43,13 +43,9 @@ export const fetchPhotos = () => async (dispatch) => {
       throw new Error(`Failed to fetch photos (${response.status})`);
     }
     const data = await response.json();
-<<<<<<< Updated upstream
 
     console.log('API Response for fetchPhotos:', data);
 
-=======
-    console.log('API Response for fetchPhotos:', data);
->>>>>>> Stashed changes
     dispatch(fetchPhotosSuccess(data));
   } catch (error) {
     console.log('Error fetching photos:', error.message);
@@ -58,7 +54,6 @@ export const fetchPhotos = () => async (dispatch) => {
 };
 
 export const createPhoto = (photoData) => async (dispatch) => {
-<<<<<<< Updated upstream
     try {
         // Perform API request to create a new photo
         const response = await fetch('/api/photo/new', {
@@ -87,25 +82,10 @@ export const createPhoto = (photoData) => async (dispatch) => {
 
     } catch (error) {
         console.error('Error creating photo:', error.message);
-=======
-  try {
-    const response = await fetch('/api/photo/new', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(photoData),
-    });
-    if (!response.ok) {
-      throw new Error(`Failed to create photo (${response.status})`);
->>>>>>> Stashed changes
     }
     const data = await response.json();
     dispatch(createPhotoSuccess(data));
-  } catch (error) {
-    console.error('Error creating photo:', error.message);
-    // Dispatch an action to update Redux store with error if needed
-  }
+  
 };
 
 export const updatePhoto = (id, updatedPhotoData) => async (dispatch) => {

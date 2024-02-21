@@ -37,11 +37,12 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=50), nullable=True),
     sa.Column('description', sa.String(length=50), nullable=True),
+    sa.Column('image_url', sa.String(length=1000), nullable=True),
     sa.Column('userId', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_table('photos',
+    op.create_table('photos',   
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('label', sa.String(length=150), nullable=True),
     sa.Column('title', sa.String(length=150), nullable=True),
