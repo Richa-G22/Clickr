@@ -6,10 +6,13 @@ from app.forms import UpdateCommentForm, PostCommentForm
 
 comments_routes = Blueprint("comments_routes", __name__)
 
-@comments_routes.route("/<int:photoId>", methods=["GET"])
+@comments_routes.route("/<int:photoId>/all", methods=["GET"])
 def get_all_comments(photoId):
 
+    print("@@@@@@@@@@@@@@Received photoId:", photoId)
     comments = Comment.query.filter_by(photoId=photoId).all()
+
+    # print("__________", comments)
 
     comments_data = [
         {
@@ -19,7 +22,8 @@ def get_all_comments(photoId):
         }
         for comment in comments
     ]
-
+    # print("we are here")
+    print("@@@@@@@@@@@@@@Received photoId:", photoId)
     return jsonify(comments_data)
 
 

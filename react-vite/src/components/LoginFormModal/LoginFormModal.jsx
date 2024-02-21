@@ -1,8 +1,10 @@
 import { useState } from "react";
+
 import { thunkLogin } from "../../redux/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
+
 
 function LoginFormModal() {
   const dispatch = useDispatch();
@@ -19,7 +21,7 @@ function LoginFormModal() {
         email,
         password,
       })
-    );
+      );
 
     if (serverResponse) {
       setErrors(serverResponse);
@@ -30,51 +32,50 @@ function LoginFormModal() {
 
   return (
     <>
-      <i className="fa-brands fa-flickr"></i>
-      <h1>Log in to Clickr </h1>
-      <form onSubmit={handleSubmit}>
-        <div className="email">
-          <input
-            placeholder="Email address"
-            type="text"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
+      <div className="login-div">
+        <i className="fa-brands fa-flickr"></i>
 
-        {errors.email && <p>{errors.email}</p>}
-        <div>
-          <input
-            placeholder="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {errors.password && <p>{errors.password}</p>}
-        <div
-          style={{
-            backgroundColor: "blue ",
-            color: "white",
-            boxShadow: "5px 5px 5px black",
-            height: "30px",
-          }}
-        >
-          <button type="submit">Sign In</button>
-        </div>
-
-        <div className="remember_email">
-          <div>
-            <h3>Remember email address</h3>
+        <h1>Log in to Clickr </h1>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <div className="div-login-label">
+            <input
+              className="login-input"
+              placeholder="Email address"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
-        </div>
-        <div>Forgot password?</div>
-        <div>
-          Not a Clickr member? <a href>Sign up here</a>
-        </div>
-      </form>
+
+          {errors.email && <p>{errors.email}</p>}
+          <div className="div-login-label">
+            <input
+              className="login-input"
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          {errors.password && <p>{errors.password}</p>}
+
+          <button className="signIn-btn" type="submit">
+            Sign In
+          </button>
+
+          <div className="remember_email">
+            <div>
+              <h4>Remember email address</h4>
+            </div>
+          </div>
+          <div>Forgot password?</div>
+          <div>
+            Not a Clickr member? <a href>Sign up here</a>
+          </div>
+        </form>
+      </div>
     </>
   );
 }
