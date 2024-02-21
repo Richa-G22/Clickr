@@ -157,35 +157,22 @@ const photoReducer = (state = initialState, action) => {
         ...state,
         photos: action.payload,
       };
-     case FETCH_PHOTO_DETAILS_SUCCESS:
+    case FETCH_PHOTO_DETAILS_SUCCESS:
       return {
         ...state,
-        loading: false,
-        error: null,
         photoDetails: action.payload,
-      };
-    case FETCH_PHOTO_DETAILS_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
       };
     case CREATE_PHOTO_SUCCESS:
       return {
         ...state,
         photos: [...state.photos, action.payload],
       };
-      case CREATE_PHOTO_FAILURE:
-            return {
-                ...state,
-                error: action.payload
-            };
-    case UPDATE_PHOTO_REQUEST:
-      return {
-        ...state,
-        loading: true,
-        error: null,
-      };
+    // case UPDATE_PHOTO_REQUEST:
+    //   return {
+    //     ...state,
+    //     loading: true,
+    //     error: null,
+    //   };
     case UPDATE_PHOTO_SUCCESS:
       updatedPhotoIndex = state.photos.findIndex(
         (photo) => photo.id === action.payload.id

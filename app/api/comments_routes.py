@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, render_template, Blueprint, session, redirect;
 from flask_login import current_user
-from app.models import Comment, db, Photo
+from app.models import Comment, db, Photo, User
 from flask_login import login_required
 from app.forms import UpdateCommentForm, PostCommentForm
 
@@ -17,7 +17,14 @@ def get_all_comments(photoId):
             "userId": comment.userId,
         }
         for comment in comments
+
     ]
+
+
+    for comment in comments_data:
+        user = User.query.get(comment['userId'])
+        # print("$$$$$$user", user )
+        comment['userName'] = user.username
     return jsonify(comments_data)
 
 
@@ -25,35 +32,36 @@ def get_all_comments(photoId):
 @login_required
 def post_comment(photoId):
 
+    body = request.get_json(force=True)
+    # print("^^^^^body", body)
+    comment = body["comment"]
+    photo = body["photo"]
+    # print("%%%%photo", photo)
+
 
     form = PostCommentForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
-        user_photos = Photo.query.filter_by(userId=current_user.id).first()
-
-        comment = request.json.get('comment')
-        photo = request.json.get("photo")
-
-        # print("^^^^^user_photos", user_photos)
-        # print("$$$$$$$$$",current_user.id, user_photos.userId)
+        user_photos = Photo.query.filter_by(id=photoId).first()
+        photo_owner_id =user_photos.to_dict()["userId"]
+        user = User.query.filter_by(id=photo_owner_id).first()
 
 
-        if(current_user.id == user_photos.userId):
+        if(current_user.id == user.to_dict()["id"]):
         # if(current_user.id == user_photos.userId):
-            # print("^^^^^^user_photos.id", user_photos.id)
             return jsonify("Owner can not comment on his own photo")
 
 
         # Create a new comment with the provided data
         new_comment = Comment(
             comment=form.data["comment"],
-            # comment=form.comment.data,
             photoId=photoId,  # Assign the photo ID from the URL parameter
             userId=current_user.id,
 
                 # Assign the current user's ID
         )
+        # print("!!!!!!!new_comment", new_comment.to_dict())
 
         # Add the new comment to the database and commit the transaction
         db.session.add(new_comment)
@@ -62,6 +70,7 @@ def post_comment(photoId):
 
     if form.errors:
         return form.errors, 401
+
 
     #     # Return a success message
     #     return jsonify({"message": "Comment added successfully"}), 201
@@ -106,7 +115,7 @@ def post_comment(photoId):
 @comments_routes.route("/update/<int:id>", methods=["PUT"])
 @login_required
 def update_comment(id):
-    comment_to_be_updated = Comment.query.get_or_404(id)
+    comment_to_be_updated = Comment.query.get(id)
 
     if not comment_to_be_updated:
         # return jsonify({"error": "Could not find the selected comment"}, 404)
@@ -114,7 +123,7 @@ def update_comment(id):
 
     if comment_to_be_updated.userId != current_user.id:
         # return jsonify({"error": "Unauthorized"}, 403)
-        return {'error': 'Unauthorized'}
+        return {'error': 'Unauthorized'}, 403
 
     form = UpdateCommentForm()
     form["csrf_token"].data = request.cookies["csrf_token"]
@@ -132,8 +141,6 @@ def update_comment(id):
 @login_required
 def delete_comment(id):
     comment_to_be_deleted = Comment.query.get(id)
-
-
 
     if not comment_to_be_deleted:
         return jsonify({'error': 'Could not find the selected comment'} ), 404

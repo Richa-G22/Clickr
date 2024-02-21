@@ -71,13 +71,6 @@ function GetAllPhotos() {
         );
     };
 
-
-    const toggleModal = () => {
-        setShowModal(!showModal);
-    };
-
-
-
     return (
       <div>
         <div>
@@ -116,7 +109,7 @@ function GetAllPhotos() {
 
         </div>
 
-        
+
       </div>
     );
 }

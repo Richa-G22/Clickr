@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchPhotoDetails } from '../../redux/photos/photoReducer';
 import { get_comments_thunk } from '../../redux/comments';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import CreateNewComment from '../Comments/CreateNewComment/CreateNewComment';
@@ -19,7 +18,7 @@ function GetPhotoDetails() {
     const dispatch = useDispatch();
     const { id } = useParams();
     const photoDetails = useSelector(state => state.photo.photoDetails);
-    // console.log("********", photoDetails)
+    console.log("**", photoDetails)
     const allComments = useSelector((state) => state.comments.allComments);
     const currentUser = useSelector((state)=> state.session.user)
 
@@ -30,74 +29,70 @@ function GetPhotoDetails() {
     useEffect(() => {
       dispatch(get_comments_thunk(id));
     }, [dispatch, id]);
-
-
-
-    return (
-      <div>
+    // console.log("&&&currentUser", currentUser)
+return (
+  <div>
+    <div>
+      <h1>Photo Details</h1>
+      {photoDetails && (
         <div>
-          <h1>Photo Details</h1>
-          {photoDetails && (
+          <p>Title: {photoDetails.title}</p>
+          <p>Description: {photoDetails.description}</p>
+          <img src={photoDetails.url} alt={photoDetails.title} />
+        </div>
+      )}
+    </div>
+    <div>
+      <h3>Comments</h3>
+      <div>
+        {allComments.length === 0 && (
+          <span className="">
             <div>
-              <p>Title: {photoDetails.title}</p>
-              <p>Description: {photoDetails.description}</p>
+              <h3>Be the first person to comment</h3>
 
+              {/* <img src={photoDetails.url} alt={photoDetails.title} /> */}
+            </div>
+          </span>
+        )}
+      </div>
 
-              <img src={photoDetails.url} alt={photoDetails.title} />
+      <div>
+        {currentUser &&
+          photoDetails &&
+          currentUser.id !== photoDetails.userId && (
+            <div>
+              <CreateNewComment photo={photoDetails} />
             </div>
           )}
-        </div>
-        <div>
-          <h3>Comments</h3>
-          <div>
-            {allComments.length === 0 && (
-              <span className="">
-                <div>
-                  <h3>Be the first person to comment</h3>
+      </div>
+      <div>
+        {allComments.map((comment) => (
+          <div key={comment.id}>
+            <div>
+              {comment.userName} :  {comment.comment}
+            </div>
+            {/* <div>{comment.comment}</div> */}
+            {currentUser && currentUser.id == comment.userId && (
+              <span>
+                <OpenModalButton
+                  buttonText={"Edit Comment"}
+                  modalComponent={
+                    <EditComment props={{ comment: comment, photoId: id }} />
+                  }
+                />
 
-                    <img src={photoDetails.url} alt={photoDetails.title} />
-
-
-                </div>
+                <OpenModalButton
+                  buttonText={"Delete Comment"}
+                  modalComponent={<DeleteComment comment={comment} />}
+                />
               </span>
             )}
           </div>
-
-          <div>
-            {/* {currentUser && currentUser.id != comment.userId && ( */}
-              <div>
-                <CreateNewComment />
-              </div>
-            {/* )} */}
-          </div>
-          <div>
-            {allComments.map(comment => (
-              <div key={comment.id}>
-                <div>{comment.comment}</div>
-                {currentUser && currentUser.id == comment.userId && (
-                  <span>
-                    <OpenModalButton
-                      buttonText={"Edit Comment"}
-                      modalComponent={
-                        <EditComment
-                          props={{ comment: comment, photoId: id }}
-                        />
-                      }
-                    />
-
-
-                    <OpenModalButton
-                      buttonText={"Delete Comment"}
-                      modalComponent={<DeleteComment comment={comment} />}
-                    />
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
-    );
+    </div>
+  </div>
+);
 }
 
 export default GetPhotoDetails;

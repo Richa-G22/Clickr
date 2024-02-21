@@ -7,13 +7,13 @@ import { useState, useEffect } from "react";
 import { add_comment_thunk } from "../../../redux/comments";
 
 
-const CreateNewComment = () => {
+const CreateNewComment = ({photo}) => {
   const dispatch = useDispatch();
   const navigate= useNavigate()
   const { id } = useParams();
   // const comment = useSelector(state=> state.comment.comment)
   const [comment1, setComment1] = useState("");
-   const userId = useSelector(state => state.session.user.id);
+  const userId = useSelector(state => state.session.user.id);
   const [formErrors, setFormErrors] = useState({});
 
 
@@ -22,11 +22,13 @@ const CreateNewComment = () => {
     navigate('/');
   }
 
+  
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await dispatch(add_comment_thunk( comment1))
+    await dispatch(add_comment_thunk(comment1, photo))
     // setComment1("")
 
 

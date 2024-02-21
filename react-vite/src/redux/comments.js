@@ -52,19 +52,21 @@ export const get_comments_thunk = (photoId) => async (dispatch) => {
     }
 };
 
-export const add_comment_thunk=(comment)=>async(dispatch)=>{
+export const add_comment_thunk=(comment, photo)=>async(dispatch)=>{
 
     try {
+        // console.log("%%%%%%photo", photo)
         const response = await fetch(`/api/comments/${photo.id}/postComments`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             // body: JSON.stringify(comment),
-            body: JSON.stringify({comment})
+            body: JSON.stringify({comment, photo})
         });
         if (response.ok) {
             const data = await response.json();
             // console.log("!!!!!!data", data)
             dispatch(add_Comment(data));
+            
             return data;
         }else {
             throw response;
@@ -126,9 +128,11 @@ const initialState={
     byId: {}
 };
 const commentReducer = (state=initialState, action)=> {
-    let new_state = {...state};
+    let new_state = {};
     switch(action.type){
         case GET_COMMENTS:
+            new_state = JSON.parse(JSON.stringify(state))
+            // new_state= {...state}
             // console.log("**************", action.payload);
             new_state.allComments = action.payload;
             for(let comment of action.payload){
@@ -136,23 +140,26 @@ const commentReducer = (state=initialState, action)=> {
             }
             return new_state;
         case ADD_COMMENT:
+            new_state = JSON.parse(JSON.stringify(state))
             // console.log("%%%%%%%%%%%%", action.payload)
             new_state.allComments.push(action.payload);
             new_state.byId[action.payload.id] = action.payload;
             return new_state;
         case EDIT_COMMENT:
+            new_state = JSON.parse(JSON.stringify(state))
             const index = new_state.allComments.findIndex((comment) => comment.id === action.payload.id);
             new_state.allComments[index] = action.payload;
             new_state.byId[action.payload.id] = action.payload;
             return new_state;
 
         case DELETE_COMMENT:
+            new_state = JSON.parse(JSON.stringify(state))
             new_state.allComments = new_state.allComments.filter((comment) => comment.id !== action.payload);
             delete new_state.byId[action.payload];
             return new_state;
-            default:
-                return state;
-            }
-        };
+        default:
+            return state;
+        }
+    };
 
 export default commentReducer;

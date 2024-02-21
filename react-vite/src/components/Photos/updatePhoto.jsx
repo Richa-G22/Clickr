@@ -11,9 +11,9 @@ function UpdatePhoto() {
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
     const photo = useSelector(state => state.photo.photos);
- 
+
     const userId = useSelector(state => state.session.user.id);
-    console.log("!!!!!!!!!!", userId)
+    // console.log("!!!!!!!!!!", userId)
 
 
 
@@ -75,23 +75,25 @@ function UpdatePhoto() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+      e.preventDefault();
+      if (validate()) {
         try {
-            // Dispatch the updatePhoto action with photo ID and updated data
-            await dispatch(updatePhoto(id, formFields)); // Use the id from the URL params
-            // Navigate to another route after successful update
-            navigate('/');
+          // Dispatch the updatePhoto action with photo ID and updated data
+          await dispatch(updatePhoto(id, formFields)); // Use the id from the URL params
+          // Navigate to another route after successful update
+          navigate("/");
         } catch (error) {
-            console.error('Error updating photo:', error);
-
+          console.error("Error updating photo:", error);
         }
-    } else {
-
-        console.log('Form has errors');
-    }
-};
-
+      } else {
+        console.log("Form has errors");
+      }
     };
+
+
+
+
+    ;
     return (
         <div>
             <h2>Update Photo</h2>
