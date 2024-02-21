@@ -2,28 +2,32 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPhotoDetails } from '../../redux/photos/photoReducer';
-// import { get_comments_thunk } from '../../redux/comments';
+import { get_comments_thunk } from '../../redux/comments';
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import CreateNewComment from '../Comments/CreateNewComment/CreateNewComment';
+import EditComment from '../Comments/EditComment/EditCommentModal'
+// import { delete_comment_thunk } from '../../redux/comments';
+import DeleteComment from '../Comments/DeleteComment/DeleteCommentModal'
+
+
 
 function GetPhotoDetails() {
     const dispatch = useDispatch();
     const { id } = useParams();
     const photoDetails = useSelector(state => state.photo.photoDetails);
-    console.log(photoDetails, "!!!!!!!!!")
+    // console.log("********", photoDetails)
+    const allComments = useSelector((state) => state.comments.allComments);
+    const currentUser = useSelector((state)=> state.session.user)
+
     useEffect(() => {
         dispatch(fetchPhotoDetails(id));
     }, [dispatch, id]);
 
-    // const allComments = useSelector((state) => state.comments.allComments);
+    useEffect(() => {
+      dispatch(get_comments_thunk(id));
+    }, [dispatch, id]);
 
-    // // const user = useSelector((state) => state.session.user.id);
 
-    // useEffect(() => {
-    //   dispatch(get_comments_thunk(id));
-    // }, [dispatch, id]);
-
-    // if (!allComments || allComments.length === 0) {
-    //   return <div>Be the first to post a comment</div>;
-    // }
 
     return (
       <div>
@@ -38,17 +42,52 @@ function GetPhotoDetails() {
             </div>
           )}
         </div>
-        {/* <div>
+        <div>
           <h3>Comments</h3>
           <div>
-            {allComments.map((comment) => (
+            {allComments.length === 0 && (
+              <span className="">
+                <div>
+                  <h3>Be the first person to comment</h3>
+                </div>
+              </span>
+            )}
+          </div>
+
+          <div>
+            {/* {currentUser && currentUser.id != comment.userId && ( */}
+              <div>
+                <CreateNewComment />
+              </div>
+            {/* )} */}
+          </div>
+          <div>
+            {allComments.map(comment => (
               <div key={comment.id}>
                 <div>{comment.comment}</div>
+                {currentUser && currentUser.id == comment.userId && (
+                  <span>
+                    <OpenModalButton
+                      buttonText={"Edit Comment"}
+                      modalComponent={
+                        <EditComment
+                          props={{ comment: comment, photoId: id }}
+                        />
+                      }
+                    />
+
+
+                    <OpenModalButton
+                      buttonText={"Delete Comment"}
+                      modalComponent={<DeleteComment comment={comment} />}
+                    />
+                  </span>
+                )}
               </div>
             ))}
-          </div> */}
+          </div>
         </div>
-
+      </div>
     );
 }
 

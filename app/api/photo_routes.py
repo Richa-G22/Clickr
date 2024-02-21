@@ -21,6 +21,7 @@ def all_photos():
 @login_required
 def user_photos():
     user_photos = Photo.query.filter_by(userId=current_user.id).all()
+    print("u@@@@@@@@@@user_photos", user_photos)
 
     photo_list = [{
         'id': photo.id,

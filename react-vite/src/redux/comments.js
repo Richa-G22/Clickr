@@ -19,17 +19,19 @@ const add_Comment = (comment) => {
     }
 }
 
-const edit_Comment = (comment) => {
+const edit_Comment = (id) => {
     return {
         type: EDIT_COMMENT,
-        payload:comment
+        payload:id
     }
 }
 
-const delete_Comment = (commentId) => {
+
+const delete_Comment = (id) => {
+
     return {
         type: DELETE_COMMENT,
-        payload:commentId,
+        payload: id
     }
 }
 
@@ -37,16 +39,10 @@ const delete_Comment = (commentId) => {
 
 export const get_comments_thunk = (photoId) => async (dispatch) => {
     try {
-        // console.log("$$$$$$$$$$", photoId)
-
         const response = await fetch(`/api/comments/${photoId}`)
-        // console.log("$$$$$$$$$$", photoId)
-
         if (response.ok) {
             const data = await response.json();
-
             dispatch(get_comments(data));
-
             return data;
         } else {
             throw response;
@@ -56,30 +52,18 @@ export const get_comments_thunk = (photoId) => async (dispatch) => {
     }
 };
 
-export const add_comment_thunk=(photoId,comment)=>async(dispatch)=>{
+export const add_comment_thunk=(comment)=>async(dispatch)=>{
 
     try {
-        // console.log("_________inside thunk")
-        // console.log("+++++++", comment)
-        // console.log("-----photoId", photoId)
-        // console.log("-----payload", payload.comment)
-        console.log("^^^^^^^^^^id", photoId, comment)
-
-
-        const response = await fetch(`/api/comments/${photoId}/postComments`, {
-
+        const response = await fetch(`/api/comments/${photo.id}/postComments`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(comment),
-
-
+            // body: JSON.stringify(comment),
+            body: JSON.stringify({comment})
         });
-        console.log("______response", response)
-
         if (response.ok) {
-
             const data = await response.json();
-            console.log("!!!!!!data", data)
+            // console.log("!!!!!!data", data)
             dispatch(add_Comment(data));
             return data;
         }else {
@@ -91,14 +75,13 @@ export const add_comment_thunk=(photoId,comment)=>async(dispatch)=>{
 };
 
 
-export const edit_comment_thunk=(commentId, comment ) =>async(dispatch)=> {
-    // export const edit_comment_thunk=(commentId, formData ) =>async(dispatch)=> {
+export const edit_comment_thunk=(comment, id, photoId ) =>async(dispatch)=> {
     try {
-        const response = await fetch(`/api/comments/update/${commentId}`, {
+        const response = await fetch(`/api/comments/update/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(comment),
-            // body: formData
+            body: JSON.stringify({comment: comment.comment}),
+            //  body: JSON.stringify(comment),
         });
         if (response.ok) {
             const data = await response.json();
@@ -112,18 +95,23 @@ export const edit_comment_thunk=(commentId, comment ) =>async(dispatch)=> {
     }
 };
 
-export const delete_comment_thunk = (commentId) => async (dispatch) => {
+
+
+
+
+export const delete_comment_thunk = (id) => async (dispatch) => {
     try {
-        const response = await fetch(`/api/comments/delete/${commentId}`, {
+        // console.log("+++++++++++id", id)
+        const response = await fetch(`/api/comments/delete/${id}`, {
             method: "DELETE",
-            headers: { "Content-Type": "application/json" },
 
         });
         if (response.ok) {
             const data = await response.json();
-            dispatch(delete_Comment(data));
-            // dispatch(delete_Comment(commentId));
+            // dispatch(delete_Comment(data));
+            dispatch(delete_Comment(id));
             return data;
+            // return "comment deleted"
         }else {
             throw response;
         }
@@ -148,7 +136,7 @@ const commentReducer = (state=initialState, action)=> {
             }
             return new_state;
         case ADD_COMMENT:
-            console.log("%%%%%%%%%%%%", action.payload)
+            // console.log("%%%%%%%%%%%%", action.payload)
             new_state.allComments.push(action.payload);
             new_state.byId[action.payload.id] = action.payload;
             return new_state;
@@ -159,7 +147,8 @@ const commentReducer = (state=initialState, action)=> {
             return new_state;
 
         case DELETE_COMMENT:
-            new_state.allComments = new_state.allComments.filter((comment) => comment.id !== action.payload.commentId); delete new_state.byId[action.payload];
+            new_state.allComments = new_state.allComments.filter((comment) => comment.id !== action.payload);
+            delete new_state.byId[action.payload];
             return new_state;
             default:
                 return state;

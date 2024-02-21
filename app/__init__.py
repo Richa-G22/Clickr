@@ -35,6 +35,7 @@ app.register_blueprint(photo_routes, url_prefix='/api/photo')
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(comments_routes, url_prefix="/api/comments")
+
 app.register_blueprint(album_routes, url_prefix='/api/albums')
 app.register_blueprint(favorite_routes, url_prefix="/api/favorites")
 
