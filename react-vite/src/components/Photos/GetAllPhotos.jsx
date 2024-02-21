@@ -20,15 +20,10 @@ function GetAllPhotos() {
     const photos = useSelector(state => state.photo.photos);
 
     useEffect(() => {
-        dispatch(fetchPhotos()); // Fetch photos from Redux store
+        dispatch(fetchPhotos());
     }, [dispatch]);
 
-    useEffect(() => {
-        // Fetch user's favorites and update state
-        // You need to implement this according to your Redux setup
-        // This could be done through another Redux action and reducer
-        // or by directly accessing user's favorites from the Redux store
-    }, []);
+
 
     const handleImageClick = (id) => {
         console.log("Clicked photo id:", id);
@@ -39,11 +34,11 @@ function GetAllPhotos() {
         const isFavorite = favorites.find(fav => fav.photoId === photoId);
 
         if (!isFavorite) {
-            dispatch(favoritePhoto(photoId)); // Dispatch action to add to favorites
-            setFavorites([...favorites, { photoId }]); // Update local state
+            dispatch(favoritePhoto(photoId)); 
+            setFavorites([...favorites, { photoId }]); 
         } else {
-            dispatch(removeFromFavorites(photoId)); // Dispatch action to remove from favorites
-            setFavorites(favorites.filter(fav => fav.photoId !== photoId)); // Update local state
+            dispatch(removeFromFavorites(photoId)); 
+            setFavorites(favorites.filter(fav => fav.photoId !== photoId)); 
         }
     };
 
