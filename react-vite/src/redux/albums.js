@@ -146,14 +146,17 @@ export const createNewAlbumThunk = (album) => async (dispatch) => {
 
 
 // Update an Album
-export const editAlbumThunk = (albumId, album) => async (dispatch) => {
+export const editAlbumThunk = (id, album) => async (dispatch) => {
+ 
     try {
+         console.log('...................reached edit album think............')
+         console.log('$$$$$$$$$$$$$$$$$ . id, album......',id, album)
         const response = await fetch(`/api/albums/update/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(album),
           });
-        console.log('&&&&&&&&&&&&&&response', response)
+        // console.log('&&&&&&&&&&&&&&response', response)
         if (response.ok) {
                 const data = await response.json();
                 dispatch(editAlbum(data));
@@ -277,7 +280,10 @@ const albumsReducer = (state = initialState, action) => {
             console.log('... payload ', action.payload)
             const photo = action.payload.photoId
             console.log('**********photo', photo)
-            newState.albums.allAlbums[0].photos.filter(photoId => photoId != photo);
+            //delete newState.albums[allAlbums[0].photos.filter(item => item.id = photo)];
+            console.log('*************', newState.allAlbums[0]),
+            console.log('^^^^^^^^^^', newState.byId.photos)
+            newState.allAlbums.map((album) => { return {...album, photos: album.photos.filter((photo) => photo.id !==photo)}})
             console.log('$$$$$$$$$$$$$$$$$$$newState', newState)
             return {...newState}
         }
