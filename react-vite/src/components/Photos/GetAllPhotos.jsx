@@ -25,6 +25,7 @@ function GetAllPhotos() {
 
     useEffect(() => {
         dispatch(fetchPhotos());
+        dispatch(fetchPhotos());
     }, [dispatch]);
 
     const closeModal = () => {
