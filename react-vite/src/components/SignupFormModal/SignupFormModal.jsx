@@ -7,7 +7,7 @@ import "./SignupForm.css";
 function SignupFormModal() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
-  // const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
@@ -27,11 +27,11 @@ function SignupFormModal() {
 
     const serverResponse = await dispatch(
       thunkSignup({
-        email,
-        // username,
-        password,
+        username,
         firstName,
         lastName,
+        email,
+        password,
       })
     );
 
@@ -61,7 +61,6 @@ function SignupFormModal() {
           </div>
           {errors.firstName && <p>{errors.firstName}</p>}
           <div className="signup-label-div">
-
             <input
               className="signup-input"
               placeholder="Last name"
@@ -87,15 +86,16 @@ function SignupFormModal() {
 
           {errors.email && <p>{errors.email}</p>}
           {/* <label>
-          Username
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </label>
-        {errors.username && <p>{errors.username}</p>} */}
+            Username */}
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          {/* </label> */}
+          {errors.username && <p>{errors.username}</p>}
 
           <div className="signup-label-div">
             <input

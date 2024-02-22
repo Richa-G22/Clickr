@@ -19,6 +19,9 @@ const UpdateAlbum = () => {
     const [title, setTitle] = useState(currentAlbum? currentAlbum.album.title : title);
     const [description, setDescription] = useState(currentAlbum? currentAlbum.album.description : description);
     const [image_url, setImage_url] = useState(currentAlbum? currentAlbum.album.image_url : image_url);
+    // const [title, setTitle] = useState('');
+    // const [description, setDescription] = useState('');
+    // const [image_url, setImage_url] = useState('');
     const [errors, setErrors] = useState({});
     //const sessionUser = useSelector((state) => state.session.user);
 
@@ -38,17 +41,20 @@ const UpdateAlbum = () => {
         dispatch(detailedAlbumThunk(albumId));
     }, [dispatch, albumId]);
 
+    useEffect(() => {
+        dispatch(detailedAlbumThunk(albumId));
+    }, [dispatch, albumId]);
+
     if (!currentAlbum) {
         return <h1>Loading...</h1>
     }
 
-    //   console.log('..control here after detailed album current album...', currentAlbum)
-
+    console.log('..control here after detailed album current album...', currentAlbum)
 
     const handleSubmit = async (e) => {
         // console.log('........state..........', state);
         // console.log('..........inside handle submit..........');
-     
+
         e.preventDefault();
         const albumPassed = {
             title,
@@ -61,10 +67,8 @@ const UpdateAlbum = () => {
             console.log("######albumId, albumPassed", albumId, albumPassed)
             const updatedAlbum = await dispatch(
                 editAlbumThunk(albumId, albumPassed ))
-            // console.log('..........control back to updated album component, updatedAlbum.........', updatedAlbum);   
+            // console.log('..........control back to updated album component, updatedAlbum.........', updatedAlbum);
         } catch (error) {
-            // const errors = await error.json();
-            // return errors;
             console.log("Hello error")
         };
 
@@ -72,8 +76,6 @@ const UpdateAlbum = () => {
     }
 
     return (
-        // <h1>hello</h1>
-
         <form className="update-album-form" onSubmit={handleSubmit}>
             <h2>Update your Album</h2>
 

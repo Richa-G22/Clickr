@@ -8,18 +8,19 @@ import UpdatePhoto from '../components/Photos/updatePhoto';
 
 
 
-
 import CurrentUserAlbums from '../components/Albums/GetCurrentUserAlbums';
 import NewAlbum from '../components/Albums/CreateNewAlbum';
 import DetailedAlbum from '../components/Albums/DetailedAlbum';
 import UpdateAlbum from '../components/Albums/UpdateAlbum';
+
+
 
 // import GetAllComments from "../components/Comments/GetAllComments/GetAllComments";
 
 import CreateNewComment from "../components/Comments/CreateNewComment/CreateNewComment"
 import EditComment from '../components/Comments/EditComment/EditCommentModal';
 import DeleteComment from '../components/Comments/DeleteComment/DeleteCommentModal';
-
+import ViewAllFavorites from '../components/Favorites/ViewAllFavorites';
 
 import GetPhotoDetails from '../components/Photos/getInfoByPhotoId';
 
@@ -82,10 +83,6 @@ export const router = createBrowserRouter([
         path: "/albums/update/:id",
         element: <UpdateAlbum />
       },
-      // {
-      //   path: "/:id/comments",
-      //   element: <GetAllComments />,
-      // },
       {
         path: "/:id/comments/new",
         element: <CreateNewComment />,
@@ -97,6 +94,10 @@ export const router = createBrowserRouter([
       {
         path:"/:id/:id/commentDelete",
         element: <DeleteComment />,
+      },
+      {
+        path:"/favorites",
+        element: <ViewAllFavorites />,
       },
     ],
   },

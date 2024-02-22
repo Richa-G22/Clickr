@@ -53,6 +53,7 @@
 
 .menu{
   display: flex;
+  color: white;
 }
 
 .logout-button {

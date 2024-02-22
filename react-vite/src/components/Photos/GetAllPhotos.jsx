@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate,NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPhotos } from "../../redux/photoReducer";
-import { favoritePhoto, removeFromFavorites, fetchFavorites } from '../../redux/favorites';
+import { favoritePhoto, removeFromFavorites } from '../../redux/favorites';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import ManagePhotoModal from './managePhotoModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,9 +10,6 @@ import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-solid-svg-icons';
 import { useModal } from '../../context/Modal';
 // import '../Albums/GetCurrentUserAlbums.css'
-
-
-
 
 
 function GetAllPhotos() {
@@ -37,11 +34,10 @@ function GetAllPhotos() {
         setShowModal(true);
     };
 
-
-    const handleImageClick = (id) => {
-        console.log("Clicked photo id:", id);
-        navigate(`/${id}`);
-    };
+    // const handleImageClick = (id) => {
+    //     console.log("Clicked photo id:", id);
+    //     navigate(`/${id}`);
+    // };
 
     const handleHeartClick = (photoId) => {
         const isFavorite = favorites.find(fav => fav.photoId === photoId);
@@ -76,7 +72,8 @@ function GetAllPhotos() {
             <div className='photos-grid'>
                 {photos.map(photo => (
                     <div key={photo.id} className='album-div'>
-                        <img src={photo.url} alt={photo.title} onClick={() => handleImageClick(photo.id)} className='line-1' />
+
+                            <NavLink to={`/${photo.id}`} className='album-div'><img src={photo.url} alt={photo.title}  className='line-1'/></NavLink>
                         <div className='manage-buttons'>
                             {renderManageButton(photo.id)}
                             <FontAwesomeIcon
@@ -89,6 +86,9 @@ function GetAllPhotos() {
             </div>
             {showModal && <Modal />}
         </div>
+
+
+
     );
 }
 
