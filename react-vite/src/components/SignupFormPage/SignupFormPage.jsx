@@ -46,7 +46,7 @@ function SignupFormPage() {
   return (
     <>
       <i className="fa-brands fa-flickr"></i>
-      <h1>Sign Up for Flickr</h1>
+      <h1>Sign Up for Clickr</h1>
       {errors.server && <p>{errors.server}</p>}
       <form onSubmit={handleSubmit}>
         <input

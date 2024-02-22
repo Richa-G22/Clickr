@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate,NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPhotos } from "../../redux/photoReducer";
-import { favoritePhoto, removeFromFavorites } from '../../redux/favorites';
+import { favoritePhoto, fetchFavorites, removeFromFavorites } from '../../redux/favorites';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import ManagePhotoModal from './managePhotoModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
-import { faHeart as regularHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { useModal } from '../../context/Modal';
 // import '../Albums/GetCurrentUserAlbums.css'
 
@@ -19,14 +19,25 @@ function GetAllPhotos() {
     const [selectedPhotoId, setSelectedPhotoId] = useState(null);
     const [favorites, setFavorites] = useState([]);
     const photos = useSelector(state => state.photo.photos);
-
-
     const currentUser = useSelector(state => state.session.user);
-    console.log(currentUser)
 
     useEffect(() => {
         dispatch(fetchPhotos());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (currentUser) {
+            // Fetch favorites for the currentUser
+            dispatch(fetchFavorites(currentUser.id))
+                .then(response => {
+                    // Update favorites state with the fetched favorites
+                    setFavorites(response.data);
+                })
+                .catch(error => {
+                    console.error("Error fetching favorites:", error);
+                });
+        }
+    }, [dispatch, currentUser]);
 
     const closeModal = () => {
         setShowModal(false);
@@ -43,15 +54,11 @@ function GetAllPhotos() {
 
         if (!isFavorite) {
             dispatch(favoritePhoto(photoId));
-            setFavorites([...favorites, { photoId }]);
+            setFavorites(prevFavorites => [...prevFavorites, { photoId }]);
         } else {
             dispatch(removeFromFavorites(photoId));
-            setFavorites(favorites.filter(fav => fav.photoId !== photoId));
+            setFavorites(prevFavorites => prevFavorites.filter(fav => fav.photoId !== photoId));
         }
-    };
-
-    const toggleModal = () => {
-        setShowModal(!showModal);
     };
 
     const renderManageButton = (photo) => {

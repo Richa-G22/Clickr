@@ -46,7 +46,7 @@ function SignupFormModal() {
     <>
       <div className="signup-div">
         <i className="fa-brands fa-flickr"></i>
-        <h1>Sign Up for Flickr</h1>
+        <h1>Sign Up for Clickr</h1>
         {errors.server && <p>{errors.server}</p>}
         <form className="signup-form" onSubmit={handleSubmit}>
           <div className="signup-label-div">

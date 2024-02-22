@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { updatePhoto } from '../../redux/photoReducer';
+import { fetchPhotoDetails, updatePhoto } from '../../redux/photoReducer';
 
 function UpdatePhoto() {
     const { id } = useParams();
@@ -12,6 +12,7 @@ function UpdatePhoto() {
     const [errors, setErrors] = useState({});
 
     const photo1 = useSelector(state => state.photo.photos);
+    const photoDetails = useSelector(state => state.photo.photoDetails);
 
     const photo = useSelector(state => state.photo);
 
@@ -31,16 +32,20 @@ function UpdatePhoto() {
     });
 
 
-    useEffect(() => {
+      useEffect(() => {
+        dispatch(fetchPhotoDetails(id));
+    }, [dispatch, id]);
+
+      useEffect(() => {
         if (photo1) {
             setFormFields({
-                label: photo1.label || '',
-                title: photo1.title || '',
-                description: photo1.description || '',
-                url: photo1.url || ''
+                label: photoDetails.label || '',
+                title: photoDetails.title || '',
+                description: photoDetails.description || '',
+                url: photoDetails.url || ''
             });
         }
-    }, [dispatch, id, photo1]);
+    }, [photo1]);
 
     const validate = () => {
         let errors = {};
