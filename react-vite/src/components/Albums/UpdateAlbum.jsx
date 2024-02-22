@@ -13,10 +13,33 @@ const UpdateAlbum = () => {
     console.log('.......currentAlbum........', currentAlbum);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [image_url, setImage_url] = useState('');
+    // const [title, setTitle] = useState(currentAlbum?.title);
+    // const [description, setDescription] = useState(currentAlbum?.description);
+    // const [image_url, setImage_url] = useState(currentAlbum?.image_url);
+    const [title, setTitle] = useState(currentAlbum? currentAlbum.album.title : title);
+    const [description, setDescription] = useState(currentAlbum? currentAlbum.album.description : description);
+    const [image_url, setImage_url] = useState(currentAlbum? currentAlbum.album.image_url : image_url);
+    // const [title, setTitle] = useState('');
+    // const [description, setDescription] = useState('');
+    // const [image_url, setImage_url] = useState('');
     const [errors, setErrors] = useState({});
+    //const sessionUser = useSelector((state) => state.session.user);
+
+    //console.log('.......currentAlbum........',currentAlbum);
+    //const [isLoaded, setisLoaded] = useState(false);
+    // const currentSpot = useSelector((state) => state.spots[spotId]);
+
+    //   useEffect(() => {
+    //     const getData = async() => {
+    //         await dispatch(detailedAlbumThunk(albumId))
+    //         setisLoaded(true)
+    //     }
+    //     getData();
+    //     },[dispatch, albumId]);
+
+    useEffect(() => {
+        dispatch(detailedAlbumThunk(albumId));
+    }, [dispatch, albumId]);
 
     useEffect(() => {
         dispatch(detailedAlbumThunk(albumId));
