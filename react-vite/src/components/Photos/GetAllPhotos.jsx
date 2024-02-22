@@ -70,7 +70,9 @@ function GetAllPhotos() {
 
     return (
         <div>
-            <NavLink to="/new" className='menu no-outline' style={{ textDecoration: "none", color: 'grey', fontSize: '18px' }}>Add Photo</NavLink>
+            {currentUser && (
+                <NavLink to="/new" className='menu no-outline' style={{ textDecoration: "none", color: 'grey', fontSize: '18px' }}>Add Photo</NavLink>
+            )}
 
             <div className='photos-grid'>
                 {photos.map(photo => (
