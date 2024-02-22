@@ -22,7 +22,7 @@ const CreateNewComment = ({photo}) => {
     navigate('/');
   }
 
-  
+
 
 
   const handleSubmit = async (e) => {
