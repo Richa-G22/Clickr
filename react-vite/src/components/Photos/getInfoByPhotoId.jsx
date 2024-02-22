@@ -1,32 +1,25 @@
-import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { get_comments_thunk } from '../../redux/comments';
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { get_comments_thunk } from "../../redux/comments";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import CreateNewComment from '../Comments/CreateNewComment/CreateNewComment';
 import EditComment from '../Comments/EditComment/EditCommentModal'
-
 import DeleteComment from '../Comments/DeleteComment/DeleteCommentModal'
-
-
-
 import { fetchPhotoDetails } from '../../redux/photoReducer';
-
 
 function GetPhotoDetails() {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const photoDetails = useSelector(state => state.photo.photoDetails);
-  const allComments = useSelector(state => state.comments.allComments);
-  const currentUser = useSelector(state => state.session.user);
+  const photoDetails = useSelector((state) => state.photo.photoDetails);
+  const allComments = useSelector((state) => state.comments.allComments);
+  const currentUser = useSelector((state) => state.session.user);
 
   useEffect(() => {
     dispatch(fetchPhotoDetails(id));
     dispatch(get_comments_thunk(id));
   }, [dispatch, id]);
-
   return (
     <div>
       <div>
@@ -47,7 +40,7 @@ function GetPhotoDetails() {
             <p>Be the first to comment!</p>
           </div>
         ) : (
-          allComments.map(comment => (
+          allComments.map((comment) => (
             <div key={comment.id}>
               <div>
                 {comment.userName} : {comment.comment}
@@ -70,9 +63,15 @@ function GetPhotoDetails() {
           ))
         )}
       </div>
-        <div>
-          <CreateNewComment photo={photoDetails} />
-        </div>
+      <div>
+        {currentUser &&
+          photoDetails &&
+          currentUser.id !== photoDetails.userId && (
+            <div>
+              <CreateNewComment photo={photoDetails} />
+            </div>
+          )}
+      </div>
     </div>
   );
 }

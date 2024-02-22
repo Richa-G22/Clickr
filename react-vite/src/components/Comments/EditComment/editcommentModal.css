@@ -54,9 +54,10 @@
 .edit_comment textarea {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 5px solid #ccc;
     border-radius: 4px;
-    resize: vertical;
+    display: flex;
+    /* resize: vertical; */
 }
 
 .edit_comment{
