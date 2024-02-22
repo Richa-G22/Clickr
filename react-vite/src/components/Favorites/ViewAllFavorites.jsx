@@ -10,7 +10,7 @@ function ViewAllFavorites() {
 
     useEffect(() => {
         dispatch(fetchFavorites());
-        dispatch(fetchPhotos()); // Assuming you have a thunk action to fetch all photos
+        dispatch(fetchPhotos()); 
     }, [dispatch]);
 
     const favoriteImages = photos.filter(photo => favoritePhotos.find(fav => fav.photoId === photo.id));

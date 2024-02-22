@@ -7,7 +7,6 @@ const ModalContext = createContext();
 export function ModalProvider({ children }) {
   const modalRef = useRef();
   const [modalContent, setModalContent] = useState(null);
-  // callback function that will be called when modal is closing
   const [onModalClose, setOnModalClose] = useState(null);
 
   const closeModal = () => {
@@ -40,7 +39,7 @@ export function ModalProvider({ children }) {
 
 export function Modal() {
   const { modalRef, modalContent, closeModal } = useContext(ModalContext);
- 
+
   if (!modalRef || !modalRef.current || !modalContent) return null;
 
   // Render the following component to the div referenced by the modalRef

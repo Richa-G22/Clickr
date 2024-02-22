@@ -38,9 +38,9 @@ function UpdatePhoto() {
     const validate = () => {
         let errors = {};
 
-        if (!formFields.label.trim()) {
-            errors.label = 'Label is required';
-        }
+        // if (!formFields.label.trim()) {
+        //     errors.label = 'Label is required';
+        // }
 
         if (!formFields.title.trim()) {
             errors.title = 'Title is required';
@@ -70,7 +70,7 @@ function UpdatePhoto() {
         e.preventDefault();
         if (validate()) {
             try {
-                await dispatch(updatePhoto(id, formFields)); // Use the id from the URL params
+                await dispatch(updatePhoto(id, formFields));
                 navigate("/");
             } catch (error) {
                 console.error("Error updating photo:", error);
@@ -87,7 +87,7 @@ function UpdatePhoto() {
                 <div>
                     <label>Label</label>
                     <input type="text" name="label" value={formFields.label} onChange={handleInputChange} />
-                    {errors.label && <span>{errors.label}</span>}
+                    {/* {errors.label && <span>{errors.label}</span>} */}
                 </div>
                 <div>
                     <label>Title</label>
