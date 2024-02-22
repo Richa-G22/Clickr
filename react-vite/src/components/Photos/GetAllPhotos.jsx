@@ -92,8 +92,6 @@ function GetAllPhotos() {
 
 
 
-      </div>
-
     );
 }
 

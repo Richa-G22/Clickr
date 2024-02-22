@@ -24,6 +24,7 @@ const UpdateAlbum = () => {
 
     if (!currentAlbum) {
         return <h1>Loading...</h1>
+    }
 
 useEffect(() => {
     dispatch(detailedAlbumThunk(albumId));
@@ -38,7 +39,7 @@ useEffect(() => {
     const handleSubmit = async (e) => {
         // console.log('........state..........', state);
         // console.log('..........inside handle submit..........');
-     
+
         e.preventDefault();
         const albumPassed = {
             title,
@@ -51,7 +52,7 @@ useEffect(() => {
             console.log("######albumId, albumPassed", albumId, albumPassed)
             const updatedAlbum = await dispatch(
                 editAlbumThunk(albumId, albumPassed ))
-            // console.log('..........control back to updated album component, updatedAlbum.........', updatedAlbum);   
+            // console.log('..........control back to updated album component, updatedAlbum.........', updatedAlbum);
         } catch (error) {
             // const errors = await error.json();
             // return errors;

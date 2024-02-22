@@ -57,8 +57,8 @@ const EditComment = (props) => {
                 <button type="submit">Edit comment</button>
               </div>
               <div className="edit-button">
-                <button type="button" onClick={handleCancelSubmit}>
-                  
+                <button type="button" onClick={handleCancelSubmit}>Cancel
+
                 </button>
               </div>
             </div>
