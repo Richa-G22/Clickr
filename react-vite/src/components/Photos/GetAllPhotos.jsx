@@ -37,7 +37,6 @@ function GetAllPhotos() {
         setShowModal(true);
     };
 
-
     const handleImageClick = (id) => {
         console.log("Clicked photo id:", id);
         navigate(`/${id}`);

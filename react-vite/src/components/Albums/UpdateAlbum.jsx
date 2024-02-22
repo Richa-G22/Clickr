@@ -13,10 +13,33 @@ const UpdateAlbum = () => {
     console.log('.......currentAlbum........', currentAlbum);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    // const [title, setTitle] = useState(currentAlbum?.title);
+    // const [description, setDescription] = useState(currentAlbum?.description);
+    // const [image_url, setImage_url] = useState(currentAlbum?.image_url);
     const [title, setTitle] = useState(currentAlbum? currentAlbum.album.title : title);
     const [description, setDescription] = useState(currentAlbum? currentAlbum.album.description : description);
     const [image_url, setImage_url] = useState(currentAlbum? currentAlbum.album.image_url : image_url);
+    // const [title, setTitle] = useState('');
+    // const [description, setDescription] = useState('');
+    // const [image_url, setImage_url] = useState('');
     const [errors, setErrors] = useState({});
+    //const sessionUser = useSelector((state) => state.session.user);
+
+    //console.log('.......currentAlbum........',currentAlbum);
+    //const [isLoaded, setisLoaded] = useState(false);
+    // const currentSpot = useSelector((state) => state.spots[spotId]);
+
+    //   useEffect(() => {
+    //     const getData = async() => {
+    //         await dispatch(detailedAlbumThunk(albumId))
+    //         setisLoaded(true)
+    //     }
+    //     getData();
+    //     },[dispatch, albumId]);
+
+    useEffect(() => {
+        dispatch(detailedAlbumThunk(albumId));
+    }, [dispatch, albumId]);
 
     useEffect(() => {
         dispatch(detailedAlbumThunk(albumId));
@@ -26,15 +49,7 @@ const UpdateAlbum = () => {
         return <h1>Loading...</h1>
     }
 
-useEffect(() => {
-    dispatch(detailedAlbumThunk(albumId));
-  }, [dispatch, albumId]);
-
-  if (!currentAlbum) {
-    return <h1>Loading...</h1>
-  }
-
-  console.log('..control here after detailed album current album...', currentAlbum)
+    console.log('..control here after detailed album current album...', currentAlbum)
 
     const handleSubmit = async (e) => {
         // console.log('........state..........', state);
@@ -54,8 +69,6 @@ useEffect(() => {
                 editAlbumThunk(albumId, albumPassed ))
             // console.log('..........control back to updated album component, updatedAlbum.........', updatedAlbum);
         } catch (error) {
-            // const errors = await error.json();
-            // return errors;
             console.log("Hello error")
         };
 
@@ -63,8 +76,6 @@ useEffect(() => {
     }
 
     return (
-        // <h1>hello</h1>
-
         <form className="update-album-form" onSubmit={handleSubmit}>
             <h2>Update your Album</h2>
 
