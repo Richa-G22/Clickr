@@ -52,6 +52,9 @@ const UpdateAlbum = () => {
     console.log('..control here after detailed album current album...', currentAlbum)
 
     const handleSubmit = async (e) => {
+        // console.log('........state..........', state);
+        // console.log('..........inside handle submit..........');
+
         e.preventDefault();
         const albumPassed = {
             title,

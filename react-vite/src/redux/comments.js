@@ -69,7 +69,7 @@ export const add_comment_thunk=(comment, photo)=>async(dispatch)=>{
             const data = await response.json();
             // console.log("!!!!!!data", data)
             dispatch(add_Comment(data));
-            
+
             return data;
         }else {
             throw response;
@@ -81,11 +81,12 @@ export const add_comment_thunk=(comment, photo)=>async(dispatch)=>{
 
 
 export const edit_comment_thunk=(comment, id, photoId ) =>async(dispatch)=> {
+    console.log("&&&&&&&&comment", comment, id)
     try {
         const response = await fetch(`/api/comments/update/${id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({comment: comment.comment}),
+            body: JSON.stringify({comment}),
             //  body: JSON.stringify(comment),
         });
         if (response.ok) {

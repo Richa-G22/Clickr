@@ -19,9 +19,9 @@ function DeleteAlbumModal( albumId ) {
                     .then(() => closeModal())} >Yes (Delete Album)
             </button>
             <button className='no-button' onClick={() => closeModal()}>No (Keep Album)
-            </button><br></br>           
-        </div>   
-    
+            </button><br></br>
+        </div>
+
   )
 }
 
