@@ -20,7 +20,7 @@ import UpdateAlbum from '../components/Albums/UpdateAlbum';
 import CreateNewComment from "../components/Comments/CreateNewComment/CreateNewComment"
 import EditComment from '../components/Comments/EditComment/EditCommentModal';
 import DeleteComment from '../components/Comments/DeleteComment/DeleteCommentModal';
-
+import ViewAllFavorites from '../components/Favorites/ViewAllFavorites';
 
 import GetPhotoDetails from '../components/Photos/getInfoByPhotoId';
 
@@ -94,6 +94,10 @@ export const router = createBrowserRouter([
       {
         path:"/:id/:id/commentDelete",
         element: <DeleteComment />,
+      },
+      {
+        path:"/favorites",
+        element: <ViewAllFavorites />,
       },
     ],
   },

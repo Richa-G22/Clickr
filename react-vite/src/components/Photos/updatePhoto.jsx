@@ -32,15 +32,15 @@ function UpdatePhoto() {
 
 
     useEffect(() => {
-        if (photo) {
+        if (photo1) {
             setFormFields({
-                label: photo.label || '',
-                title: photo.title || '',
-                description: photo.description || '',
-                url: photo.url || ''
+                label: photo1.label || '',
+                title: photo1.title || '',
+                description: photo1.description || '',
+                url: photo1.url || ''
             });
         }
-    }, [dispatch, id, photo]);
+    }, [dispatch, id, photo1]);
 
     const validate = () => {
         let errors = {};
@@ -56,7 +56,10 @@ function UpdatePhoto() {
         if (!formFields.description.trim()) {
             errors.description = 'Description is required';
         }
-     
+         if (photo1.photos.userId !== userId) {
+           errors.unauthorized = "Unauthorized";
+         }
+
 
 
         if (!formFields.url.trim()) {
@@ -100,7 +103,7 @@ function UpdatePhoto() {
 
     ;
 
- 
+
     return (
         <div>
             <h2>Update Photo</h2>
