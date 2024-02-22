@@ -20,6 +20,10 @@ function GetAllPhotos() {
     const [favorites, setFavorites] = useState([]);
     const photos = useSelector(state => state.photo.photos);
 
+
+    const currentUser = useSelector(state => state.session.user);
+    console.log(currentUser)
+
     useEffect(() => {
         dispatch(fetchPhotos());
     }, [dispatch]);
@@ -28,16 +32,11 @@ function GetAllPhotos() {
         setShowModal(false);
     };
 
-     const handleManageClick = (id) => {
+    const handleManageClick = (id) => {
         setSelectedPhotoId(id);
         setModalContent(<ManagePhotoModal id={id} />);
         setShowModal(true);
     };
-
-    // const handleImageClick = (id) => {
-    //     console.log("Clicked photo id:", id);
-    //     navigate(`/${id}`);
-    // };
 
     const handleHeartClick = (photoId) => {
         const isFavorite = favorites.find(fav => fav.photoId === photoId);
@@ -55,14 +54,18 @@ function GetAllPhotos() {
         setShowModal(!showModal);
     };
 
-    const renderManageButton = (id) => {
-        return (
-            <OpenModalButton
-                buttonText="Manage"
-                modalComponent={<ManagePhotoModal id={id} />}
-                onButtonClick={() => handleManageClick(id)} // Pass the id to handleManageClick
-            />
-        );
+    const renderManageButton = (photo) => {
+        if (currentUser && currentUser.id === photo.userId) {
+            return (
+                <OpenModalButton
+                    buttonText="Manage"
+                    modalComponent={<ManagePhotoModal id={photo.id} />}
+                    onButtonClick={() => handleManageClick(photo.id)}
+                />
+            );
+        } else {
+            return null;
+        }
     };
 
     return (
@@ -72,10 +75,11 @@ function GetAllPhotos() {
             <div className='photos-grid'>
                 {photos.map(photo => (
                     <div key={photo.id} className='album-div'>
-
-                            <NavLink to={`/${photo.id}`} className='album-div'><img src={photo.url} alt={photo.title}  className='line-1'/></NavLink>
+                        <NavLink to={`/${photo.id}`} className='album-div'>
+                            <img src={photo.url} alt={photo.title} className='line-1' />
+                        </NavLink>
                         <div className='manage-buttons'>
-                            {renderManageButton(photo.id)}
+                            {renderManageButton(photo)}
                             <FontAwesomeIcon
                                 icon={favorites.find(fav => fav.photoId === photo.id) ? solidHeart : regularHeart}
                                 onClick={() => handleHeartClick(photo.id)}
@@ -86,9 +90,6 @@ function GetAllPhotos() {
             </div>
             {showModal && <Modal />}
         </div>
-
-
-
     );
 }
 

@@ -41,6 +41,9 @@ function Navigation() {
               <NavLink style={{ textDecoration: "none", paddingLeft: '150px' }}  to="/albums/all">
                   <div style={{ paddingTop: "2px", color: "black" }}>Albums</div>
               </NavLink>
+              <NavLink style={{ textDecoration: "none", paddingLeft: '150px' }}  to="/favorites">
+                  <div style={{ paddingTop: "2px", color: "black" }}>Favorites</div>
+              </NavLink>
           </div>
       </nav>
   </div>

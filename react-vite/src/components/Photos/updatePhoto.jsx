@@ -56,9 +56,9 @@ function UpdatePhoto() {
         if (!formFields.description.trim()) {
             errors.description = 'Description is required';
         }
-         if (photo1.photos.userId !== userId) {
-           errors.unauthorized = "Unauthorized";
-         }
+        //  if (photo1.photos.userId !== userId) {
+        //    errors.unauthorized = "Unauthorized";
+        //  }
 
 
 

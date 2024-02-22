@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFavorites } from '../../redux/favorites';
-// import { fetchPhotos } from '../../redux/photoReducer';
+import { fetchPhotos } from '../../redux/photoReducer';
 
 function ViewAllFavorites() {
     const dispatch = useDispatch();
@@ -10,12 +10,10 @@ function ViewAllFavorites() {
 
     useEffect(() => {
         dispatch(fetchFavorites());
+        dispatch(fetchPhotos()); // Assuming you have a thunk action to fetch all photos
     }, [dispatch]);
 
-
-    const photoIds = favoritePhotos.map(favorite => favorite.photoId);
-
-    const favoriteImages = photos.filter(photo => photoIds.includes(photo.id));
+    const favoriteImages = photos.filter(photo => favoritePhotos.find(fav => fav.photoId === photo.id));
 
     return (
         <div>
