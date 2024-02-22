@@ -11,18 +11,22 @@ function UpdatePhoto() {
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
 
-    const photo1 = useSelector(state => state.photo.photos);
     const photoDetails = useSelector(state => state.photo.photoDetails);
 
-    const photo = useSelector(state => state.photo);
+    useEffect(() => {
+        dispatch(fetchPhotoDetails(id));
+    }, [dispatch, id]);
 
-
-    const userId = useSelector(state => state.session.user.id);
-    // console.log("!!!!!!!!!!", userId)
-
-
-
-
+    useEffect(() => {
+    if (photoDetails) {
+        setFormFields({
+            label: photoDetails.label || '',
+            title: photoDetails.title || '',
+            description: photoDetails.description || '',
+            url: photoDetails.url || ''
+        });
+    }
+}, [photoDetails]);
 
     const [formFields, setFormFields] = useState({
         label: '',
@@ -30,22 +34,6 @@ function UpdatePhoto() {
         description: '',
         url: ''
     });
-
-
-      useEffect(() => {
-        dispatch(fetchPhotoDetails(id));
-    }, [dispatch, id]);
-
-      useEffect(() => {
-        if (photo1) {
-            setFormFields({
-                label: photoDetails.label || '',
-                title: photoDetails.title || '',
-                description: photoDetails.description || '',
-                url: photoDetails.url || ''
-            });
-        }
-    }, [photo1]);
 
     const validate = () => {
         let errors = {};
@@ -61,11 +49,6 @@ function UpdatePhoto() {
         if (!formFields.description.trim()) {
             errors.description = 'Description is required';
         }
-        //  if (photo1.photos.userId !== userId) {
-        //    errors.unauthorized = "Unauthorized";
-        //  }
-
-
 
         if (!formFields.url.trim()) {
             errors.url = 'Photo URL is required';
@@ -78,36 +61,24 @@ function UpdatePhoto() {
         return Object.keys(errors).length === 0;
     };
 
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormFields({ ...formFields, [name]: value });
     };
 
     const handleSubmit = async (e) => {
-
-      e.preventDefault();
-      if (validate()) {
-
-        try {
-          // Dispatch the updatePhoto action with photo ID and updated data
-          await dispatch(updatePhoto(id, formFields)); // Use the id from the URL params
-          // Navigate to another route after successful update
-          navigate("/");
-        } catch (error) {
-
-          console.error("Error updating photo:", error);
+        e.preventDefault();
+        if (validate()) {
+            try {
+                await dispatch(updatePhoto(id, formFields)); // Use the id from the URL params
+                navigate("/");
+            } catch (error) {
+                console.error("Error updating photo:", error);
+            }
+        } else {
+            console.log("Form has errors");
         }
-      } else {
-        console.log("Form has errors");
-      }
     };
-
-
-
-
-    ;
-
 
     return (
         <div>
