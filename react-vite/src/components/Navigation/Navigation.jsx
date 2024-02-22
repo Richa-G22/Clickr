@@ -8,15 +8,6 @@ function Navigation() {
 
   return (
     <div>
-<ul className="nav-menu">
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-
-      <li className="profile-button">
-        <ProfileButton />
-      </li>
-    </ul>
     <div>
         <nav className="nav-header">
             <NavLink style={{ textDecoration: "none" }}  to="/">
