@@ -27,7 +27,7 @@ const EditComment = (props) => {
 
     setErrors({});
 
-    const response = dispatch(edit_comment_thunk(comment, commentId, photoId))
+    const response = dispatch(edit_comment_thunk(comment, commentId, photoId));
     closeModal();
     // console.log("~~~~~~~~~~~~~~~", response)
   };
@@ -36,15 +36,44 @@ const EditComment = (props) => {
     closeModal();
   };
 
-
   return (
     <>
       {errors.content ? (
         <>{errors.content}</>
       ) : (
-        <div className="comment-edit-form">
+        // <div className="comment-edit-form">
+        //   <form onSubmit={handleSubmit}>
+        //     <div className="errors">{errors.comment}</div>
+        //     <div className="edit-input">
+        //       <textarea
+        //         id="input_comment"
+        //         onChange={(e) => setComment(e.target.value)}
+        //         placeholder="Add a comment about this photo"
+        //         rows="10"
+        //         value={comment}
+        //       ></textarea>
+        //       <div className="edit-button">
+        //         <button type="submit">Edit comment</button>
+        //       </div>
+        //       <div className="edit-button">
+        //         <button type="button" onClick={handleCancelSubmit}>Cancel
+
+        //         </button>
+        //       </div>
+        //     </div>
+        //   </form>
+        // </div>
+        <div
+          className="comment-edit-form"
+          style={{ width: "100%", padding: "10px", border: "1px solid #ccc" }}
+        >
           <form onSubmit={handleSubmit}>
-            <div className="errors">{errors.comment}</div>
+            <div
+              className="errors"
+              style={{ color: "red", marginBottom: "10px" }}
+            >
+              {errors.comment}
+            </div>
             <div className="edit-input">
               <textarea
                 id="input_comment"
@@ -52,13 +81,29 @@ const EditComment = (props) => {
                 placeholder="Add a comment about this photo"
                 rows="10"
                 value={comment}
+                style={{ width: "100%", padding: "5px", marginBottom: "10px" }}
               ></textarea>
-              <div className="edit-button">
-                <button type="submit">Edit comment</button>
+              <div
+                className="edit-button"
+                style={{ textAlign: "center",  }}
+              >
+                <button
+                  type="submit"
+                  style={{ marginRight: "5px", fontSize: "20px" }}
+                >
+                  Edit comment
+                </button>
               </div>
-              <div className="edit-button">
-                <button type="button" onClick={handleCancelSubmit}>Cancel
-
+              <div
+                className="edit-button"
+                style={{ textAlign: "center", fontSize: "30px" }}
+              >
+                <button
+                  type="button"
+                  style={{ marginRight: "5px", fontSize: "30px" }}
+                  onClick={handleCancelSubmit}
+                >
+                  Cancel
                 </button>
               </div>
             </div>
