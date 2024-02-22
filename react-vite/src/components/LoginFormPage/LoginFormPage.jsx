@@ -38,8 +38,7 @@ function LoginFormPage() {
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
       <form onSubmit={handleSubmit}>
-        {/* <label>
-          Email */}
+     
         <input
           placeholder="Email address"
           type="text"
@@ -61,7 +60,7 @@ function LoginFormPage() {
         {/* </label> */}
         {errors.password && <p>{errors.password}</p>}
         <button type="submit">Sign In</button>
-       
+
       </form>
     </>
   );
