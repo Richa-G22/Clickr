@@ -27,10 +27,10 @@ function GetAllPhotos() {
 
     useEffect(() => {
         if (currentUser) {
-            // Fetch favorites for the currentUser
+
             dispatch(fetchFavorites(currentUser.id))
                 .then(response => {
-                    // Update favorites state with the fetched favorites
+
                     setFavorites(response.data);
                 })
                 .catch(error => {
@@ -50,16 +50,18 @@ function GetAllPhotos() {
     };
 
     const handleHeartClick = (photoId) => {
-        const isFavorite = favorites.find(fav => fav.photoId === photoId);
+    const isFavorite = favorites.find(fav => fav.photoId === photoId);
 
-        if (!isFavorite) {
-            dispatch(favoritePhoto(photoId));
-            setFavorites(prevFavorites => [...prevFavorites, { photoId }]);
-        } else {
-            dispatch(removeFromFavorites(photoId));
-            setFavorites(prevFavorites => prevFavorites.filter(fav => fav.photoId !== photoId));
-        }
-    };
+    if (!isFavorite) {
+        dispatch(favoritePhoto(photoId));
+        setFavorites(prevFavorites => [...prevFavorites, { photoId }]);
+        alert('Photo has been favorited!');
+    } else {
+        dispatch(removeFromFavorites(photoId));
+        setFavorites(prevFavorites => prevFavorites.filter(fav => fav.photoId !== photoId));
+        alert('Photo has been removed from favorites!');
+    }
+};
 
     const renderManageButton = (photo) => {
         if (currentUser && currentUser.id === photo.userId) {
