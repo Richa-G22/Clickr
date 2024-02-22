@@ -174,7 +174,7 @@ export const editAlbumThunk = (id, album) => async (dispatch) => {
 // Add a photo to an Album
 export const addPhotoToAlbumThunk = (albumId, photo) => async (dispatch) => {
     try {
-        const response = await fetch(`/api/photo/${albumId}`, {
+        const response = await fetch(`/api/albums/add/${albumId}/${photo.id}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(photo),

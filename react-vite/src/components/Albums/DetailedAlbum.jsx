@@ -7,6 +7,8 @@ import "./DetailedAlbum.css";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteAlbumModal from "./DeleteAlbumModal";
 import DeletePhotoModal from "./DeletePhotoModal";
+import AddPhotoToAlbumModal from "./AddPhotoToAlbumModal";
+import { fetchPhotos } from "../../redux/photoReducer"; 
 
 const DetailedAlbum = () => {
     const dispatch = useDispatch();
@@ -20,8 +22,11 @@ const DetailedAlbum = () => {
     const currentAlbum = useSelector((state) => state.albums.allAlbums[0]);
     console.log('.......currentAlbum........',currentAlbum);
     const [isLoaded, setisLoaded] = useState(false);
-    
-  
+
+    useEffect(() => {
+        dispatch(fetchPhotos());
+    }, [dispatch]);
+     
     useEffect(() => {
         const getData = async() => {
             await dispatch(detailedAlbumThunk(albumId))
@@ -54,7 +59,16 @@ const DetailedAlbum = () => {
                         <button style={{backgroundColor: "grey", color: "white", 
                                 boxShadow: "5px 5px 5px black", height: "30px", cursor: "pointer"}} 
                                 onClick={() => navigate(`/albums/update/${albumId}`)}>Update Album
-                        </button>      
+                        </button> &nbsp;
+
+                        <div>
+                            <OpenModalButton 
+                                    buttonText="Add Photo"
+                                    modalComponent={
+                                        <AddPhotoToAlbumModal albumId={albumId} />
+                                    }       
+                                    />           
+                        </div> &nbsp;      
                 </div>     
                 
                 <div className="photos-grid"> 
