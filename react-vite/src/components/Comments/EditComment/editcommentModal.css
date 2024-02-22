@@ -11,6 +11,7 @@
 
 .input_comment {
     width: 500px;
+    font-size: 50px;
     background-color: whitesmoke;
     margin-bottom: 10px;
     font-family:Arial, Helvetica, sans-serif
@@ -19,50 +20,31 @@
     color: black;
     padding: 10px 20px;
     display: inline-block;
-    font-size: 16px;
+    font-size: 25px;
     border: 5px;
     cursor: pointer;
     background-color: rgb(50, 138, 204);
-    margin-left: 8px;
+    margin-left: 25px;
     margin-top: 10px;
     justify-content: center;
 
-}
-.edit_comment h3{
-    font-size: 20px;
-    margin-bottom: 20px;
+    color: black;
+        padding: 10px 20px;
+        display: flex;
+        flex-direction: column;
+        font-size: 25px;
+        border: 5px;
+        cursor: pointer;
+        background-color: rgb(50, 138, 204);
+        margin-left: 250px;
+        margin-top: 10px;
+        justify-content: center;
+
 }
 
-.edit_comment p{
-    color: #148bd0;
-    margin-bottom: 10px;
-}
 
 .comment-edit-form{
     display: flex;
     width:100%;
     max-width: 400px;
-}
-
-.edit_comment form {
-    display: flex;
-    flex-direction: column;
-    width: 200px;
-    text-align: center;
-}
-
-.edit_comment textarea {
-    width: 100%;
-    padding: 10px;
-    border: 5px solid #ccc;
-    border-radius: 4px;
-    display: flex;
-    /* resize: vertical; */
-}
-
-.edit_comment{
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    width: 900px
 }

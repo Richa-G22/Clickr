@@ -8,8 +8,8 @@ function SignupFormModal() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
   // const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -28,8 +28,8 @@ function SignupFormModal() {
     const serverResponse = await dispatch(
       thunkSignup({
         username,
-        firstName,
-        lastName,
+        firstname,
+        lastname,
         email,
         password,
       })
@@ -46,7 +46,7 @@ function SignupFormModal() {
     <>
       <div className="signup-div">
         <i className="fa-brands fa-flickr"></i>
-        <h1>Sign Up for Flickr</h1>
+        <h1>Sign Up for Clickr</h1>
         {errors.server && <p>{errors.server}</p>}
         <form className="signup-form" onSubmit={handleSubmit}>
           <div className="signup-label-div">
@@ -54,24 +54,24 @@ function SignupFormModal() {
               className="signup-input"
               placeholder="First name"
               type="text"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              value={firstname}
+              onChange={(e) => setFirstname(e.target.value)}
               required
             />
           </div>
-          {errors.firstName && <p>{errors.firstName}</p>}
+          {errors.firstname && <p>{errors.firstname}</p>}
           <div className="signup-label-div">
             <input
               className="signup-input"
               placeholder="Last name"
               type="text"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              value={lastname}
+              onChange={(e) => setLastname(e.target.value)}
               required
             />
           </div>
 
-          {errors.lastName && <p>{errors.lastName}</p>}
+          {errors.lastname && <p>{errors.lastname}</p>}
 
           <div className="signup-label-div">
             <input
@@ -87,13 +87,14 @@ function SignupFormModal() {
           {errors.email && <p>{errors.email}</p>}
           {/* <label>
             Username */}
-            <input
-              type="text"
-              placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
+          <input
+            className="signup-input"
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
           {/* </label> */}
           {errors.username && <p>{errors.username}</p>}
 
