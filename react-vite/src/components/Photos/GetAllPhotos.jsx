@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate,NavLink } from 'react-router-dom';
+import { useNavigate,NavLink, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPhotos } from "../../redux/photoReducer";
 import { favoritePhoto, removeFromFavorites, fetchFavorites } from '../../redux/favorites';
@@ -10,9 +10,6 @@ import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-solid-svg-icons';
 import { useModal } from '../../context/Modal';
 // import '../Albums/GetCurrentUserAlbums.css'
-
-
-
 
 
 function GetAllPhotos() {
@@ -75,7 +72,8 @@ function GetAllPhotos() {
             <div className='photos-grid'>
                 {photos.map(photo => (
                     <div key={photo.id} className='album-div'>
-                        <img src={photo.url} alt={photo.title} onClick={() => handleImageClick(photo.id)} className='line-1' />
+
+                            <NavLink to={`/${photo.id}`} className='album-div'><img src={photo.url} alt={photo.title}  /></NavLink>
                         <div className='manage-buttons'>
                             {renderManageButton(photo.id)}
                             <FontAwesomeIcon

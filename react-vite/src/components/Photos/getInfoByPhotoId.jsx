@@ -6,7 +6,7 @@ import { get_comments_thunk } from '../../redux/comments';
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import CreateNewComment from '../Comments/CreateNewComment/CreateNewComment';
 import EditComment from '../Comments/EditComment/EditCommentModal'
-// import { delete_comment_thunk } from '../../redux/comments';
+
 import DeleteComment from '../Comments/DeleteComment/DeleteCommentModal'
 
 
@@ -41,10 +41,10 @@ function GetPhotoDetails() {
       </div>
 
       <div>
-        <h3>Comments</h3>
+        <h1>Comments</h1>
         {allComments.length === 0 ? (
           <div>
-            <h3>Be the first person to comment</h3>
+            <p>Be the first to comment!</p>
           </div>
         ) : (
           allComments.map(comment => (

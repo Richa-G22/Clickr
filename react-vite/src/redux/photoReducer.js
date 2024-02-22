@@ -146,6 +146,7 @@ export const deletePhoto = (id) => async (dispatch) => {
 const initialState = {
   photos: [],
   photoDetails: null,
+ 
 
 };
 
@@ -197,7 +198,7 @@ const photoReducer = (state = initialState, action) => {
       return {
         ...state,
         photos: state.photos.filter(photo => photo.id !== action.payload),
-       
+
       };
     default:
       return state;
