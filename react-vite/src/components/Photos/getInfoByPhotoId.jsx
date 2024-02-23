@@ -23,7 +23,6 @@ function GetPhotoDetails() {
 
   return (
     <div>
-<<<<<<< HEAD
       <div>
         <h1>Photo Details</h1>
         {photoDetails && (
@@ -79,9 +78,6 @@ function GetPhotoDetails() {
         ))}
       </div>
       </div>
-=======
-        lots of bugs below, need to fix
->>>>>>> 8614fa27e97fa93c8308256d55d94d884687842c
     </div>
   )
 
