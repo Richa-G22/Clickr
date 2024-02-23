@@ -41,28 +41,6 @@ const EditComment = (props) => {
       {errors.content ? (
         <>{errors.content}</>
       ) : (
-        // <div className="comment-edit-form">
-        //   <form onSubmit={handleSubmit}>
-        //     <div className="errors">{errors.comment}</div>
-        //     <div className="edit-input">
-        //       <textarea
-        //         id="input_comment"
-        //         onChange={(e) => setComment(e.target.value)}
-        //         placeholder="Add a comment about this photo"
-        //         rows="10"
-        //         value={comment}
-        //       ></textarea>
-        //       <div className="edit-button">
-        //         <button type="submit">Edit comment</button>
-        //       </div>
-        //       <div className="edit-button">
-        //         <button type="button" onClick={handleCancelSubmit}>Cancel
-
-        //         </button>
-        //       </div>
-        //     </div>
-        //   </form>
-        // </div>
         <div
           className="comment-edit-form"
           style={{ width: "100%", padding: "10px", border: "1px solid #ccc" }}
