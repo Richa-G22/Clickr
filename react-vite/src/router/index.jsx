@@ -25,6 +25,7 @@ import ViewAllFavorites from '../components/Favorites/ViewAllFavorites';
 import GetPhotoDetails from '../components/Photos/getInfoByPhotoId';
 
 import Layout from './Layout';
+import NotFound from '../components/NotFound/NotFound';
 
 export const router = createBrowserRouter([
   {
@@ -98,6 +99,10 @@ export const router = createBrowserRouter([
       {
         path:"/favorites",
         element: <ViewAllFavorites />,
+      },
+      {
+        path:"*",
+        element: <NotFound />,
       },
     ],
   },

@@ -38,8 +38,7 @@ function LoginFormPage() {
       {errors.length > 0 &&
         errors.map((message) => <p key={message}>{message}</p>)}
       <form onSubmit={handleSubmit}>
-        {/* <label>
-          Email */}
+
         <input
           placeholder="Email address"
           type="text"
@@ -47,7 +46,7 @@ function LoginFormPage() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        {/* </label> */}
+       
         {errors.email && <p>{errors.email}</p>}
         {/* <label>
           Password */}
@@ -61,11 +60,7 @@ function LoginFormPage() {
         {/* </label> */}
         {errors.password && <p>{errors.password}</p>}
         <button type="submit">Sign In</button>
-        <h3>Remember email address</h3>
-        <div>Forgot password?</div>
-        <h4>
-          Not a Clickr member? <a href>Sign up here</a>
-        </h4>
+
       </form>
     </>
   );

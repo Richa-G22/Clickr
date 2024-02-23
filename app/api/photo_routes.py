@@ -37,7 +37,6 @@ def user_photos():
 
 # Get an photo for the logged in User by photo id
 @photo_routes.route("/<int:id>")
-@login_required
 def get_photo_by_id(id):
     photo = Photo.query.filter_by(id=id).first()
 
