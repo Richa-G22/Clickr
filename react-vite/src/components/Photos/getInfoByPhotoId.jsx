@@ -23,7 +23,7 @@ function GetPhotoDetails() {
 
   return (
     <div>
-        asdf
+        lots of bugs below, need to fix
     </div>
   )
 
