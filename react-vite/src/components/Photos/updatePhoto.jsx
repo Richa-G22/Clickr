@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { updatePhoto } from '../../redux/photoReducer';
+import { fetchPhotoDetails, updatePhoto } from '../../redux/photoReducer';
 
 function UpdatePhoto() {
     const { id } = useParams();
@@ -11,17 +11,22 @@ function UpdatePhoto() {
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
 
-    const photo1 = useSelector(state => state.photo.photos);
+    const photoDetails = useSelector(state => state.photo.photoDetails);
 
-    const photo = useSelector(state => state.photo);
+    useEffect(() => {
+        dispatch(fetchPhotoDetails(id));
+    }, [dispatch, id]);
 
-
-    const userId = useSelector(state => state.session.user.id);
-    // console.log("!!!!!!!!!!", userId)
-
-
-
-
+    useEffect(() => {
+    if (photoDetails) {
+        setFormFields({
+            label: photoDetails.label || '',
+            title: photoDetails.title || '',
+            description: photoDetails.description || '',
+            url: photoDetails.url || ''
+        });
+    }
+}, [photoDetails]);
 
     const [formFields, setFormFields] = useState({
         label: '',
@@ -30,24 +35,12 @@ function UpdatePhoto() {
         url: ''
     });
 
-
-    useEffect(() => {
-        if (photo1) {
-            setFormFields({
-                label: photo1.label || '',
-                title: photo1.title || '',
-                description: photo1.description || '',
-                url: photo1.url || ''
-            });
-        }
-    }, [dispatch, id, photo1]);
-
     const validate = () => {
         let errors = {};
 
-        if (!formFields.label.trim()) {
-            errors.label = 'Label is required';
-        }
+        // if (!formFields.label.trim()) {
+        //     errors.label = 'Label is required';
+        // }
 
         if (!formFields.title.trim()) {
             errors.title = 'Title is required';
@@ -56,11 +49,6 @@ function UpdatePhoto() {
         if (!formFields.description.trim()) {
             errors.description = 'Description is required';
         }
-         if (photo1.photos.userId !== userId) {
-           errors.unauthorized = "Unauthorized";
-         }
-
-
 
         if (!formFields.url.trim()) {
             errors.url = 'Photo URL is required';
@@ -73,36 +61,24 @@ function UpdatePhoto() {
         return Object.keys(errors).length === 0;
     };
 
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormFields({ ...formFields, [name]: value });
     };
 
     const handleSubmit = async (e) => {
-
-      e.preventDefault();
-      if (validate()) {
-
-        try {
-          // Dispatch the updatePhoto action with photo ID and updated data
-          await dispatch(updatePhoto(id, formFields)); // Use the id from the URL params
-          // Navigate to another route after successful update
-          navigate("/");
-        } catch (error) {
-
-          console.error("Error updating photo:", error);
+        e.preventDefault();
+        if (validate()) {
+            try {
+                await dispatch(updatePhoto(id, formFields));
+                navigate("/");
+            } catch (error) {
+                console.error("Error updating photo:", error);
+            }
+        } else {
+            console.log("Form has errors");
         }
-      } else {
-        console.log("Form has errors");
-      }
     };
-
-
-
-
-    ;
-
 
     return (
         <div>
@@ -111,7 +87,7 @@ function UpdatePhoto() {
                 <div>
                     <label>Label</label>
                     <input type="text" name="label" value={formFields.label} onChange={handleInputChange} />
-                    {errors.label && <span>{errors.label}</span>}
+                    {/* {errors.label && <span>{errors.label}</span>} */}
                 </div>
                 <div>
                     <label>Title</label>
