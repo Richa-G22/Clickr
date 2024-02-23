@@ -13,30 +13,12 @@ const UpdateAlbum = () => {
     console.log('.......currentAlbum........', currentAlbum);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const [title, setTitle] = useState(currentAlbum?.title);
-    // const [description, setDescription] = useState(currentAlbum?.description);
-    // const [image_url, setImage_url] = useState(currentAlbum?.image_url);
     const [title, setTitle] = useState(currentAlbum? currentAlbum.album.title : title);
     const [description, setDescription] = useState(currentAlbum? currentAlbum.album.description : description);
     const [image_url, setImage_url] = useState(currentAlbum? currentAlbum.album.image_url : image_url);
-    // const [title, setTitle] = useState('');
-    // const [description, setDescription] = useState('');
-    // const [image_url, setImage_url] = useState('');
     const [errors, setErrors] = useState({});
-    //const sessionUser = useSelector((state) => state.session.user);
-
-    //console.log('.......currentAlbum........',currentAlbum);
-    //const [isLoaded, setisLoaded] = useState(false);
-    // const currentSpot = useSelector((state) => state.spots[spotId]);
-
-    //   useEffect(() => {
-    //     const getData = async() => {
-    //         await dispatch(detailedAlbumThunk(albumId))
-    //         setisLoaded(true)
-    //     }
-    //     getData();
-    //     },[dispatch, albumId]);
-
+    let foundError = false;
+    
     useEffect(() => {
         dispatch(detailedAlbumThunk(albumId));
     }, [dispatch, albumId]);
@@ -49,31 +31,58 @@ const UpdateAlbum = () => {
         return <h1>Loading...</h1>
     }
 
+    const validate = () => {
+        foundError = false;
+        setErrors({});
+        console.log('.......inside validate........')
+    
+        if (!title) {
+          foundError = true;
+          setErrors((errors) => ({ ...errors, title: "Album Title is required" }));
+          console.log('...........inside title loop...........')
+          console.log('........title.....', title);
+        }
+    
+        if (image_url) {
+            if (!/^http(s)?:\/\/.+\..+$/.test(image_url.trim())) {
+                foundError = true;
+                setErrors((errors) => ({ ...errors, image_url: "Please enter a valid URL " }));
+                console.log('...........inside IMAGE_URL loop...........')
+                console.log('........IMAGE_URL.....', image_url);
+            }  
+        }
+    };
+
     console.log('..control here after detailed album current album...', currentAlbum)
 
     const handleSubmit = async (e) => {
-        // console.log('........state..........', state);
-        // console.log('..........inside handle submit..........');
-
         e.preventDefault();
         const albumPassed = {
             title,
             description,
             image_url
         };
-
+        
+        validate();
         try {
-            console.log("Hello world1")
-            console.log("######albumId, albumPassed", albumId, albumPassed)
-            const updatedAlbum = await dispatch(
-                editAlbumThunk(albumId, albumPassed ))
-            // console.log('..........control back to updated album component, updatedAlbum.........', updatedAlbum);
-        } catch (error) {
-            console.log("Hello error")
+            if (!foundError) {
+                const updatedAlbum = await dispatch(
+                    editAlbumThunk(albumId, albumPassed )
+            ). catch (async (res) => {
+                const data = await res.json();
+                if (data.errors) {
+                    setErrors((errors) => ({ ...errors, ...data.errors }));
+            } 
+            })
+        navigate('/albums/all')   
+        }} catch (error) {
+            const data = await error.json(); 
+            console.log('$$$$$$$$$$data', data)
+                if (data.errors) {
+                    setErrors((errors) => ({ ...errors, ...data.errors }));
+                }
         };
-
-        navigate('/albums/all')
-    }
+    };
 
     return (
         <form className="update-album-form" onSubmit={handleSubmit}>

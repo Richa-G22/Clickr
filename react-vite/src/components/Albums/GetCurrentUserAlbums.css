@@ -1,6 +1,6 @@
 .albums-grid {
     display: grid;
-    grid: 300px / repeat(auto-fit, 400px);
+    grid: 400px / repeat(auto-fit, 400px);
     max-width: 1600px;
     margin: 0px auto;
     padding-left: 100px;
@@ -17,6 +17,8 @@
     margin-right: 15px;
     margin-top: 0px;
     margin-bottom: 0px;
+    padding-bottom: 0px;
+    padding-top: 0px;
 }
 
 .album-image-div {
