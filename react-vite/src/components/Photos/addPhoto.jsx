@@ -28,9 +28,9 @@ function AddPhotos() {
     const validate = () => {
         let errors = {};
 
-        if (!photoData.label.trim()) {
-            errors.label = 'Label is required';
-        }
+        // if (!photoData.label.trim()) {
+        //     errors.label = 'Label is required';
+        // }
 
         if (!photoData.title.trim()) {
             errors.title = 'Title is required';
@@ -77,7 +77,7 @@ function AddPhotos() {
                 <div>
                     <label>Label</label>
                     <input type="text" name="label" value={photoData.label} onChange={handleChange} />
-                    {formErrors && formErrors.label && <p className="error">{formErrors.label}</p>}
+                    {/* {formErrors && formErrors.label && <p className="error">{formErrors.label}</p>} */}
                 </div>
                 <div>
                     <label>Title</label>
