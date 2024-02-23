@@ -67,7 +67,6 @@ function GetPhotoDetails() {
                     <EditComment props={{ comment: comment, photoId: id }} />
                   }
                 />
-
                 <OpenModalButton
                   buttonText={"Delete Comment"}
                   modalComponent={<DeleteComment comment={comment} />}
@@ -76,8 +75,6 @@ function GetPhotoDetails() {
             )}
           </div>
         ))}
-
-
       </div>
       </div>
     </div>
