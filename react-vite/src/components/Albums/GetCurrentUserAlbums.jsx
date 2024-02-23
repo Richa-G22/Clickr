@@ -34,7 +34,9 @@ const CurrentUserAlbums = () => {
                         {console.log('.....album.....', album)}
                         <div className='line-1'></div>
                         <div className="album-image-div">
-                            <img className="album-image" src={album.image_url} alt="preview" />
+                            {album.image_url?
+                            <img className="album-image" src={album.image_url} alt="Displaying default image" />
+                            :album.image_url="https://m.media-amazon.com/images/I/818A+u-utdL.jpg"}
                         </div>
                         <div className="desc-title">
                                 <div>{album.description}, {album.title}</div>
@@ -53,6 +55,7 @@ const CurrentUserAlbums = () => {
                                         onClick={() => navigate(`/spots/${spot.id}/edit`)}>Update
                                 </button>    */}
                         {/* </div>     */}
+                        
                     </NavLink>
                 ))}
             </div>

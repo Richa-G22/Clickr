@@ -4,9 +4,12 @@ import { useModal } from '../../context/Modal';
 import './AddPhotoToAlbumModal.css';
 import GetAllPhotos from '../Photos/GetAllPhotos';
 
-function AddPhotoToAlbumModal(albumId) {
-  console.log('......albumId inside addPhotoModal..albumId..',albumId.albumId, typeof(albumId));
+function AddPhotoToAlbumModal({albumId, photos_available}) {
+    console.log("Add photos to modal1", albumId);
+    console.log("Add photos to modal2", photos_available);
+  //console.log('......albumId inside addPhotoModal..albumId..',albumId.albumId, typeof(albumId));
   //console.log('......photoId inside addPhotoModal..photoId...',albumId.photoId, typeof(photoId));
+  //console.log('......available photos inside modal....', photos_available, typeof(photos_available));
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 

@@ -86,7 +86,6 @@ export const detailedAlbumThunk = (albumId) => async (dispatch) => {
             const data = await response.json();
             console.log('$$$$$$$$$$$$$$ before dispatch data', data)
             dispatch(getAlbumDetails(data));
-
             console.log('$$$$$$$$$$$$$$ after dispatch data', data)
             return data;
         } else {
@@ -156,9 +155,11 @@ export const editAlbumThunk = (id, album) => async (dispatch) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(album),
           });
-        // console.log('&&&&&&&&&&&&&&response', response)
+        console.log('&&&&&&&&&&&&&&response', response)
         if (response.ok) {
+            console.log('&&&&&&&&&&&&&&response', response)
                 const data = await response.json();
+                console.log('&&&&&&&&&&&&&&data', data)
                 dispatch(editAlbum(data));
                 return data;
         } else {
@@ -261,7 +262,11 @@ const albumsReducer = (state = initialState, action) => {
         case UPDATE_ALBUM: {
             console.log('.....inside update Reducer....');
             console.log('......newState before update......', newState);
-            return { ...state, [action.album.id]: action.album };
+            //return { ...state, [action.album.id]: action.album };
+            //return { ...state, [action.payload.albumId]: action.album };
+            newState.allAlbums[0] = action.payload.albumId
+            //newState.byId[album] = action.payload.albumId
+            return newState;
         }
 
         case ADD_PHOTO_TO_ALBUM : {
@@ -319,7 +324,7 @@ const albumsReducer = (state = initialState, action) => {
             console.log('-------------initial state......', initialState)
 
             newState.allAlbums = [action.payload];
-            console.log('[[[[[[[[[[[[[[[[[[[',action.payload.album.id)
+            //console.log('[[[[[[[[[[[[[[[[[[[',action.payload.album.id)
             newState.byId = {}
             newState.byId[action.payload.album.id] = action.payload;
             console.log('++++++++', newState);
