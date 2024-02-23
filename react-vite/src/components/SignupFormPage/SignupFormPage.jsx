@@ -7,9 +7,10 @@ function SignupFormPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const sessionUser = useSelector((state) => state.session.user);
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
   // const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -28,11 +29,11 @@ function SignupFormPage() {
 
     const serverResponse = await dispatch(
       thunkSignup({
+        username,
+        firstname,
+        lastname,
         email,
-        // username,
-        password,
-        firstName,
-        lastName
+        password
       })
     );
 
@@ -52,17 +53,17 @@ function SignupFormPage() {
         <input
           placeholder="First name"
           type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
+          value={firstname}
+          onChange={(e) => setFirstname(e.target.value)}
           required
         />
 
-        {errors.firstName && <p>{errors.firstName}</p>}
+        {errors.firstname && <p>{errors.firstname}</p>}
         <input
           placeholder="Last name"
           type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
+          value={lastname}
+          onChange={(e) => setLastname(e.target.value)}
           required
         />
 
@@ -78,15 +79,16 @@ function SignupFormPage() {
 
         {errors.email && <p>{errors.email}</p>}
         {/* <label>
-          Username
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </label>
-        {errors.username && <p>{errors.username}</p>} */}
+          Username */}
+        <input
+          type="text"
+          placeholder="Usename"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        {/* </label> */}
+        {errors.username && <p>{errors.username}</p>}
 
         <input
           placeholder="Password"

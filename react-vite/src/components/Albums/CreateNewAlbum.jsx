@@ -13,24 +13,68 @@ const NewAlbum = () => {
   const [photoId, setphotoId] = useState("");
   const [errors, setErrors] = useState({});
   const user = useSelector((state) => state.session.user.id);
+  let foundError = false;
+
+  const validate = () => {
+    foundError = false;
+    setErrors({});
+    console.log('.......inside validate........')
+
+    if (!title) {
+      foundError = true;
+      setErrors((errors) => ({ ...errors, title: "Album Title is required" }));
+      console.log('...........inside title loop...........')
+      console.log('........title.....', title);
+    }
+
+    if (image_url) {
+        if (!/^http(s)?:\/\/.+\..+$/.test(image_url.trim())) {
+            foundError = true;
+            setErrors((errors) => ({ ...errors, image_url: "Please enter a valid URL " }));
+            console.log('...........inside IMAGE_URL loop...........')
+            console.log('........IMAGE_URL.....', image_url);
+        }  
+    }};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-        const newAlbum =  await dispatch(
-        createNewAlbumThunk({ title, description, user, image_url }))
+    validate();
+    // try {
+    //     if (!foundError) {
+    //         const newAlbum =  await dispatch(
+    //         createNewAlbumThunk({ title, description, user, image_url }))
+    //     }
 
-    } catch (error) {
-        const errors = await error.json();
-        return errors;
-    }
-    navigate('/albums/all')
+    // } catch (error) {
+    //     const data = await error.json();
+    //     if (data.errors) {
+    //         setErrors((errors) => ({ ...errors, ...data.errors }));
+    //     }
+    // }
+    // navigate('/albums/all')
+        try {
+            if (!foundError) {
+                const newAlbum =  await dispatch(
+                createNewAlbumThunk({ title, description, user, image_url })
+            ). catch (async (res) => {
+                const data = await res.json();
+                if (data.errors) {
+                setErrors((errors) => ({ ...errors, ...data.errors }));
+            } 
+            })
+        navigate('/albums/all')
+        }} catch (error) {
+                const data = await error.json(); 
+                if (data.errors) {
+                    setErrors((errors) => ({ ...errors, ...data.errors }));
+                }
+        }
 };
 
     return (
         <form className="create-album-form" onSubmit={handleSubmit}>
             <h2>Create a new Album</h2>
-
+            <p className="h4">Description and Album Image fields are optional. If no image is provided, default image will be displayed.</p>
             <div className="input-row">
                 <label htmlFor="title">
                 Title <span className="error">{errors.title}</span>

@@ -14,6 +14,18 @@
     margin-bottom: 10px;
     width: 100%;
   }
+
+  .h4 {
+    font-style: italic;
+    font-size: 14px;
+    color: rgb(163, 45, 15);
+  }
+
+  .text {
+    display: flex;
+  
+    padding-top: 0px;
+  }
   
   .error {
     color: red;
