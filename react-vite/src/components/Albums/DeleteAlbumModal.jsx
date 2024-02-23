@@ -16,7 +16,7 @@ function DeleteAlbumModal( albumId ) {
             <p style={{ padding: "20px",paddingBottom: "0px",marginTop: 0, fontSize: "19px" }}>
               Are you sure you want to remove this album? </p>
             <button className='yes-button' onClick={() => dispatch(deleteAlbumThunk(albumId))
-                    .then(() => closeModal())} >Yes (Delete Album)
+                    .then(() => closeModal(), navigate("/albums/all"))} >Yes (Delete Album)
             </button>
             <button className='no-button' onClick={() => closeModal()}>No (Keep Album)
             </button><br></br>
