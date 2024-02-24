@@ -57,6 +57,7 @@ export const add_comment_thunk=(comment, photo)=>async(dispatch)=>{
 
     try {
         // console.log("%%%%%%photo", photo)
+
         const response = await fetch(`/api/comments/${photo.id}/postComments`, {
 
 
