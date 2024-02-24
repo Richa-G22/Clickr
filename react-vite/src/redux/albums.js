@@ -175,6 +175,7 @@ export const editAlbumThunk = (id, album) => async (dispatch) => {
 // Add a photo to an Album
 export const addPhotoToAlbumThunk = (albumId, photo) => async (dispatch) => {
     try {
+        console.log("......in add photo to album thunk", albumId, typeof(albumId), photo, typeof(photo))
         const response = await fetch(`/api/albums/add/${albumId}/${photo.id}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -183,7 +184,8 @@ export const addPhotoToAlbumThunk = (albumId, photo) => async (dispatch) => {
 
         if (response.ok) {
                      const data = await response.json();
-                     dispatch(addPhotoToAlbum(data));
+                     console.log(".........data.....", data)
+                     dispatch(addPhotoToAlbum(albumId, photo));
                      return data;
         } else {
             throw response;
@@ -274,7 +276,7 @@ const albumsReducer = (state = initialState, action) => {
             const newState = {...state}
             console.log('... new state ', newState )
             console.log('... payload ', action.payload)
-            newState.albums.push(action.payload);
+            newState.allAlbums[0].photos.push(action.payload.photo);
             return {...newState}
         }
 
