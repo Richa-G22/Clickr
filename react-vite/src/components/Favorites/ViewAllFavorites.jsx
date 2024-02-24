@@ -7,28 +7,33 @@ function ViewAllFavorites() {
     const dispatch = useDispatch();
     const favoritePhotos = useSelector(state => state.favorites.favorites || []);
     const photos = useSelector(state => state.photo.photos);
+    const isLoggedIn = useSelector(state => state.session.user);
 
     useEffect(() => {
         dispatch(fetchFavorites());
-        dispatch(fetchPhotos()); 
+        dispatch(fetchPhotos());
     }, [dispatch]);
 
     const favoriteImages = photos.filter(photo => favoritePhotos.find(fav => fav.photoId === photo.id));
 
     return (
         <div>
-            <h1>Favorites</h1>
-            {favoriteImages.length > 0 ? (
-                <div>
-                    {favoriteImages.map(image => (
-                        <div key={image.id}>
-                            <p>{image.title}</p>
-                            <img src={image.url} alt={image.title} />
-                        </div>
-                    ))}
-                </div>
+            {isLoggedIn ? (
+                favoriteImages.length > 0 ? (
+                    <div>
+                        <h1>Favorites</h1>
+                        {favoriteImages.map(image => (
+                            <div key={image.id}>
+                                <p>{image.title}</p>
+                                <img src={image.url} alt={image.title} />
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <p>No favorites added yet.</p>
+                )
             ) : (
-                <p>No favorites added yet.</p>
+                <p>Please log in to view your favorites.</p>
             )}
         </div>
     );
