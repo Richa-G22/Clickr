@@ -8,15 +8,6 @@ function Navigation() {
 
   return (
     <div>
-<ul className="nav-menu">
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-
-      <li className="profile-button">
-        <ProfileButton />
-      </li>
-    </ul>
     <div>
         <nav className="nav-header">
             <NavLink style={{ textDecoration: "none" }}  to="/">
@@ -40,6 +31,9 @@ function Navigation() {
               </NavLink>
               <NavLink style={{ textDecoration: "none", paddingLeft: '150px' }}  to="/albums/all">
                   <div style={{ paddingTop: "2px", color: "black" }}>Albums</div>
+              </NavLink>
+              <NavLink style={{ textDecoration: "none", paddingLeft: '150px' }}  to="/favorites">
+                  <div style={{ paddingTop: "2px", color: "black" }}>Favorites</div>
               </NavLink>
           </div>
       </nav>

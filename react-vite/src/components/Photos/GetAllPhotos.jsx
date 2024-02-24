@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate,NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPhotos } from "../../redux/photoReducer";
-import { favoritePhoto, removeFromFavorites } from '../../redux/favorites';
+import { favoritePhoto, fetchFavorites, removeFromFavorites } from '../../redux/favorites';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import ManagePhotoModal from './managePhotoModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
-import { faHeart as regularHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { useModal } from '../../context/Modal';
 // import '../Albums/GetCurrentUserAlbums.css'
 
@@ -19,63 +19,78 @@ function GetAllPhotos() {
     const [selectedPhotoId, setSelectedPhotoId] = useState(null);
     const [favorites, setFavorites] = useState([]);
     const photos = useSelector(state => state.photo.photos);
+    const currentUser = useSelector(state => state.session.user);
 
     useEffect(() => {
         dispatch(fetchPhotos());
     }, [dispatch]);
 
+    useEffect(() => {
+        if (currentUser) {
+
+            dispatch(fetchFavorites(currentUser.id))
+                .then(response => {
+
+                    setFavorites(response.data);
+                })
+                .catch(error => {
+                    console.error("Error fetching favorites:", error);
+                });
+        }
+    }, [dispatch, currentUser]);
+
     const closeModal = () => {
         setShowModal(false);
     };
 
-     const handleManageClick = (id) => {
+    const handleManageClick = (id) => {
         setSelectedPhotoId(id);
         setModalContent(<ManagePhotoModal id={id} />);
         setShowModal(true);
     };
 
-    // const handleImageClick = (id) => {
-    //     console.log("Clicked photo id:", id);
-    //     navigate(`/${id}`);
-    // };
-
     const handleHeartClick = (photoId) => {
-        const isFavorite = favorites.find(fav => fav.photoId === photoId);
+    const isFavorite = favorites.find(fav => fav.photoId === photoId);
 
-        if (!isFavorite) {
-            dispatch(favoritePhoto(photoId));
-            setFavorites([...favorites, { photoId }]);
+    if (!isFavorite) {
+        dispatch(favoritePhoto(photoId));
+        setFavorites(prevFavorites => [...prevFavorites, { photoId }]);
+        alert('Photo has been favorited!');
+    } else {
+        dispatch(removeFromFavorites(photoId));
+        setFavorites(prevFavorites => prevFavorites.filter(fav => fav.photoId !== photoId));
+        alert('Photo has been removed from favorites!');
+    }
+};
+
+    const renderManageButton = (photo) => {
+        if (currentUser && currentUser.id === photo.userId) {
+            return (
+                <OpenModalButton
+                    buttonText="Manage"
+                    modalComponent={<ManagePhotoModal id={photo.id} />}
+                    onButtonClick={() => handleManageClick(photo.id)}
+                />
+            );
         } else {
-            dispatch(removeFromFavorites(photoId));
-            setFavorites(favorites.filter(fav => fav.photoId !== photoId));
+            return null;
         }
-    };
-
-    const toggleModal = () => {
-        setShowModal(!showModal);
-    };
-
-    const renderManageButton = (id) => {
-        return (
-            <OpenModalButton
-                buttonText="Manage"
-                modalComponent={<ManagePhotoModal id={id} />}
-                onButtonClick={() => handleManageClick(id)} // Pass the id to handleManageClick
-            />
-        );
     };
 
     return (
         <div>
-            <NavLink to="/new" className='menu no-outline' style={{ textDecoration: "none", color: 'grey', fontSize: '18px' }}>Add Photo</NavLink>
+            {currentUser && (
+                <NavLink to="/new" className='menu no-outline' style={{ textDecoration: "none", color: 'grey', fontSize: '18px' }}>Add Photo</NavLink>
+            )}
 
             <div className='photos-grid'>
                 {photos.map(photo => (
                     <div key={photo.id} className='album-div'>
-
-                            <NavLink to={`/${photo.id}`} className='album-div'><img src={photo.url} alt={photo.title}  className='line-1'/></NavLink>
+                        <NavLink to={`/${photo.id}`} className='album-div'>
+                            <img src={photo.url} alt={photo.title} className='line-1' />
+                        </NavLink>
                         <div className='manage-buttons'>
-                            {renderManageButton(photo.id)}
+                            {renderManageButton(photo)}
                             <FontAwesomeIcon
                                 icon={favorites.find(fav => fav.photoId === photo.id) ? solidHeart : regularHeart}
                                 onClick={() => handleHeartClick(photo.id)}
@@ -86,9 +101,6 @@ function GetAllPhotos() {
             </div>
             {showModal && <Modal />}
         </div>
-
-
-
     );
 }
 

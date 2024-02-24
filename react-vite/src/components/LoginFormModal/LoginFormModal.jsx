@@ -30,6 +30,13 @@ function LoginFormModal() {
     }
   };
 
+  const handleDemoLogin = async (e) => {
+  e.preventDefault();
+  setEmail('demo@aa.io');
+  setPassword('password');
+
+};
+
   return (
     <>
       <div className="login-div">
@@ -45,6 +52,7 @@ function LoginFormModal() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+
             />
           </div>
 
@@ -57,6 +65,7 @@ function LoginFormModal() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+
             />
           </div>
           {errors.password && <p>{errors.password}</p>}
@@ -64,16 +73,15 @@ function LoginFormModal() {
           <button className="signIn-btn" type="submit">
             Sign In
           </button>
+          <div className="demo-link">
+        <p>
+          <a href="#" className="demo-user-link" onClick={handleDemoLogin}>
+             Demo User
+          </a>
+        </p>
+      </div>
 
-          <div className="remember_email">
-            <div>
-              <h4>Remember email address</h4>
-            </div>
-          </div>
-          <div>Forgot password?</div>
-          <div>
-            Not a Clickr member? <a href>Sign up here</a>
-          </div>
+
         </form>
       </div>
     </>
