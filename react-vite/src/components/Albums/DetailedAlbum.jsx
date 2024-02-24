@@ -14,26 +14,22 @@ import CurrentUserAlbums from "./GetCurrentUserAlbums";
 const DetailedAlbum = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    //console.log('.......inside detailed Album function........');
     const { id } = useParams();
     const albumId = parseInt(id);
-    //console.log('.....albumId......', albumId, typeof(albumId));
-    const sessionUser = useSelector((state) => state.session.user);
-    
+   
+    const sessionUser = useSelector((state) => state.session.user);  
     const currentAlbum = useSelector((state) => state.albums.allAlbums[0]);
     const photos_available = useSelector((state) => state.photo.photos);
-    //const photos_array = [...Object.values(photos_avaiable)]
-    //console.log("+++++++++++photos++++++++", photos_available, typeof(photos_available));
-    //console.log("+++++++++++photos_element++++++++", photos_array, typeof(photos_array));
 
-    if (!currentAlbum) {
-        return (
-            <div>
-                <h1>404 : Requested album does not exist</h1>
-            </div>
-        )
-    }
-    //console.log('.......currentAlbum........',currentAlbum);
+
+    // if (!currentAlbum) {
+    //     return (
+    //         <div>
+    //             <h1>404 : Requested album does not exist</h1>
+    //         </div>
+    //     )
+    // }
+    
     const [isLoaded, setisLoaded] = useState(false);
 
     useEffect(() => {
@@ -48,14 +44,15 @@ const DetailedAlbum = () => {
         getData();
     },[dispatch, albumId]);
 
-    if (!currentAlbum) { 
-        return <h1>Loading...</h1>
-    }
+    // if (!currentAlbum) { 
+    //     return <h1>Loading...</h1>
+    // }
     
     console.log("Detailed Album here", photos_available);
     return (
-            <div>  
-                  
+        <div> 
+        { currentAlbum ? 
+            <div>
                 <div className='menu'>
                         <div>
                         <OpenModalButton 
@@ -109,9 +106,10 @@ const DetailedAlbum = () => {
                     <span>Loading..</span>
                 } 
                 </div>  
-            </div>   
+            </div>
+            : <h2> 404 : Requested album does not exist</h2> }
+        </div>   
     );
-
 }
 
 export default DetailedAlbum;
