@@ -28,6 +28,8 @@ const CreateNewComment = ({ photo }) => {
       return;
     }
 
+    
+
     // // Special Characters Validation
     // const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
     // if (specialCharsRegex.test(comment1)) {
