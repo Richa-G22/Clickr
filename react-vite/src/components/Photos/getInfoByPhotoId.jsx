@@ -79,7 +79,7 @@ function GetPhotoDetails() {
           ))}
         </div>
       </div>
-      <div>
+      {/* <div>
         <h1>Photo Details</h1>
         {photoDetails && (
           <div>
@@ -88,9 +88,9 @@ function GetPhotoDetails() {
             <img src={photoDetails.url} alt={photoDetails.title} />
           </div>
         )}
-      </div>
+      </div> */}
 
-      <div>
+      {/* <div>
         <h3>comments</h3>
         <div>
           {allComments.length === 0 && (
@@ -108,8 +108,8 @@ function GetPhotoDetails() {
           <CreateNewComment photo={photoDetails} />
         </div>
         )}
-      </div>
-      <div>
+      </div> */}
+      {/* <div>
         {allComments.map((comment) => (
           <div key={comment.id}>
             <div>
@@ -132,8 +132,8 @@ function GetPhotoDetails() {
             )}
           </div>
         ))}
-      </div>
-      </div>
+      </div> */}
+      {/* </div> */}
     </div>
   );
 }
