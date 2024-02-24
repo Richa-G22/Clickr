@@ -28,14 +28,14 @@ const CreateNewComment = ({ photo }) => {
       return;
     }
 
-    // Special Characters Validation
-    const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
-    if (specialCharsRegex.test(comment1)) {
-      setErrors({
-        comment: "Sorry!! special characters are not allowed",
-      });
-      return;
-    }
+    // // Special Characters Validation
+    // const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    // if (specialCharsRegex.test(comment1)) {
+    //   setErrors({
+    //     comment: "Sorry!! special characters are not allowed",
+    //   });
+    //   return;
+    // }
 
     try {
       await dispatch(add_comment_thunk(comment1, photo));
