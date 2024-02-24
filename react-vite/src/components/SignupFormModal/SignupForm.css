@@ -39,3 +39,8 @@
     background-color: rgb(51, 141, 225);
     width: 100%;
 }
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
