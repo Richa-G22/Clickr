@@ -67,7 +67,7 @@ const EditComment = (props) => {
               >
                 <button
                   type="submit"
-                  style={{ marginRight: "5px", fontSize: "20px" }}
+                  style={{ marginRight: "5px", fontSize: "25px" }}
                 >
                   Edit comment
                 </button>
@@ -78,7 +78,7 @@ const EditComment = (props) => {
               >
                 <button
                   type="button"
-                  style={{ marginRight: "5px", fontSize: "30px" }}
+                  style={{ marginRight: "5px", fontSize: "25px", color:"gray" }}
                   onClick={handleCancelSubmit}
                 >
                   Cancel

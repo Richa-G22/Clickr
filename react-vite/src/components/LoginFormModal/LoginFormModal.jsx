@@ -52,11 +52,10 @@ function LoginFormModal() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-
             />
           </div>
 
-          {errors.email && <p>{errors.email}</p>}
+          {errors.email && <p className="error-message">{errors.email}</p>}
           <div className="div-login-label">
             <input
               className="login-input"
@@ -65,23 +64,22 @@ function LoginFormModal() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-
             />
           </div>
-          {errors.password && <p>{errors.password}</p>}
+          {errors.password && (
+            <p className="error-message">{errors.password}</p>
+          )}
 
           <button className="signIn-btn" type="submit">
             Sign In
           </button>
           <div className="demo-link">
-        <p>
-          <a href="#" className="demo-user-link" onClick={handleDemoLogin}>
-             Demo User
-          </a>
-        </p>
-      </div>
-
-
+            <p>
+              <a href="#" className="demo-user-link" onClick={handleDemoLogin}>
+                Demo User
+              </a>
+            </p>
+          </div>
         </form>
       </div>
     </>
