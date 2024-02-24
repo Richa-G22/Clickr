@@ -28,17 +28,10 @@
     margin-top: 10px;
     justify-content: center;
 
-    color: black;
-        padding: 10px 20px;
-        display: flex;
-        flex-direction: column;
-        font-size: 25px;
-        border: 5px;
-        cursor: pointer;
-        background-color: rgb(50, 138, 204);
-        margin-left: 250px;
-        margin-top: 10px;
-        justify-content: center;
+
+        /* display: flex;
+        flex-direction: column; */
+
 
 }
 
@@ -47,4 +40,5 @@
     display: flex;
     width:100%;
     max-width: 400px;
+    
 }

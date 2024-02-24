@@ -27,6 +27,18 @@ function SignupFormPage() {
     //   });
     // }
 
+    const validationErrors = {};
+    if (!username.trim()) validationErrors.username = "Username is required";
+    if (!firstname.trim()) validationErrors.firstname = "First name is required";
+    if (!lastname.trim()) validationErrors.lastname = "Last name is required";
+    if (!email.trim()) validationErrors.email = "Email is required";
+    if (!password.trim()) validationErrors.password = "Password is required";
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     const serverResponse = await dispatch(
       thunkSignup({
         username,
@@ -48,7 +60,7 @@ function SignupFormPage() {
     <>
       <i className="fa-brands fa-flickr"></i>
       <h1>Sign Up for Clickr</h1>
-      {errors.server && <p>{errors.server}</p>}
+      {errors.server && <p className="error-message">{errors.server}</p>}
       <form onSubmit={handleSubmit}>
         <input
           placeholder="First name"
@@ -58,7 +70,9 @@ function SignupFormPage() {
           required
         />
 
-        {errors.firstname && <p>{errors.firstname}</p>}
+        {errors.firstname && (
+          <p className="error-message">{errors.firstname}</p>
+        )}
         <input
           placeholder="Last name"
           type="text"
@@ -67,17 +81,17 @@ function SignupFormPage() {
           required
         />
 
-        {errors.lastName && <p>{errors.lastName}</p>}
+        {errors.lastname && <p className="error-message">{errors.lastname}</p>}
 
         <input
           placeholder="Email address"
-          type="text"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
 
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p className="error-message">{errors.email}</p>}
         {/* <label>
           Username */}
         <input
@@ -88,7 +102,7 @@ function SignupFormPage() {
           required
         />
         {/* </label> */}
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <p className="error-message">{errors.username}</p>}
 
         <input
           placeholder="Password"
@@ -98,7 +112,7 @@ function SignupFormPage() {
           required
         />
 
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <p className="error-message">{errors.password}</p>}
         {/* <label>
           Confirm Password
           <input

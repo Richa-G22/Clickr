@@ -47,7 +47,7 @@ function SignupFormModal() {
       <div className="signup-div">
         <i className="fa-brands fa-flickr"></i>
         <h1>Sign Up for Clickr</h1>
-        {errors.server && <p>{errors.server}</p>}
+        {errors.server && <p className="error-message">{errors.server}</p>}
         <form className="signup-form" onSubmit={handleSubmit}>
           <div className="signup-label-div">
             <input
@@ -59,7 +59,9 @@ function SignupFormModal() {
               required
             />
           </div>
-          {errors.firstname && <p>{errors.firstname}</p>}
+          {errors.firstname && (
+            <p className="error-message">{errors.firstname}</p>
+          )}
           <div className="signup-label-div">
             <input
               className="signup-input"
@@ -71,7 +73,9 @@ function SignupFormModal() {
             />
           </div>
 
-          {errors.lastname && <p>{errors.lastname}</p>}
+          {errors.lastname && (
+            <p className="error-message">{errors.lastname}</p>
+          )}
 
           <div className="signup-label-div">
             <input
@@ -84,7 +88,7 @@ function SignupFormModal() {
             />
           </div>
 
-          {errors.email && <p>{errors.email}</p>}
+          {errors.email && <p className="error-message">{errors.email}</p>}
           {/* <label>
             Username */}
           <input
@@ -96,7 +100,9 @@ function SignupFormModal() {
             required
           />
           {/* </label> */}
-          {errors.username && <p>{errors.username}</p>}
+          {errors.username && (
+            <p className="error-message">{errors.username}</p>
+          )}
 
           <div className="signup-label-div">
             <input
@@ -109,7 +115,9 @@ function SignupFormModal() {
             />
           </div>
 
-          {errors.password && <p>{errors.password}</p>}
+          {errors.password && (
+            <p className="error-message">{errors.password}</p>
+          )}
           {/* <label>
           Confirm Password
           <input
