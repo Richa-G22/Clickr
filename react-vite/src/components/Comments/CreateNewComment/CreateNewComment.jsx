@@ -3,6 +3,7 @@ import "./createNewComment.css";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { add_comment_thunk } from "../../../redux/comments";
+import { get_comments_thunk } from "../../../redux/comments";
 
 const CreateNewComment = ({ photo }) => {
   const dispatch = useDispatch();
@@ -18,6 +19,11 @@ const CreateNewComment = ({ photo }) => {
     navigate("/");
   }
 
+      useEffect(() => {
+        setErrors({});
+      }, [comment1]);
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -28,7 +34,7 @@ const CreateNewComment = ({ photo }) => {
       return;
     }
 
-    
+
 
     // // Special Characters Validation
     // const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
@@ -41,6 +47,7 @@ const CreateNewComment = ({ photo }) => {
 
     try {
       await dispatch(add_comment_thunk(comment1, photo));
+
       setComment1("");
       setErrors({});
     } catch (error) {

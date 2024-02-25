@@ -1,5 +1,5 @@
 import "./editcommentModal.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { edit_comment_thunk } from "../../../redux/comments";
 // import { useParams } from "react-router-dom";
@@ -22,12 +22,29 @@ const EditComment = (props) => {
   const user = useSelector((state) => state.session.user);
   // console.log("**************", props.props.comment);
 
+  useEffect(() => {
+    setErrors({});
+  }, [comment]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
+
+    // console.log("****comment", comment, comment.length)
+    const trimmedComment = comment.trim();
+    // console.log("^^^^trimmedcomment", trimmedComment, trimmedComment.length)
+    if (!comment.trim()) {
+      setErrors({ comment: "Comment cannot be empty" });
+      return;
+    }
+
     setErrors({});
 
-    const response = dispatch(edit_comment_thunk(comment, commentId, photoId));
+    const response = dispatch(
+      edit_comment_thunk(trimmedComment, commentId, photoId)
+    );
+
+    // console.log("$$$$trimmend", trimmedComment.length);
     closeModal();
     // console.log("~~~~~~~~~~~~~~~", response)
   };
@@ -61,10 +78,7 @@ const EditComment = (props) => {
                 value={comment}
                 style={{ width: "100%", padding: "5px", marginBottom: "10px" }}
               ></textarea>
-              <div
-                className="edit-button"
-                style={{ textAlign: "center",  }}
-              >
+              <div className="edit-button" style={{ textAlign: "center" }}>
                 <button
                   type="submit"
                   style={{ marginRight: "5px", fontSize: "25px" }}
@@ -78,7 +92,11 @@ const EditComment = (props) => {
               >
                 <button
                   type="button"
-                  style={{ marginRight: "5px", fontSize: "25px", color:"gray" }}
+                  style={{
+                    marginRight: "5px",
+                    fontSize: "25px",
+                    color: "gray",
+                  }}
                   onClick={handleCancelSubmit}
                 >
                   Cancel

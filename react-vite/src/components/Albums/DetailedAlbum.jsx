@@ -20,15 +20,6 @@ const DetailedAlbum = () => {
     const sessionUser = useSelector((state) => state.session.user);  
     const currentAlbum = useSelector((state) => state.albums.allAlbums[0]);
     const photos_available = useSelector((state) => state.photo.photos);
-
-
-    // if (!currentAlbum) {
-    //     return (
-    //         <div>
-    //             <h1>404 : Requested album does not exist</h1>
-    //         </div>
-    //     )
-    // }
     
     const [isLoaded, setisLoaded] = useState(false);
 
@@ -43,10 +34,6 @@ const DetailedAlbum = () => {
         }
         getData();
     },[dispatch, albumId]);
-
-    // if (!currentAlbum) { 
-    //     return <h1>Loading...</h1>
-    // }
     
     console.log("Detailed Album here", photos_available);
     return (
@@ -82,16 +69,16 @@ const DetailedAlbum = () => {
                     {isLoaded?
                     currentAlbum.photos.map((photo) => (             
                         <NavLink key={photo.id} className="photo-div" title={photo.title}>
-                            {console.log('.....photo.....', photo)} 
+                           
                             <div className='line-1'></div>
                             <div className="photo-image-div">
-                                <img className="photo-image" src={photo.url} alt="preview" />
+                                <img className="photo-image" src={photo.url} alt="preview" 
+                                onClick={() => navigate(`/${photo.id}`)}/>
                             </div> 
                             <div className="desc-title">
-                                    <div>{photo.description}, {photo.title}</div>
+                                    <div>{photo.title} , {photo.description} </div>
                             </div>
-                            {console.log(photo.id)}   
-                            {console.log('##### albumId ######', albumId, typeof(albumId))}
+                             
                             <div className="buttons">      
                                 <OpenModalButton 
                                     buttonText="Delete Photo"
