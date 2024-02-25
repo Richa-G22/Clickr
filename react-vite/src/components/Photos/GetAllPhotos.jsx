@@ -16,52 +16,77 @@ function GetAllPhotos() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { showModal, setShowModal, setModalContent } = useModal();
-    const [selectedPhotoId, setSelectedPhotoId] = useState(null);
     const [favorites, setFavorites] = useState([]);
+    const [favoritesInitialized, setFavoritesInitialized] = useState(false);
     const photos = useSelector(state => state.photo.photos);
     const currentUser = useSelector(state => state.session.user);
 
     useEffect(() => {
-        dispatch(fetchPhotos());
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (currentUser) {
+    dispatch(fetchPhotos());
+    if (currentUser && !favoritesInitialized) {
+        const savedFavorites = localStorage.getItem('favorites');
+        if (savedFavorites) {
+            setFavorites(JSON.parse(savedFavorites));
+        } else {
 
             dispatch(fetchFavorites(currentUser.id))
                 .then(response => {
-
-                    setFavorites(response.data);
+                    if (response && response.payload && response.payload.favorites) {
+                        const userFavorites = response.payload.favorites.map(favorite => favorite.photoId);
+                        setFavorites(userFavorites);
+                        localStorage.setItem('favorites', JSON.stringify(userFavorites));
+                    } else {
+                        console.error("Error fetching favorites: Invalid response format");
+                    }
+                    setFavoritesInitialized(true);
                 })
                 .catch(error => {
                     console.error("Error fetching favorites:", error);
+                    setFavoritesInitialized(true);
                 });
         }
-    }, [dispatch, currentUser]);
+        setFavoritesInitialized(true);
+    } else {
+
+        setFavorites([]);
+        localStorage.removeItem('favorites');
+        setFavoritesInitialized(false);
+    }
+}, [dispatch, currentUser, favoritesInitialized]);
 
     const closeModal = () => {
         setShowModal(false);
     };
 
     const handleManageClick = (id) => {
-        setSelectedPhotoId(id);
         setModalContent(<ManagePhotoModal id={id} />);
         setShowModal(true);
     };
 
-    const handleHeartClick = (photoId) => {
-    const isFavorite = favorites.find(fav => fav.photoId === photoId);
+    const handleFavoriteToggle = (photoId) => {
+        if (!currentUser) return;
+        const isCurrentlyFavorited = favorites.includes(photoId);
 
-    if (!isFavorite) {
-        dispatch(favoritePhoto(photoId));
-        setFavorites(prevFavorites => [...prevFavorites, { photoId }]);
-        alert('Photo has been favorited!');
-    } else {
-        dispatch(removeFromFavorites(photoId));
-        setFavorites(prevFavorites => prevFavorites.filter(fav => fav.photoId !== photoId));
-        alert('Photo has been removed from favorites!');
-    }
-};
+        if (!isCurrentlyFavorited) {
+            dispatch(favoritePhoto(photoId))
+                .then(() => {
+                    setFavorites(prevFavorites => [...prevFavorites, photoId]);
+                    localStorage.setItem('favorites', JSON.stringify([...favorites, photoId]));
+                })
+                .catch(error => {
+                    console.error("Error favoriting photo:", error);
+                });
+        } else {
+            dispatch(removeFromFavorites(photoId))
+                .then(() => {
+                    setFavorites(prevFavorites => prevFavorites.filter(id => id !== photoId));
+                    localStorage.setItem('favorites', JSON.stringify(favorites.filter(id => id !== photoId)));
+                })
+                .catch(error => {
+                    console.error("Error unfavoriting photo:", error);
+                });
+        }
+    };
 
     const renderManageButton = (photo) => {
         if (currentUser && currentUser.id === photo.userId) {
@@ -77,6 +102,18 @@ function GetAllPhotos() {
         }
     };
 
+    const isFavorite = (photoId) => {
+        return favorites.includes(photoId);
+    };
+
+    useEffect(() => {
+        
+        if (!currentUser) {
+            setFavorites([]);
+            localStorage.removeItem('favorites');
+        }
+    }, [currentUser]);
+
     return (
         <div>
             {currentUser && (
@@ -91,10 +128,11 @@ function GetAllPhotos() {
                         </NavLink>
                         <div className='manage-buttons'>
                             {renderManageButton(photo)}
-                            <FontAwesomeIcon
-                                icon={favorites.find(fav => fav.photoId === photo.id) ? solidHeart : regularHeart}
-                                onClick={() => handleHeartClick(photo.id)}
-                            />
+                            {currentUser && (
+                                <button onClick={() => handleFavoriteToggle(photo.id)} >
+                                    {favorites.includes(photo.id) ? 'Unfavorite' : 'Favorite'}
+                                </button>
+                            )}
                         </div>
                     </div>
                 ))}

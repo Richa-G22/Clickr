@@ -20,6 +20,12 @@ function GetPhotoDetails() {
     dispatch(fetchPhotoDetails(id));
     dispatch(get_comments_thunk(id));
   }, [dispatch, id]);
+
+  if (!photoDetails) {
+    
+    return <h1>404 - Photo Not Found</h1>;
+  }
+
   return (
     <div>
       <div>
