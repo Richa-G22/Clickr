@@ -83,7 +83,7 @@ export const add_comment_thunk=(comment, photo)=>async(dispatch)=>{
 
 
 export const edit_comment_thunk=(comment, id, photoId ) =>async(dispatch)=> {
-    console.log("&&&&&&&&comment", comment, id)
+    // console.log("&&&&&&&&comment", comment, id)
     try {
         const response = await fetch(`/api/comments/update/${id}`, {
             method: "PUT",
