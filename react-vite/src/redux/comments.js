@@ -70,6 +70,7 @@ export const add_comment_thunk=(comment, photo)=>async(dispatch)=>{
             const data = await response.json();
             // console.log("!!!!!!data", data)
             dispatch(add_Comment(data));
+            dispatch(get_comments_thunk(photo.id))
 
             return data;
         }else {
@@ -93,6 +94,7 @@ export const edit_comment_thunk=(comment, id, photoId ) =>async(dispatch)=> {
         if (response.ok) {
             const data = await response.json();
             dispatch(edit_Comment(data));
+            dispatch(get_comments_thunk(photoId))
             return data;
         }else {
             throw response;

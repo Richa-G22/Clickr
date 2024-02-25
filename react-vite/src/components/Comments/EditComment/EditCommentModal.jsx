@@ -1,5 +1,5 @@
 import "./editcommentModal.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { edit_comment_thunk } from "../../../redux/comments";
 // import { useParams } from "react-router-dom";
@@ -22,9 +22,14 @@ const EditComment = (props) => {
   const user = useSelector((state) => state.session.user);
   // console.log("**************", props.props.comment);
 
+  useEffect(() => {
+    setErrors({});
+  }, [comment]);
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     setErrors({});
 
     const response = dispatch(edit_comment_thunk(comment, commentId, photoId));
