@@ -24,6 +24,7 @@ const CurrentUserAlbums = () => {
                         <NavLink style={{ textDecoration: "none", color: 'grey', fontSize: '18px' }}
                             to="/albums/new"><i className="fa-sharp fa-thin fa-plus"></i>&nbsp;New Album</NavLink>&nbsp;&nbsp;&nbsp;
                     </div>
+                    {allAlbums.length?
                     <div className="albums-grid">
                         {allAlbums.map((album) => (
                             <NavLink key={album.id} className="album-div" to={`/albums/${album.id}`} title={album.title}>
@@ -36,11 +37,17 @@ const CurrentUserAlbums = () => {
                                     }
                                 </div>
                                 <div className="desc-title">
-                                    <div>{album.description}, {album.title}</div>
+                                    { album.description ?
+                                    <div>
+                                        <div>Title: {album.title}</div>
+                                        <div>Description: {album.description} </div>
+                                    </div>
+                                    : <div>Title: {album.title} </div> }
                                 </div>
                             </NavLink>
                         ))}
                     </div>
+                    : <div><h3>Let's create your first album</h3></div>}
                 </div>
             : <h2>Log in required to view albums..</h2> }
         </div>
