@@ -16,19 +16,19 @@ function GetAllPhotos() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { showModal } = useModal();
-    const [favorites, setFavorites] = useState([]); // State to hold user favorites
+    const [favorites, setFavorites] = useState([]); 
     const photos = useSelector(state => state.photo.photos);
     const currentUser = useSelector(state => state.session.user);
 
     useEffect(() => {
         dispatch(fetchPhotos());
         if (currentUser) {
-            // Fetch user's favorites if logged in
+
             dispatch(fetchFavorites(currentUser.id))
                 .then(response => {
                     if (response && response.data) {
                         const userFavorites = response.data.map(favorite => favorite.photoId);
-                        setFavorites(userFavorites); // Update favorites state
+                        setFavorites(userFavorites);
                     }
                 })
                 .catch(error => {
@@ -38,7 +38,7 @@ function GetAllPhotos() {
     }, [dispatch, currentUser]);
 
     useEffect(() => {
-        // Load favorites from local storage when the component mounts
+
         const storedFavorites = localStorage.getItem(`favorites_${currentUser ? currentUser.id : 'guest'}`);
         if (storedFavorites) {
             setFavorites(JSON.parse(storedFavorites));
@@ -52,7 +52,7 @@ function GetAllPhotos() {
         if (!isCurrentlyFavorited) {
             dispatch(favoritePhoto(photoId))
                 .then(() => {
-                    setFavorites(prevFavorites => [...prevFavorites, photoId]); // Update favorites state
+                    setFavorites(prevFavorites => [...prevFavorites, photoId]);
                     localStorage.setItem(`favorites_${currentUser ? currentUser.id : 'guest'}`, JSON.stringify([...favorites, photoId])); // Update local storage
                 })
                 .catch(error => {
@@ -70,7 +70,7 @@ function GetAllPhotos() {
         }
     };
 
-    // Render manage button based on whether current user owns the photo
+
     const renderManageButton = (photo) => {
         if (currentUser && currentUser.id === photo.userId) {
             return (
@@ -86,7 +86,7 @@ function GetAllPhotos() {
     };
 
     useEffect(() => {
-        // Clear favorites state and local storage when the user logs out
+
         if (!currentUser) {
             setFavorites([]);
             localStorage.removeItem(`favorites_guest`);
