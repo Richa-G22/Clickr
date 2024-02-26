@@ -3,19 +3,42 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
 import { createPhoto } from '../../redux/photoReducer';
 
+// Function to check if the URL leads to an image
+const checkImageUrl = async (imageUrl) => {
+    const supportedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+    const urlParts = imageUrl.split('.');
+    const extension = urlParts[urlParts.length - 1].toLowerCase();
+
+    
+    if (supportedExtensions.includes(extension)) {
+        return true;
+    }
+
+
+    try {
+        const response = await fetch(imageUrl);
+        if (response.ok) {
+            const contentType = response.headers.get('content-type');
+            return contentType.startsWith('image/');
+        } else {
+            return false;
+        }
+    } catch (error) {
+        console.error('Error checking image URL:', error);
+        return false;
+    }
+};
+
 function AddPhotos() {
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const errors = useSelector(state => state.photo.error);
-    // console.log(errors, '**********')
     const [photoData, setPhotoData] = useState({
-        // label: '',
         title: '',
         description: '',
         url: ''
     });
-
-     const [formErrors, setFormErrors] = useState({});
+    const [formErrors, setFormErrors] = useState({});
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,12 +48,8 @@ function AddPhotos() {
         }));
     };
 
-    const validate = () => {
+    const validate = async () => {
         let errors = {};
-
-        // if (!photoData.label.trim()) {
-        //     errors.label = 'Label is required';
-        // }
 
         if (!photoData.title.trim()) {
             errors.title = 'Title is required';
@@ -44,6 +63,12 @@ function AddPhotos() {
             errors.url = 'URL is required';
         } else if (!/^http(s)?:\/\/.+\..+$/.test(photoData.url.trim())) {
             errors.url = 'Enter a valid URL';
+        } else {
+
+            const isImage = await checkImageUrl(photoData.url.trim());
+            if (!isImage) {
+                errors.url = 'URL must lead to an image (JPEG, JPG, GIF, or PNG)';
+            }
         }
 
         setFormErrors(errors);
@@ -52,33 +77,24 @@ function AddPhotos() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const isValid = validate();
+        const isValid = await validate();
         if (isValid) {
             try {
                 await dispatch(createPhoto(photoData));
                 navigate('/');
             } catch (error) {
                 console.error('Error creating photo:', error.message);
-
             }
         } else {
-
             console.log('Form has errors:', formErrors);
-
         }
     };
-
 
     return (
         <div>
             <h2>Add Photo</h2>
             {errors && errors.message && <p className="error">{errors.message}</p>}
             <form onSubmit={handleSubmit}>
-                {/* <div>
-                    <label>Label</label>
-                    <input type="text" name="label" value={photoData.label} onChange={handleChange} /> */}
-                    {/* {formErrors && formErrors.label && <p className="error">{formErrors.label}</p>} */}
-                {/* </div> */}
                 <div>
                     <label>Title</label>
                     <input type="text" name="title" value={photoData.title} onChange={handleChange} />
