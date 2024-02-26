@@ -28,7 +28,7 @@ const CurrentUserAlbums = () => {
                     <div className="albums-grid">
                         {allAlbums.map((album) => (
                             <NavLink key={album.id} className="album-div" to={`/albums/${album.id}`} title={album.title}>
-                                {console.log('.....album.....', album)}
+                                {/* {console.log('.....album.....', album)} */}
                                 <div className='line-1'></div>
                                 <div className="album-image-div">
                                     {album.image_url ?
