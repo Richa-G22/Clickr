@@ -9,7 +9,7 @@ function AddPhotos() {
     const errors = useSelector(state => state.photo.error);
     // console.log(errors, '**********')
     const [photoData, setPhotoData] = useState({
-        label: '',
+        // label: '',
         title: '',
         description: '',
         url: ''
@@ -74,11 +74,11 @@ function AddPhotos() {
             <h2>Add Photo</h2>
             {errors && errors.message && <p className="error">{errors.message}</p>}
             <form onSubmit={handleSubmit}>
-                <div>
+                {/* <div>
                     <label>Label</label>
-                    <input type="text" name="label" value={photoData.label} onChange={handleChange} />
+                    <input type="text" name="label" value={photoData.label} onChange={handleChange} /> */}
                     {/* {formErrors && formErrors.label && <p className="error">{formErrors.label}</p>} */}
-                </div>
+                {/* </div> */}
                 <div>
                     <label>Title</label>
                     <input type="text" name="title" value={photoData.title} onChange={handleChange} />
