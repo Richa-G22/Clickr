@@ -20,7 +20,7 @@ function UpdatePhoto() {
     useEffect(() => {
     if (photoDetails) {
         setFormFields({
-            label: photoDetails.label || '',
+            // label: photoDetails.label || '',
             title: photoDetails.title || '',
             description: photoDetails.description || '',
             url: photoDetails.url || ''
@@ -29,7 +29,7 @@ function UpdatePhoto() {
 }, [photoDetails]);
 
     const [formFields, setFormFields] = useState({
-        label: '',
+        // label: '',
         title: '',
         description: '',
         url: ''
@@ -84,11 +84,11 @@ function UpdatePhoto() {
         <div>
             <h2>Update Photo</h2>
             <form onSubmit={handleSubmit}>
-                <div>
+                {/* <div>
                     <label>Label</label>
                     <input type="text" name="label" value={formFields.label} onChange={handleInputChange} />
                     {/* {errors.label && <span>{errors.label}</span>} */}
-                </div>
+                {/* </div>  */}
                 <div>
                     <label>Title</label>
                     <input type="text" name="title" value={formFields.title} onChange={handleInputChange} />
