@@ -72,6 +72,7 @@ const getAlbumDetails = (albumId) => {
     };
 };
 
+
 // Thunk Action Creators
 // Get the details of an album by id
 export const detailedAlbumThunk = (albumId) => async (dispatch) => {
@@ -181,17 +182,21 @@ export const addPhotoToAlbumThunk = (albumId, photo) => async (dispatch) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(photo),
           });
-
+        console.log(".............response in thunk....", response)
         if (response.ok) {
                      const data = await response.json();
                      console.log(".........data.....", data)
                      dispatch(addPhotoToAlbum(albumId, photo));
+                     //dispatch(refetchAlbum(albumId));
+                     console.log("SUCCESSFULL RETURN FROM DISPATCH")
                      return data;
         } else {
             throw response;
         }
     } catch (e) {
-        // const errors = await e.json();
+        console.log('eeeeeeeeeeeee', e)
+        const errors = await e.json();
+        console.log(",,,,,,,,,,,,,,,,errors......", errors)
         return errors;
     }
 };
@@ -302,8 +307,8 @@ const albumsReducer = (state = initialState, action) => {
             // console.log('... payload ', action.payload);
             // action.payload.forEach((album) => (newState[action.albums.id] = album));
             // return {...newState};
-            console.log('@@@@@@@@@',action.payload);
-            console.log('&&&&&&&&&&', newState);
+            //console.log('@@@@@@@@@',action.payload);
+            //console.log('&&&&&&&&&&', newState);
             newState.allAlbums = action.payload;  //add payload to all albums
             for(let album of action.payload) {
                 console.log('--------', album)
