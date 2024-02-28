@@ -7,8 +7,7 @@ Clickr is a clone site inspired by Flickr.
 
 
 
-## Team
-Allana DeCarish - https://github.com/LanaSimone  
+## Team 
 Komal Aher - https://github.com/komalaher18  
 Richa Garg - https://github.com/Richa-G22/  
   
