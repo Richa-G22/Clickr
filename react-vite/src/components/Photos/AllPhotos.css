@@ -1,0 +1,59 @@
+.photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 400px);
+    padding-top: 40px;
+    padding-bottom: 30px;
+    max-width: 1600px;
+    margin: 30px auto;    
+}
+
+.photo-div {
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.polaroid {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 80%;
+    background-color: white;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19);
+    margin-bottom: 50px;
+    padding-top: 25px;   
+}
+
+.photo-image {  
+    width: 80%;   
+    height: 250px;
+}
+
+.polaroid:hover {
+    box-shadow: 0 10px 18px 0 rgba(0, 0, 0, 1.5), 0 16px 20px 0 rgba(0, 0, 0, 0.29);
+}
+
+.menu{
+  display: flex;
+  text-decoration: none;
+  align-items: right;
+  justify-content: end;
+  padding-right: 50px;
+  
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 93%;
+  padding-top: 10px;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-decoration: none;
+}

@@ -5,16 +5,82 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_photos():
     photo1 = Photo(
-        label='Abc', title='XYZ', description='Its a nice phot', url='https://upload.wikimedia.org/wikipedia/commons/e/ea/Spring_Lake%2C_New_Jersey_Beach_at_Sunrise.jpg', userId=1)
+        label='A Beautiful Sunrise', title='A Beautiful Sunrise', description='Perfect sunrise by the beach', url='https://upload.wikimedia.org/wikipedia/commons/e/ea/Spring_Lake%2C_New_Jersey_Beach_at_Sunrise.jpg', userId=1)
     photo2 = Photo(
-        label='PQR', title='LMN', description='Its an awesome shot', url='https://media.istockphoto.com/id/1172427455/photo/beautiful-sunset-over-the-tropical-sea.jpg', userId=2)
+        label='Waterfall', title='Waterfall', description='Nature at its best', url='https://media.istockphoto.com/id/1172427455/photo/beautiful-sunset-over-the-tropical-sea.jpg', userId=2)
     photo3 = Photo(
-        label='DEF', title='IJK', description='Its a great photo', url='https://img.freepik.com/free-photo/sunset-time-tropical-beach-sea-with-coconut-palm-tree_74190-1075.jpg', userId=3)
+        label='Nature', title='Nature', description='A beautiful coconut palm tree standing high in the pink evening sky', url='https://img.freepik.com/free-photo/sunset-time-tropical-beach-sea-with-coconut-palm-tree_74190-1075.jpg', userId=3)
+    photo4 = Photo(
+        label='Birds', title='Hummingbird', description='Hummingbird enjoying the sweetness of flowers', url='https://www.pbs.org/wnet/nature/files/2019/07/Super-Hummingbirds-2-1280x675.jpg', userId=1)
+    photo5 = Photo(
+        label='Squirrel', title='Squirrel', description='A cute squirrel', url='https://shotkit.com/wp-content/uploads/bb-plugin/cache/nature-photography-landscape-a892fa3059994f7f5119d4a53fadada3-zybravgx2q47.jpg', userId=2)
+    photo6 = Photo(
+        label='Squirrel and the bokeh', title='Squirrel and the bokeh', description='Squirrel and the perfect bokeh', url='https://i1.adis.ws/i/canon/canon-get-inspired-urban-nature-photography-tips-3-1920x1080?w=1920&sm=aspect&aspect=16:9&qlt=80&fmt=jpg&fmt.options=interlaced&bg=rgb(255,255,255)', userId=3)
+    photo7 = Photo(
+        label='Reflection', title='Reflection', description='A lone tree, the night sky and a perfect reflection ', url='https://pi.tedcdn.com/r/talkstar-assets.s3.amazonaws.com/production/playlists/playlist_398/reconnect_with_nature.jpg?u%5Br%5D=2&u%5Bs%5D=0.5&u%5Ba%5D=0.8&u%5Bt%5D=0.03&quality=82&w=600c=1050%2C550&w=1050', userId=1)
+    photo8 = Photo(
+        label='A Magical Crystal Ball', title='A Magical Crystal Ball', description='A beautiful composite of nature and the glass globe', url='https://static.vecteezy.com/system/resources/thumbnails/025/284/015/small_2x/close-up-growing-beautiful-forest-in-glass-ball-and-flying-butterflies-in-nature-outdoors-spring-season-concept-generative-ai-photo.jpg', userId=2)
+    photo9 = Photo(
+        label='The Milky Way', title='The Milky Way', description='Enjoying a million stars with moon by my side', url='https://eadn-wc04-796033.nxedge.io/wp-content/uploads/home-banner-2-2-e1646713448525.jpg', userId=3)
+    photo10 = Photo(
+        label='The perfect balance', title='The perfect balance', description='Balance and Reflection ', url='https://climatecommunication.yale.edu/wp-content/uploads/2017/04/001-stone-circle-jpeg-768x350.jpg', userId=1)
+    photo11 = Photo(
+        label='Hope', title='Hope', description='A sapling growing from a cut tree trunk', url='https://www.hindustantimes.com/ht-img/img/2023/07/26/550x309/n1b_1690349255499_1690349264373.jpg', userId=2)
+    photo12 = Photo(
+        label='Butterfly', title='Butterfly', description='A beautiful butterfly and the vibrant flower', url='https://img.freepik.com/free-photo/closeup-shot-beautiful-butterfly-with-interesting-textures-orange-petaled-flower_181624-7640.jpg', userId=3)
+    photo13 = Photo(
+        label='Tiger', title='Tiger', description='A young tiger looking for hunt', url='https://www.shutterstock.com/image-photo/great-tiger-male-nature-habitat-600nw-696476371.jpg', userId=1)
+    photo14 = Photo(
+        label='Long exposure', title='Long exposure', description='Long exposure photography - Milky White Waterfall', url='https://t4.ftcdn.net/jpg/01/31/89/13/360_F_131891333_YtJeWozj269tpiWnwz4vBkCBe7h26qNU.jpg', userId=2)
+    photo15 = Photo(
+        label='Waterfall and long exposure', title='Waterfall and long exposure', description='A beautiful shot with matte theme. Edited in Lightroom and Photoshop', url='https://images.pexels.com/photos/3086736/pexels-photo-3086736.jpeg?cs=srgb&dl=pexels-jeremy-mosley-3086736.jpg&fm=jpg', userId=3)
+    photo16 = Photo(
+        label='Utah', title='Utah', description='Utah National Park', url='https://res.cloudinary.com/simpleview/image/upload/v1523399469/clients/saltlake/63909faa_0ec4_435a_8bff_1d2341305bf5_ef5d37c6-3dca-4730-9f1b-012e831cb057.jpg', userId=1)
+    photo17 = Photo(
+        label='Lake McDonald', title='Lake McDonald', description='Lake McDonald, Glacier National Park, Montana, USA', url='https://i.pinimg.com/474x/8b/43/ab/8b43abce7e822186636ce7224f0c0510.jpg', userId=2)
+    photo18 = Photo(
+        label='Lake McDonald, Montana', title='Lake McDonald, Montana', description='A perfect evening at Lake McDonald', url='https://images.squarespace-cdn.com/content/v1/50f189dde4b07e77c464e9f3/1598108892460-WEVN55HUYD0LH1R2Z4TV/Lake+McDonald+Glory.jpg', userId=3)
+    photo19 = Photo(
+        label='Northern Lights', title='Northern Lights', description='Northern Lights, Finland', url='https://i.natgeofe.com/n/8352c802-76ec-4a3b-84e5-8a22e1227005/NJ0002.jpg', userId=3)
+    photo20 = Photo(
+        label='Portland, Maine', title='Portland, Maine', description='Portland Headlight, Maine, USA', url='https://bdc2020.o0bc.com/wp-content/uploads/2023/09/AP23259682685757-65084960e96f2.jpg', userId=1)
+    photo21 = Photo(
+        label='Acadia National Park', title='Acadia National Park', description='Acadia National Park, USA', url='https://static.wixstatic.com/media/fdb5f7_c3443409984e4ca2b15f47c7af1a37ae~mv2.jpg/v1/fill/w_1200,h_799,al_c,q_85/7336840756_38d05ffe9b_o_0.jpg', userId=2)
+    photo22 = Photo(
+        label='Mirror Lake', title='Mirror Lake', description='Mirror Lake, Rocky Mountain National Park, USA', url='https://hike734.com/wp-content/uploads/2020/05/Mirror-Lake.jpg', userId=3)
+    photo23 = Photo(
+        label='Lone Eagle Peak, Colorado', title='Lone Eagle Peak, Colorado', description='The Magestic Lone Eagle Peak', url='https://live.staticflickr.com/65535/9542059968_4e93f9603d_b.jpg', userId=1)
+    photo24 = Photo(
+        label='Bear Lake, Colorado', title='Bear Lake, Colorado', description='Bear Lake and the perfect reflection', url='https://www.destinationparks.com/images/park/rocky-mountain-national-park-1280x853.jpg', userId=2)
+    photo25 = Photo(
+        label='Maroon Bells, Colorado', title='Maroon Bells, Colorado', description='Rising run at Maroon Bells, Aspen , Colorado', url='https://www.aspensnowmass.com/-/media/aspen-snowmass/images/hero/hero-image/summer/2022/maroon-bells-faq-hero-20220324.jpg?mw=1506&mh=930&hash=4A9A40C62E9440EA221694E41591050A', userId=3)
     
 
     db.session.add(photo1)
     db.session.add(photo2)
     db.session.add(photo3)
+    db.session.add(photo4)
+    db.session.add(photo5)
+    db.session.add(photo6)
+    db.session.add(photo7)
+    db.session.add(photo8)
+    db.session.add(photo9)
+    db.session.add(photo10)
+    db.session.add(photo11)
+    db.session.add(photo12)
+    db.session.add(photo13)
+    db.session.add(photo14)
+    db.session.add(photo15)
+    db.session.add(photo16)
+    db.session.add(photo17)
+    db.session.add(photo18)
+    db.session.add(photo19)
+    db.session.add(photo20)
+    db.session.add(photo21)
+    db.session.add(photo22)
+    db.session.add(photo23)
+    db.session.add(photo24)
+    db.session.add(photo25)
     db.session.commit()
 
 

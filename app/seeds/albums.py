@@ -5,11 +5,11 @@ from sqlalchemy.sql import text
 # Adds a demo user, you can add other users here if you want
 def seed_albums():
     album1 = Album(
-        title='album1', description='This is album1. Looks good', image_url='https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg', userId=1)
+        title='Nature', description='This album is a collection of landscape photos', image_url='https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg', userId=1)
     album2 = Album(
-        title='album2', description='This is album2. Looks nice', image_url='https://wallpapers.com/images/featured/720p-nature-background-te0eo4yinuw49nh1.jpg', userId=2)
+        title='Wonderful Places', description='Collection of must visit places', image_url='https://wallpapers.com/images/featured/720p-nature-background-te0eo4yinuw49nh1.jpg', userId=2)
     album3 = Album(
-        title='album3', description='This is album3. Looks wonderful', image_url='https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg',userId=3)
+        title='Animals', description='Animal Collection', image_url='https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg',userId=3)
     
 
     db.session.add(album1)

@@ -2,14 +2,14 @@ import {legacy_createStore as createStore, applyMiddleware, compose, combineRedu
 import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import favoritesReducer from "./favorites";
-import photoReducer from "./photoReducer";
+import photosReducer from "./photos";
 import albumsReducer from "./albums";
 import commentReducer from "./comments";
 
 
 const rootReducer = combineReducers({
   session: sessionReducer,
-  photo: photoReducer,
+  photos: photosReducer,
   favorites: favoritesReducer,
   albums: albumsReducer,
   comments: commentReducer,
