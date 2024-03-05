@@ -15,7 +15,7 @@ function OpenModalMenuItem({
   };
 
   return (
-    <li onClick={onClick}>{itemText}</li>
+    <button style={{borderRadius: "7px", width: "70px", height: "30px"}} onClick={onClick}>{itemText}</button>
   );
 }
 
