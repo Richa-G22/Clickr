@@ -8,7 +8,7 @@ import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteAlbumModal from "./DeleteAlbumModal";
 import DeletePhotoModal from "./DeletePhotoModal";
 import AddPhotoToAlbumModal from "./AddPhotoToAlbumModal";
-import { fetchPhotos } from "../../redux/photoReducer";
+//import { fetchPhotos } from "../../redux/photoReducer";
 import CurrentUserAlbums from "./GetCurrentUserAlbums";
 
 const DetailedAlbum = () => {
@@ -23,9 +23,9 @@ const DetailedAlbum = () => {
 
     const [isLoaded, setisLoaded] = useState(false);
 
-    useEffect(() => {
-        dispatch(fetchPhotos());
-    }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(fetchPhotos());
+    // }, [dispatch]);
 
     useEffect(() => {
         const getData = async() => {
