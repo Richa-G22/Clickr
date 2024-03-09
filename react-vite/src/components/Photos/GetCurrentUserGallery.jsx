@@ -8,14 +8,14 @@ import DeleteImageModal from "./DeleteImageModal";
 
 
 const GetCurrentUserGallery = () => {
-    console.log('........inside component-----')
+
     const user = useSelector((state) => state.session.user);
     const currentPhotos = useSelector((state) => state.photos.photos_arr);
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
    
-    console.log("........currentUserPhotos.....", currentPhotos)
+   
 
 
     useEffect(() => {

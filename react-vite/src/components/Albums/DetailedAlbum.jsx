@@ -159,10 +159,9 @@ const DetailedAlbum = () => {
                  await dispatch(detailedAlbumThunk(albumId));
                 setisLoaded(true) 
                 setUpdateMode(true)  
-                setDeleteMode(true) 
              }
              getData()  
-         }, [dispatch, albumId, setUpdateMode]);
+         }, [dispatch, ]);
 
          
     return (
