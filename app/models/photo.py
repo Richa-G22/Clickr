@@ -21,7 +21,9 @@ class Photo(db.Model, UserMixin):
     user = db.relationship("User", back_populates="photos")
     comments = db.relationship("Comment", cascade="all, delete", back_populates="photo")
     favorites = db.relationship("Favorite", cascade="all, delete", back_populates="photo")
+    # albums = db.relationship("Album", ondelete = "cascade", secondary=photoalbums, back_populates="photos")
     albums = db.relationship("Album", cascade="all, delete", secondary=photoalbums, back_populates="photos")
+    # albums = db.relationship("Album", passive_deletes="True", secondary=photoalbums, back_populates="photos")
 
     def to_dict(self):
         return {
