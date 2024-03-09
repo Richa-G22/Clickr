@@ -15,6 +15,7 @@ const rootReducer = combineReducers({
   comments: commentReducer,
 });
 
+
 let enhancer;
 if (import.meta.env.MODE === "production") {
   enhancer = applyMiddleware(thunk);

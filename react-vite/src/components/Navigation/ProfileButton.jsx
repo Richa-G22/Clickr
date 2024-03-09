@@ -4,7 +4,9 @@ import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
+import { resetFavThunk } from "../../redux/favorites";
 import { NavLink, useNavigate } from "react-router-dom";
+
 
 function ProfileButton() {
   const dispatch = useDispatch();
@@ -37,12 +39,13 @@ function ProfileButton() {
   const logout = (e) => {
     e.preventDefault();
     dispatch(thunkLogout());
+    dispatch(resetFavThunk())
     closeMenu();
     navigate("/photos/");   //RG - to fix logging out on same screen
   };
 
   return (
-    <>  
+    <>
       <button onClick={toggleMenu}>
         {/* <i className="fas fa-user-circle" /> */}
         <i className="fas fa-user" />
@@ -69,7 +72,7 @@ function ProfileButton() {
           ) : (
             <div style = {{paddingRight: "60px", display:"flex", alignContent:"center", justifyContent:"center", paddingTop:"5px"}}>
               <div>
-              <OpenModalMenuItem 
+              <OpenModalMenuItem
                 itemText="Log In"
                 onItemClick={closeMenu}
                 modalComponent={<LoginFormModal />}
