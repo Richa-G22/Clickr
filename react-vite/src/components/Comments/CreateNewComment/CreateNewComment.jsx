@@ -9,7 +9,6 @@ const CreateNewComment = ({ photo }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
-  // const comment = useSelector(state=> state.comment.comment)
   const [comment1, setComment1] = useState("");
   const userId = useSelector((state) => state.session.user.id);
   const [errors, setErrors] = useState({});
@@ -27,23 +26,11 @@ const CreateNewComment = ({ photo }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    //
     // Empty Comment Validation
     if (!comment1.trim()) {
       setErrors({ comment: "Comment cannot be empty" });
       return;
     }
-
-
-
-    // // Special Characters Validation
-    // const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
-    // if (specialCharsRegex.test(comment1)) {
-    //   setErrors({
-    //     comment: "Sorry!! special characters are not allowed",
-    //   });
-    //   return;
-    // }
 
     try {
       await dispatch(add_comment_thunk(comment1, photo));
@@ -53,19 +40,7 @@ const CreateNewComment = ({ photo }) => {
     } catch (error) {
       console.log(error);
     }
-    //
-
-    // await dispatch(add_comment_thunk(comment1, photo));
-
-    // setComment1("")
-
-    // try {
-    //   await dispatch(add_comment_thunk(id, comment1));
-    //   setComment1("");
-    //   // navigate("/:id/comments");
-    // } catch (e) {
-    //   return e;
-    // }
+  
   };
 
   return (

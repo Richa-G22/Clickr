@@ -6,21 +6,15 @@ import { edit_comment_thunk } from "../../../redux/comments";
 import { useModal } from "../../../context/Modal";
 
 const EditComment = (props) => {
-  // console.log("@@@@@@@@",props)
   const dispatch = useDispatch();
   const { closeModal } = useModal();
-
   const commentId = props.props.comment.id;
-  // console.log("@@@@@@@@comment", commentId);
   const photoId = props.props.photoId;
   const content = props.props.comment.comment;
-  // console.log("^^^^^^^^", content);
-
   const [comment, setComment] = useState(`${content}`);
   const [errors, setErrors] = useState({});
-
   const user = useSelector((state) => state.session.user);
-  // console.log("**************", props.props.comment);
+
 
   useEffect(() => {
     setErrors({});
@@ -29,10 +23,7 @@ const EditComment = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-
-    // console.log("****comment", comment, comment.length)
     const trimmedComment = comment.trim();
-    // console.log("^^^^trimmedcomment", trimmedComment, trimmedComment.length)
     if (!comment.trim()) {
       setErrors({ comment: "Comment cannot be empty" });
       return;
@@ -43,10 +34,7 @@ const EditComment = (props) => {
     const response = dispatch(
       edit_comment_thunk(trimmedComment, commentId, photoId)
     );
-
-    // console.log("$$$$trimmend", trimmedComment.length);
     closeModal();
-    // console.log("~~~~~~~~~~~~~~~", response)
   };
   const handleCancelSubmit = (e) => {
     e.preventDefault();
