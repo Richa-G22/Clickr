@@ -11,7 +11,7 @@ import { get_comments_thunk } from "../../redux/comments";
 import CreateNewComment from "../Comments/CreateNewComment/CreateNewComment";
 import EditComment from "../Comments/EditComment/EditCommentModal";
 import DeleteComment from "../Comments/DeleteComment/DeleteCommentModal";
-// ka
+
 
 const DetailedPhoto = () => {
     const dispatch = useDispatch();
@@ -29,6 +29,7 @@ const DetailedPhoto = () => {
     console.log("&&&&&&&&&&", currentPhoto);
 
     useEffect(() => {
+
     const getData = async () => {
       await dispatch(detailedPhotoThunk(photoId));
       setisLoaded(true);
@@ -161,5 +162,6 @@ const DetailedPhoto = () => {
 
   );
 };
+
 
 export default DetailedPhoto;

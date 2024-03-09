@@ -1,23 +1,21 @@
 import { deletePhotoFromAlbumThunk } from '../../redux/albums';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
-import { useNavigate } from "react-router-dom";
 import './DeletePhotoModal.css';
 
-function DeletePhotoModal( albumId, photoId ) {
+function DeletePhotoModal({albumId, photoId, setUpdateMode}) {
   console.log('......albumId inside deleteModal..albumId..',albumId, typeof(albumId));
-  console.log('......photoId inside deleteModal..photoId...',albumId.photoId, typeof(photoId));
+  console.log('......photoId inside deleteModal..photoId...',photoId, typeof(photoId));
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { closeModal } = useModal();
- 
+
   return (
         <div className='main-div'>
             <h2 style={{ marginBottom: 0, paddingBottom: "0px" }}>Confirm Delete</h2>
             <p style={{ padding: "20px",paddingBottom: "0px",marginTop: 0, fontSize: "19px" }}>
               Are you sure you want to remove this photo? </p>
-            <button className='yes-button' onClick={() => dispatch(deletePhotoFromAlbumThunk(albumId.albumId,albumId.photoId))
-                    .then(() => closeModal(), navigate("/albums/all"))} >Yes (Delete Photo)
+            <button className='yes-button' onClick={() => dispatch(deletePhotoFromAlbumThunk(albumId,photoId))
+                    .then(() => setUpdateMode(false), closeModal())} >Yes (Delete Photo)
             </button>
             <button className='no-button' onClick={() => closeModal()}>No (Keep Photo)
             </button><br></br>           

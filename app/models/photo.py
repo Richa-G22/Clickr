@@ -2,6 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from .photoalbum import photoalbums
+from .album import Album
 
 
 class Photo(db.Model, UserMixin):
@@ -20,8 +21,10 @@ class Photo(db.Model, UserMixin):
     user = db.relationship("User", back_populates="photos")
     comments = db.relationship("Comment", cascade="all, delete", back_populates="photo")
     favorites = db.relationship("Favorite", cascade="all, delete", back_populates="photo")
+    # albums = db.relationship("Album", ondelete = "cascade", secondary=photoalbums, back_populates="photos")
     albums = db.relationship("Album", cascade="all, delete", secondary=photoalbums, back_populates="photos")
- 
+    # albums = db.relationship("Album", passive_deletes="True", secondary=photoalbums, back_populates="photos")
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -30,4 +33,5 @@ class Photo(db.Model, UserMixin):
             'description': self.description,
             'url': self.url,
             'userId': self.userId,
+            'albums': [album.to_dict() for album in self.albums]
         }

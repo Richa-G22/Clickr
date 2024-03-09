@@ -38,27 +38,27 @@ function Navigation() {
         </div>}
     </div>
       {/* <img className="nav-image" src="https://images.pexels.com/photos/119404/pexels-photo-119404.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="preview" /> */}
-      <nav>
+      <nav style={{boxSizing:"border-box", maxWidth:"100%" }}>
           <div className="bottom-menu">
-              <NavLink style={{ paddingLeft: '400px' }} className="nav-links" to="/photos/">
+              <NavLink style={{paddingLeft: '450px'  }} className="nav-links" to="/photos/">
                   About
               </NavLink>
-              <NavLink style={{ paddingLeft: '250px' }} className="nav-links" to="/photos/">
+              <NavLink style={{paddingLeft: '200px'  }} className="nav-links" to="/photos/">
                   PhotoStream
               </NavLink>
-              {/* {sessionUser? */}
+              {sessionUser?
               <div>
-                    <NavLink style={{ paddingLeft: '250px' }} className="nav-links" to="/photos/current">
-                        Gallery
+                    <NavLink style={{paddingLeft: '200px'  }} className="nav-links" to="/photos/current">
+                        Manage
                     </NavLink>
-                    <NavLink style={{ paddingLeft: '250px' }} className="nav-links" to="/albums/all">
+                    <NavLink style={{paddingLeft: '200px' }} className="nav-links" to="/albums/all">
                         Albums
                     </NavLink>
-                    <NavLink style={{ paddingLeft: '250px' }} className="nav-links" to="/favorites">
+                    <NavLink style={{paddingLeft: '200px'  }} className="nav-links" to="/favorites">
                         Favorites
                     </NavLink>
               </div>
-              {/* :null} */}
+               :null}
           </div>
       </nav>
 

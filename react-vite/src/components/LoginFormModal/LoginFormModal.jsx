@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { NavLink, useNavigate } from "react-router-dom";
 import { thunkLogin } from "../../redux/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
@@ -8,6 +8,7 @@ import "./LoginForm.css";
 
 function LoginFormModal() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -27,6 +28,7 @@ function LoginFormModal() {
       setErrors(serverResponse);
     } else {
       closeModal();
+      navigate("/photos/");   //RG - to fix logging in on same screen
     }
   };
 
@@ -34,7 +36,21 @@ function LoginFormModal() {
   e.preventDefault();
   setEmail('demo@aa.io');
   setPassword('password');
+    //RG - to automate login of Demo User
+    const serverResponse = await dispatch(
+      thunkLogin({
+        email: 'demo@aa.io',
+        password:'password'
+      })
+      );
 
+    if (serverResponse) {
+      setErrors(serverResponse);
+    } else {
+      closeModal();
+      navigate("/photos/");   
+    }
+    //RG - to automate login of Demo User
 };
 
   return (
