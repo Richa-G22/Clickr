@@ -20,14 +20,6 @@ const DeleteComment = (props)=>{
           setFormErrors(response);
         }
       })
-      // try{
-      //   await dispatch(delete_comment_thunk(commentId)).then(closeModal)
-
-
-      // } catch (e) {
-      //   return e
-      // }
-
     };
 
     const handleCancelSubmit = (e) => {
@@ -38,17 +30,10 @@ const DeleteComment = (props)=>{
 return (
   <div className="div-comment-dlt">
     <h2>Delete Comment</h2>
-    {/* {formErrors.message && <p>{formErrors.message}</p>} */}
-
     <p>Are you sure you want to delete this comment?</p>
 
     <button
       className="comment-dlt-button-ok"
-      // onClick={() =>
-      //   dispatch(delete_comment_thunk(commentId)).then(() => {
-      //     closeModal();
-      //   })
-      // }
       type="button"
       onClick={handleSubmit}
     >
@@ -57,7 +42,6 @@ return (
 
     <button
       className="comment-dlt-button-no"
-      // onClick={() => closeModal()}
       type="button"
       onClick={handleCancelSubmit}
     >
