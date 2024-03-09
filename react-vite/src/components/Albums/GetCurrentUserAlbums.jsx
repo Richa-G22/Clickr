@@ -3,9 +3,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import "./GetCurrentUserAlbums.css";
 import { NavLink } from "react-router-dom";
-import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import DeleteAlbum from "./DeleteAlbumModal";
-import DeleteAlbumModal from './DeleteAlbumModal';
 
 const CurrentUserAlbums = () => {
     const user = useSelector((state) => state.session.user);
@@ -29,21 +26,15 @@ const CurrentUserAlbums = () => {
                         {allAlbums.map((album) => (
                             <NavLink key={album.id} className="album-div" to={`/albums/${album.id}`} title={album.title}>
                                 {/* {console.log('.....album.....', album)} */}
-                                <div className='line-1'></div>
                                 <div className="album-image-div">
+                                
                                     {album.image_url ?
                                         <img className="album-image" src={album.image_url} alt="Displaying default image" />
-                                        : <img className="album-image" src="https://m.media-amazon.com/images/I/818A+u-utdL.jpg" alt="Displaying Default Image" />
+                                        : <img className="album-image" src="https://static.vecteezy.com/system/resources/thumbnails/021/979/500/small_2x/old-retro-camera-on-vintage-background-90-s-concepts-vintage-style-filtered-photo.jpg  " alt="Displaying Default Image" />
                                     }
+                                    <div className="albums-title">{album.title}</div>
                                 </div>
-                                <div className="desc-title">
-                                    { album.description ?
-                                    <div>
-                                        <div>Title: {album.title}</div>
-                                        <div>Description: {album.description} </div>
-                                    </div>
-                                    : <div>Title: {album.title} </div> }
-                                </div>
+                                {/* <div className="album-title">{album.title}</div> */}
                             </NavLink>
                         ))}
                     </div>
