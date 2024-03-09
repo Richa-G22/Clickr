@@ -1,53 +1,78 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-// import { favoritePhoto, fetchFavorites, removeFromFavorites } from '../../redux/favorites';
-// import { fetchPhotos } from '../../redux/photoReducer';
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { allFavThunk, unfavPhotoThunk } from "../../redux/favorites";
+import { getAllPhotosThunk } from "../../redux/photos";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
+import "./ViewAllFavorites.css";
 
 function ViewAllFavorites() {
-    const dispatch = useDispatch();
-//     const favoritePhotos = useSelector(state => state.favorites.favorites || []);
-//     const photos = useSelector(state => state.photo.photos);
-//     const isLoggedIn = useSelector(state => state.session.user);
+  const dispatch = useDispatch();
+  const favorites = useSelector((state) => state.favorites.allFavorites);
+  const photos = useSelector((state) => state.photos.photos_arr);
+  const isLoggedIn = useSelector((state) => state.session.user);
 
-//     useEffect(() => {
-//         dispatch(fetchFavorites());
-//         dispatch(fetchPhotos());
-//     }, [dispatch]);
+  useEffect(() => {
+    dispatch(allFavThunk());
+    dispatch(getAllPhotosThunk());
+  }, [dispatch]);
 
-//     const favoriteImages = photos.filter(photo => favoritePhotos.find(fav => fav.photoId === photo.id));
+  const handleUnfavorite = (photoId) => {
+    dispatch(unfavPhotoThunk(photoId));
+  };
 
-//     const handleFavoriteClick = (photoId) => {
-//         dispatch(favoritePhoto(photoId));
-//         dispatch(fetchFavorites());
-//     };
-
-//     const handleUnfavoriteClick = (photoId) => {
-//         dispatch(removeFromFavorites(photoId));
-//         dispatch(fetchFavorites());
-//     };
-
-//     return (
-//         <div>
-//             {isLoggedIn ? (
-//                 favoriteImages.length > 0 ? (
-//                     <div>
-//                         <h1>Favorites</h1>
-//                         {favoriteImages.map(image => (
-//                             <div key={image.id}>
-//                                 <p>{image.title}</p>
-//                                 <img src={image.url} alt={image.title} />
-//                                 <button onClick={() => handleUnfavoriteClick(image.id)}>Unfavorite</button>
-//                             </div>
-//                         ))}
-//                     </div>
-//                 ) : (
-//                     <p>No favorites added yet.</p>
-//                 )
-//             ) : (
-//                 <p>Please log in to view your favorites.</p>
-//             )}
-//         </div>
-//     );
+  return (
+    <div className="ViewAllFavorites-container">
+      <div>
+        <h2 className="all-fav-title">All Favorites</h2>
+        <div className="fav-grid">
+          {isLoggedIn ? (
+            favorites.length > 0 ? (
+              favorites.map((favorite) => {
+                const photo = photos.find(
+                  (favPhoto) => favPhoto.id === favorite.photoId
+                );
+                if (!photo) return null;
+                return (
+                  <div
+                    className="fav-item"
+                    key={favorite.id}
+                    title={photo.title}
+                  >
+                    <div>
+                      <img
+                        className="fav-photo"
+                        src={photo.url}
+                        alt={photo.title}
+                      />
+                      <div>
+                        <p className="fav-title">{photo.title}</p>
+                      </div>
+                    </div>
+                    <div>
+                      {isLoggedIn && (
+                        <FontAwesomeIcon
+                          icon={solidHeart}
+                          onClick={() => handleUnfavorite(photo.id)}
+                          className="favorite-heart-icon"
+                        />
+                      )}
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <p>No favorites added yet.</p>
+            )
+          ) : (
+            <div>
+              <p>Please log in to view your favorites.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default ViewAllFavorites;
