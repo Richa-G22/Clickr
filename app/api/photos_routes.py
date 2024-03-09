@@ -96,10 +96,10 @@ def delete_photo(id):
         photo_to_be_deleted = Photo.query.get(id)
         print(photo_to_be_deleted)
         if not photo_to_be_deleted:
-            return jsonify({'error': 'Could not find the selected album'}, 404 )
+            return jsonify({'error': 'Could not find the selected photo'}, 404 )
         
-        if photo_to_be_deleted.userId != current_user.id:
-            return jsonify({'error': 'Unauthorized'}, 403 )
+        # if photo_to_be_deleted.userId != current_user.id:
+        #     return jsonify({'error': 'Unauthorized'}, 403 )
     
         db.session.delete(photo_to_be_deleted)
         db.session.commit()
