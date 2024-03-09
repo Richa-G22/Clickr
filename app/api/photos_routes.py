@@ -101,7 +101,6 @@ def delete_photo(id):
         # print("88888",related_albums)
         # "photos": [photo.to_dict() for photo in album.photos],
       
-        print("&&&&&",albums[0].photos)
         print(photo_to_be_deleted)
 
         for album in albums:
