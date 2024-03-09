@@ -23,35 +23,22 @@ const NewAlbum = () => {
     if (!title) {
       foundError = true;
       setErrors((errors) => ({ ...errors, title: "Album Title is required" }));
-      console.log('...........inside title loop...........')
-      console.log('........title.....', title);
     }
 
     if (image_url) {
-        if (!/^http(s)?:\/\/.+\..+$/.test(image_url.trim())) {
+        try {
+            new URL(image_url);
+            return true;
+        } catch (errors) {
             foundError = true;
             setErrors((errors) => ({ ...errors, image_url: "Please enter a valid URL " }));
-            console.log('...........inside IMAGE_URL loop...........')
-            console.log('........IMAGE_URL.....', image_url);
-        }  
+
+        } 
     }};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     validate();
-    // try {
-    //     if (!foundError) {
-    //         const newAlbum =  await dispatch(
-    //         createNewAlbumThunk({ title, description, user, image_url }))
-    //     }
-
-    // } catch (error) {
-    //     const data = await error.json();
-    //     if (data.errors) {
-    //         setErrors((errors) => ({ ...errors, ...data.errors }));
-    //     }
-    // }
-    // navigate('/albums/all')
         try {
             if (!foundError) {
                 const newAlbum =  await dispatch(
@@ -74,10 +61,10 @@ const NewAlbum = () => {
     return (
         <form className="create-album-form" onSubmit={handleSubmit}>
             <h2>Create a new Album</h2>
-            <p className="h4">Description and Album Image fields are optional. If no image is provided, default image will be displayed.</p>
+            <p className="h4">Fields marked as * are mandatory. If no image is provided, default image will be displayed.</p>
             <div className="input-row">
                 <label htmlFor="title">
-                Title <span className="error">{errors.title}</span>
+                Title * <span className="error">{errors.title}</span>
                 </label>
                 <input
                 className="input-wide"
