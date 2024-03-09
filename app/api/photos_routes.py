@@ -1,6 +1,6 @@
 from flask import Blueprint, session, request, redirect, jsonify, render_template
 from flask_login import current_user
-from app.models import db, Photo
+from app.models import db, Photo, Album
 from flask_login import login_required
 from app.forms.photo_form import PhotoForm
 import app.models
@@ -94,13 +94,29 @@ def current_user_gallery():
 def delete_photo(id):
     try: 
         photo_to_be_deleted = Photo.query.get(id)
+        albums = photo_to_be_deleted.get_albums()
+        print("*******",albums)
+        # related_albums = Album.query.filter_by(photos["photoId"]=id).all()
+        # related_albums = Album.query.get(photos["id"]=id).all()
+        # print("88888",related_albums)
+        # "photos": [photo.to_dict() for photo in album.photos],
+      
+        print("&&&&&",albums[0].photos)
         print(photo_to_be_deleted)
+
+        for album in albums:
+            for photo in album.photos:
+                if (photo.id) == id:
+                    photo.albums.remove(album)
+
+
+
         if not photo_to_be_deleted:
             return jsonify({'error': 'Could not find the selected photo'}, 404 )
         
         # if photo_to_be_deleted.userId != current_user.id:
         #     return jsonify({'error': 'Unauthorized'}, 403 )
-    
+        # photo_to_be_deleted.albums.remove[()]
         db.session.delete(photo_to_be_deleted)
         db.session.commit()
         return jsonify({'message': 'Photo deleted successfully'}, 200)

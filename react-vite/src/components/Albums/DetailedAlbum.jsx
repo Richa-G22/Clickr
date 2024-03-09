@@ -142,7 +142,7 @@ const DetailedAlbum = () => {
 
     // const sessionUser = useSelector((state) => state.session.user);
     let currentAlbum = useSelector((state) => state.albums.byId[albumId]);
-    const currentState = useSelector((state) => console.log(".....state....", state));
+    // const currentState = useSelector((state) => console.log(".....state....", state));
     const all_photos_in_state = useSelector((state) => state.photos.photos_arr);
     const all_photos_in_state_obj = useSelector((state) => state.photos.byId);
     console.log(".....id....albumId....", id, albumId);
@@ -150,6 +150,7 @@ const DetailedAlbum = () => {
 
     const [isLoaded, setisLoaded] = useState(false);
     const [updateMode, setUpdateMode] = useState(false);
+    const [deleteMode, setDeleteMode] = useState(false);
 
     useEffect(() => {
              const getData = async() => {
@@ -157,7 +158,8 @@ const DetailedAlbum = () => {
                  await dispatch(getCurrentUserAlbumsThunk());
                  await dispatch(detailedAlbumThunk(albumId));
                 setisLoaded(true) 
-                setUpdateMode(true)    
+                setUpdateMode(true)  
+                setDeleteMode(true) 
              }
              getData()  
          }, [dispatch, albumId, setUpdateMode]);
@@ -214,11 +216,11 @@ const DetailedAlbum = () => {
                                             </div>
 
                                             <div className="buttons">
-                                                {/* {setUpdateMode(true)} */}
+                                                
                                                 <OpenModalButton
                                                     buttonText="Delete Photo"
                                                     modalComponent={
-                                                        <DeletePhotoModal albumId={albumId} photoId={photo.id} setUpdateMode={setUpdateMode}/>
+                                                        <DeletePhotoModal albumId={albumId} photoId={photo.id} setDeleteMode={setDeleteMode}/>
 
                                                     }
                                                 />
