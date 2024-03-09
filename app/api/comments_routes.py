@@ -23,7 +23,6 @@ def get_all_comments(photoId):
 
     for comment in comments_data:
         user = User.query.get(comment['userId'])
-        # print("$$$$$$user", user )
         comment['userName'] = user.username
     return jsonify(comments_data)
 
@@ -33,11 +32,8 @@ def get_all_comments(photoId):
 def post_comment(photoId):
 
     body = request.get_json(force=True)
-    # print("^^^^^body", body)
     comment = body["comment"]
     photo = body["photo"]
-    # print("%%%%photo", photo)
-
 
     form = PostCommentForm()
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -61,7 +57,6 @@ def post_comment(photoId):
 
                 # Assign the current user's ID
         )
-        # print("!!!!!!!new_comment", new_comment.to_dict())
 
         # Add the new comment to the database and commit the transaction
         db.session.add(new_comment)
@@ -72,45 +67,6 @@ def post_comment(photoId):
         return form.errors, 401
 
 
-    #     # Return a success message
-    #     return jsonify({"message": "Comment added successfully"}), 201
-
-    # # If the request method is GET, render the template with the form
-    # if request.method == "GET":
-    #     return render_template("post.html", form=form, photoId=photoId)
-
-    # # If the form validation fails, return an error message
-    # return jsonify({"error": "Form validation failed"}), 400
-
-
-# @comments_routes.route("/update/<int:id>", methods=["GET", "POST"])
-# @login_required
-# def update_comment(id):
-#     comment_to_be_updated = Comment.query.get_or_404(id)
-
-#     if not comment_to_be_updated:
-#         return jsonify({"error": "Could not find the selected comment"}, 404)
-
-    # if comment_to_be_updated.userId != current_user.id:
-    #     return jsonify({"error": "Unauthorized"}, 403)
-
-#     form = UpdateCommentForm()
-#     form["csrf_token"].data = request.cookies["csrf_token"]
-
-#     if request.method == "POST":
-#         if (
-#             "_method" in request.form and request.form["_method"] == "PUT"
-#         ):  # Check for _method field
-#             if form.validate():
-#                 comment_text = form.comment.data
-#                 comment_to_be_updated.comment = comment_text
-#                 db.session.commit()
-#                 return jsonify({"message": "Comment updated successfully"})
-#             else:
-#                 return jsonify({"error": form.errors}), 400
-
-#     # For GET requests or invalid form submissions, render the update form
-#     return render_template("update.html", form=form, errors=form.errors, id=id)
 
 @comments_routes.route("/update/<int:id>", methods=["PUT"])
 @login_required
