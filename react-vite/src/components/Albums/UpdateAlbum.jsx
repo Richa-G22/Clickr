@@ -9,19 +9,16 @@ const UpdateAlbum = () => {
     const { id } = useParams();
     const albumId = parseInt(id);
     console.log('.....albumId......', albumId,)
-    const currentAlbum = useSelector((state) => state.albums.allAlbums[0]);
+    // const currentAlbum = useSelector((state) => state.albums.allAlbums[0]);
+    const currentAlbum = useSelector((state) => state.albums.byId[albumId]);
     console.log('.......currentAlbum........', currentAlbum);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [title, setTitle] = useState(currentAlbum? currentAlbum.album.title : title);
-    const [description, setDescription] = useState(currentAlbum? currentAlbum.album.description : description);
-    const [image_url, setImage_url] = useState(currentAlbum? currentAlbum.album.image_url : image_url);
+    const [title, setTitle] = useState(currentAlbum? currentAlbum.title : title);
+    const [description, setDescription] = useState(currentAlbum? currentAlbum.description : description);
+    const [image_url, setImage_url] = useState(currentAlbum? currentAlbum.image_url : image_url);
     const [errors, setErrors] = useState({});
     let foundError = false;
-
-    useEffect(() => {
-        dispatch(detailedAlbumThunk(albumId));
-    }, [dispatch, albumId]);
 
     useEffect(() => {
         dispatch(detailedAlbumThunk(albumId));
@@ -95,7 +92,7 @@ const UpdateAlbum = () => {
                 <input
                     className="input-wide"
                     type="text"
-                    defaultValue={currentAlbum.album.title}
+                    defaultValue={currentAlbum.title}
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="title"
                     id="title"
@@ -109,7 +106,7 @@ const UpdateAlbum = () => {
                 <input
                     className="input-wide"
                     type="text"
-                    defaultValue={currentAlbum.album.description}
+                    defaultValue={currentAlbum.description}
                     onChange={(e) => setDescription(e.target.value)}
                     placeholder="Description"
                     id="description"
@@ -123,7 +120,7 @@ const UpdateAlbum = () => {
                 <input
                     className="input-wide"
                     type="text"
-                    defaultValue={currentAlbum.album.image_url}
+                    defaultValue={currentAlbum.image_url}
                     onChange={(e) => setImage_url(e.target.value)}
                     placeholder="Album Image"
                     id="image_url"

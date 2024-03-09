@@ -1,64 +1,72 @@
-from flask import Blueprint, session, request, redirect, jsonify, render_template
+from flask import Blueprint, session, request, jsonify
 from flask_login import current_user
 from app.models import db, Album, Photo, photoalbums
 from flask_login import login_required
-# from ..forms.album_form import AlbumForm
 from app.forms.album_form import AlbumForm
 import app.models
 
 
 album_routes = Blueprint('albums', __name__)
 
-# Get all albums for the logged in User
-@album_routes.route('/all')
+@album_routes.route("/all")
 @login_required
 def all_albums():
     all_albums = Album.query.filter_by(userId=current_user.id).all()
-    album_list = [{
-                   'id': album.id, 
-                   'title': album.title,
-                   'description': album.description, 
-                   'userId': album.userId,
-                   'image_url': album.image_url
-                } for album in all_albums]
-
+    album_list = [
+        {
+            "id": album.id,
+            "title": album.title,
+            "description": album.description,
+            "userId": album.userId,
+            "image_url": album.image_url,
+            "photos": [photo.to_dict() for photo in album.photos],
+        } for album in all_albums
+    ]
     return jsonify(album_list)
 
+
+# # Get details of all the photos present in an album by album id
+# @album_routes.route('/<int:id>')
+# @login_required
+# def get_album_by_id(id):
+ 
+#     album =  Album.query.get(id)
+
+#     all_photos = list(db.session.query(photoalbums).filter_by(albumId=album.id).all())
+#     photo_array = [] 
+#     for photo in all_photos:
+#         (photoId,albumId) = photo 
+#         photo_details = Photo.query.get(photoId)
+#     #     print('######################',photo_details.to_dict())
+#         photo_array.append(photo_details.to_dict())
+#     # print('^^^^^^^^^^^^^^',photo_array)
+
+#     all_photos = photoalbums.query.filter_by(albumId = album.id).all
+#     photo_details = Photo.query.get(photo.id) 
+
+#     detailed_album = {   
+#             'id': album.id, 
+#             'title': album.title,
+#             'description': album.description, 
+#             'userId': album.userId,
+#             'image_url': album.image_url,
+#             'photos' : photo_array  
+#     }
+#     # #print("**********album", album)
+#     # #print('!!!!!!!!!!!all_photos', all_photos)
+#     # print("*****",detailed_album)
+#     return detailed_album 
+#     #return (photo_array, album.to_dict())
 
 # Get details of all the photos present in an album by album id
 @album_routes.route('/<int:id>')
 @login_required
 def get_album_by_id(id):
- 
-    album =  Album.query.get(id)
-
-    all_photos = list(db.session.query(photoalbums).filter_by(albumId=album.id).all())
-    photo_array = [] 
-    for photo in all_photos:
-        (photoId,albumId) = photo 
-        photo_details = Photo.query.get(photoId)
-        print('######################',photo_details.to_dict())
-        photo_array.append(photo_details.to_dict())
-    print('^^^^^^^^^^^^^^',photo_array)
-
-    # all_photos = photoalbums.query.filter_by(albumId = album.id).all
-    # photo_details = Photo.query.get(photo.id) 
-
-    detailed_album = {
-        'album' : { 
-            'id': album.id, 
-            'title': album.title,
-            'description': album.description, 
-            'userId': album.userId,
-            'image_url': album.image_url 
-        },
-        'photos' : photo_array
-    }
-    #print("**********album", album)
-    #print('!!!!!!!!!!!all_photos', all_photos)
-    print("*****",detailed_album)
-    return detailed_album
-    #return (photo_array, album.to_dict())
+    # first thing photoId, 2nd is albumId
+    album = Album.query.get(id).to_dict()
+    album_photos = [photo.to_dict() for photo in Album.query.get(id).photos]
+    album["photos"] = album_photos
+    return album
 
 #----------------------------------------------------------------------------------------------
 # Delete photo from an album
@@ -73,12 +81,15 @@ def delete_photo_album(albumId, photoId):
     print('^^^^^^^^^^^', related_album, related_photo)
 
     # If logged in user is not the owner of the album selected
-    if related_album.userId != current_user.id:
-        return jsonify({'error': 'Unauthorized'}, 403 )
+    # if related_album.userId != current_user.id:
+    #     return jsonify({'error': 'Unauthorized'}, 403 )
     related_photo.albums.remove(related_album)
 
     db.session.commit()
-    return jsonify({'message': 'Photo deleted successfully from the album'}, 200)
+    
+    res = related_photo.to_dict()
+    print(res, "<--------res")
+    return related_album.to_dict()
 
 
 # Add photo to an album
@@ -93,8 +104,8 @@ def add_photo_to_album(albumId, photoId):
     print('^^^^^^^^^^^', related_album, related_photo)
 
     # If logged in user is not the owner of the album selected
-    if related_album.userId != current_user.id:
-        return jsonify({'error': 'Unauthorized'}, 403 )
+    # if related_album.userId != current_user.id:
+    #     return jsonify({'error': 'Unauthorized'}, 403 )
     related_photo.albums.extend([related_album])
 
     db.session.commit()
@@ -115,22 +126,18 @@ def create_album():
             title = form.data["title"],
             description = form.data["description"],
             userId = current_user.id,
-            image_url = form.data["image_url"]
+            image_url = form.data["image_url"],
+            photos =  []
         )
 
         print(new_album)
         db.session.add(new_album)
         db.session.commit()
-        #return redirect("/api/albums/all") 
         return new_album.to_dict()
     
     if form.errors:
         return form.errors, 401
-        #return render_template("create_album.html", form=form, errors=form.errors)
-
-    #return render_template("create_album.html", form=form, errors=None)
     
-
 
 # Delete an album by id:
 @album_routes.route('/delete/<int:id>', methods=['GET','DELETE'])

@@ -4,10 +4,11 @@ import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 import SignupFormModal from "../SignupFormModal";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function ProfileButton() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const user = useSelector((store) => store.session.user);
   const ulRef = useRef();
@@ -37,6 +38,7 @@ function ProfileButton() {
     e.preventDefault();
     dispatch(thunkLogout());
     closeMenu();
+    navigate("/photos/");   //RG - to fix logging out on same screen
   };
 
   return (
@@ -61,6 +63,7 @@ function ProfileButton() {
               <br></br><br></br><br></br>
               <div style={{ display: "flex", alignContent: "center", justifyContent: "center", padding: "5px", borderBottom: "solid 2px", borderRight: "solid 2px", borderLeft: "solid 2px", paddingBottom: "0px" }} className="logout-button">
                 <button style={{ position: "absolute", zIndex: "1", borderRadius: "0.5rem", width: "70px", boxShadow: "2px 2px" }} onClick={logout}>Log Out</button>
+               
               </div>
             </>
           ) : (
