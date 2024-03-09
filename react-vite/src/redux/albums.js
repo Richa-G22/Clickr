@@ -315,14 +315,27 @@ const albumsReducer = (state = initialState, action) => {
             const photo_id = action.payload.photoId
             const album_id = action.payload.albumId
 
-            const currentPhotos = newState.allAlbums[0].photos
-            const newPhotos = currentPhotos.filter((photo) => { 
-                 return photo.id !== photo_id
-             })
+            // const currentPhotos = newState.allAlbums[1].photos
+            // const newPhotos = currentPhotos.filter((photo) => { 
+            //      return photo.id !== photo_id
+            //  })
           
-            newState.allAlbums[0].photos = newPhotos;
-            newState.byId[album_id].photos = newPhotos;
-        
+            // newState.allAlbums[1].photos = newPhotos;
+            // newState.byId[album_id].photos = newPhotos;
+
+            const currentPhotos = newState.byId[album_id].photos.filter((photo) => {
+                return photo.id !== photo_id
+            })
+
+            const newById = {...newState.byId} 
+            newState.byId[album_id].photos = currentPhotos;
+
+            for (let i = 0; i < newById.length; i++) {
+                if (newById[i].id === album_id) {
+                    newById[i].photos = currentPhotos
+                }
+            }
+            newState.byId = JSON.parse(JSON.stringify(newById));
             return newState;
         }
 
