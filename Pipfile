@@ -30,6 +30,7 @@ zipp = "==3.17.0"
 install = "*"
 email-validator = "*"
 psycopg2-binary = "*"
+boto3 = "*"
 
 [dev-packages]
 

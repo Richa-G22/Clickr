@@ -103,19 +103,20 @@ export const detailedPhotoThunk = (id) => async (dispatch) => {
 // Create a new Photo
 export const createNewPhotoThunk = (form) => async (dispatch) => {
     try {
+
         const { title, description, label, url, user } = form;
+        const formData = new FormData()
+        formData.append("title",title)
+        formData.append("description",description)
+        formData.append("label",label)
+        formData.append("url",url)
+      
+        console.log()
         const options = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                label,
-                title,
-                description,
-                url,
-                user
-            })
+            body: formData        
         }
-        const response = await fetch("/api/photos/new", options);
+        const response = await fetch(`/api/photos/new/${user}`, options);
 
         if (response.ok) {
             const data = await response.json();
