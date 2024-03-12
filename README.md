@@ -8,7 +8,6 @@ Clickr is a clone site inspired by Flickr.
 
 
 ## Team
-Allana DeCarish - https://github.com/LanaSimone  
 Komal Aher - https://github.com/komalaher18  
 Richa Garg - https://github.com/Richa-G22/  
   
@@ -34,4 +33,4 @@ Richa Garg - https://github.com/Richa-G22/
 
 
 ## Link to live site
-https://clickr-hyl6.onrender.com
+https://clickr-qv53.onrender.com
