@@ -3,8 +3,10 @@ from wtforms import StringField, URLField, SubmitField
 from wtforms.validators import DataRequired
 
 class PhotoForm(FlaskForm):
-    label = StringField("Label")
-    title = StringField("Title", validators=[DataRequired()])
-    description = StringField("Description")
-    url = URLField("PHOTO URL", validators=[DataRequired()])
+    label = StringField("label")
+    title = StringField("title", validators=[DataRequired()])
+    description = StringField("description")
+    url = StringField("url", validators=[DataRequired()])
     submit = SubmitField("Submit")
+
+    
