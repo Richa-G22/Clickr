@@ -4,6 +4,7 @@ from app.models import db, Photo, Album
 from flask_login import login_required
 from app.forms.photo_form import PhotoForm
 import app.models
+from app.awsS3 import allowed_file, upload_file_to_s3, get_unique_filename, remove_file_from_s3
 
 
 photos_routes = Blueprint('photos', __name__)
@@ -39,10 +40,10 @@ def get_photo_by_id(id):
         return {"message": msg}, 404
 
 
-# Create a new album
-@photos_routes.route("/new", methods=["POST"])
+# Create a new photo
+@photos_routes.route("/new/<int:user_id>", methods=["POST"])
 @login_required
-def create_new_photo():
+def create_new_photo(user_id):
    
     form = PhotoForm()
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -50,12 +51,22 @@ def create_new_photo():
     if form.validate_on_submit():
 
         try:
+            if "url" in request.files:
+                image = request.files["url"]
+                if not allowed_file(image.filename):
+                    raise TypeError("ImageType file not permitted")
+                image.filename = get_unique_filename(image.filename)
+                upload = upload_file_to_s3(image)
+                if "url" not in upload:
+                    raise TypeError("There was an error with AWS")
+                url = upload["url"]  
+            
             new_photo = Photo(
                 label = form.data["label"],
                 title = form.data["title"],
                 description = form.data["description"],
-                url = form.data["url"],
-                userId = current_user.id
+                url = url,
+                userId = user_id
             )
             if not new_photo:
                 raise Exception("New photo could not be created")
