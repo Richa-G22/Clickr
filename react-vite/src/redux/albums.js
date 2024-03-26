@@ -121,40 +121,79 @@ export const getCurrentUserAlbumsThunk = (albums) => async (dispatch) => {
     }
 };
 
-
-// Create a new Album
-export const createNewAlbumThunk = (album) => async (dispatch) => {
+//--------------------------------------------------------------------------
+// Create a new Album with AWS
+export const createNewAlbumThunk = (form) => async (dispatch) => {
     try {
-        const response = await fetch("/api/albums/new", {
+        console.log("form in thunk", form)
+        const { title, description, image_url, user } = form;
+        const formData = new FormData()
+        formData.append("title",title)
+        formData.append("description",description)
+        // formData.append("userId", userId)
+        formData.append("image_url",image_url)
+        console.log("formData", formData)
+      
+        const response = await fetch(`/api/albums/new/${user}`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(album)
+            body: formData
         });
-
+        console.log("response in thunk", response);
         if(response.ok) {
             const data = await response.json();
+            console.log("data in thunk", response);
             dispatch(createNewAlbum(data));
             return data;
         } else {
             throw response;
         }
     } catch (e) {
-        // const errors = await response.json();
+        const errors = e.json();
+        console.log("errors in thunk", errors)
         return errors;
     }
 };
 
 
-// Update an Album
-export const editAlbumThunk = (id, album) => async (dispatch) => {
+// Create a new Album
+// export const createNewAlbumThunk = (album) => async (dispatch) => {
+//     try {
+//         const response = await fetch("/api/albums/new", {
+//             method: "POST",
+//             headers: { "Content-Type": "application/json" },
+//             body: JSON.stringify(album)
+//         });
+
+//         if(response.ok) {
+//             const data = await response.json();
+//             dispatch(createNewAlbum(data));
+//             return data;
+//         } else {
+//             throw response;
+//         }
+//     } catch (e) {
+//         // const errors = await response.json();
+//         return errors;
+//     }
+// };
+//--------------------------------------------------------------------------
+
+// Update an Album with AWS
+export const editAlbumThunk = (id, form) => async (dispatch) => {
  
     try {
          console.log('...................reached edit album think............')
-         console.log('$$$$$$$$$$$$$$$$$ . id, album......',id, album)
+         console.log('$$$$$$$$$$$$$$$$$ . id, form......',id, form)
+
+        const { title, description, image_url, user } = form;
+        const formData = new FormData()
+        formData.append("title",title)
+        formData.append("description",description)
+        formData.append("image_url",image_url)
+
         const response = await fetch(`/api/albums/update/${id}`, {
             method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(album),
+            body: formData,
           });
         console.log('&&&&&&&&&&&&&&response', response)
         if (response.ok) {
@@ -167,12 +206,40 @@ export const editAlbumThunk = (id, album) => async (dispatch) => {
                 throw response;
         }
     } catch (e) {
-        // const errors = await e.json();
+        const errors =  e.json();
         return errors;
     }
 };
 
 
+// Update an Album
+// export const editAlbumThunk = (id, album) => async (dispatch) => {
+ 
+//     try {
+//          console.log('...................reached edit album think............')
+//          console.log('$$$$$$$$$$$$$$$$$ . id, album......',id, album)
+//         const response = await fetch(`/api/albums/update/${id}`, {
+//             method: "PUT",
+//             headers: { "Content-Type": "application/json" },
+//             body: JSON.stringify(album),
+//           });
+//         console.log('&&&&&&&&&&&&&&response', response)
+//         if (response.ok) {
+//             console.log('&&&&&&&&&&&&&&response', response)
+//                 const data = await response.json();
+//                 console.log('&&&&&&&&&&&&&&data', data)
+//                 dispatch(editAlbum(data));
+//                 return data;
+//         } else {
+//                 throw response;
+//         }
+//     } catch (e) {
+//         // const errors = await e.json();
+//         return errors;
+//     }
+// };
+
+//--------------------------------------------------------------------
 // Add a photo to an Album
 export const addPhotoToAlbumThunk = (albumId, photo) => async (dispatch) => {
     try {
@@ -283,12 +350,22 @@ const albumsReducer = (state = initialState, action) => {
         }
 
         case UPDATE_ALBUM: {
-            console.log('.....inside update Reducer....');
+            console.log('.....inside update album Reducer....');
             console.log('......newState before update......', newState);
+            console.log('........action.payload......', action.payload)
             //return { ...state, [action.album.id]: action.album };
             //return { ...state, [action.payload.albumId]: action.album };
-            newState.allAlbums[0] = action.payload.albumId
-            //newState.byId[albumId.id] = action.payload.albumId
+            const newArr = [...newState.allAlbums];
+            for(let i = 0; i < newState.allAlbums.length; i++){
+                let currAlbum = newArr[i];
+                if(currAlbum.id === action.payload.albumId.id){
+                    newArr[i] = action.payload.albumId;
+                    break;
+                }
+            }
+            newState.allAlbums = newArr;
+            //newState.allAlbums[0] = action.payload.albumId
+            newState.byId[action.payload.albumId.id] = action.payload.albumId
             return newState;
         }
 
