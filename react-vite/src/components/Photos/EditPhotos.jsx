@@ -66,6 +66,10 @@ const EditPhotos = () => {
         //     foundError = true;
         //     setErrors((errors) => ({ ...errors, url: "Photo URL is required" })); 
         // }
+        if (!url) {
+            foundError = true;
+            setErrors((errors) => ({ ...errors, url: "Photo is required" })); 
+        }
     };
 
     const handleSubmit = async (e) => {

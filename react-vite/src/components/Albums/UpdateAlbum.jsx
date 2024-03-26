@@ -63,6 +63,10 @@ const UpdateAlbum = () => {
         //         console.log('........IMAGE_URL.....', image_url);
         //     }
         // }
+        if (!image_url) {
+            foundError = true;
+            setErrors((errors) => ({ ...errors, image_url: "Album Photo is required" })); 
+        }
     };
 
     console.log('..control here after detailed album current album...', currentAlbum)

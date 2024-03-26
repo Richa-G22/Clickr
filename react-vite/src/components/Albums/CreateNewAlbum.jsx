@@ -52,6 +52,11 @@ const NewAlbum = () => {
 
     //     } 
     // }
+
+    if (!image_url) {
+        foundError = true;
+        setErrors((errors) => ({ ...errors, image_url: "Album Photo is required" })); 
+    }
     };
 
   const handleSubmit = async (e) => {
