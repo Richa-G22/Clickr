@@ -1,5 +1,5 @@
 import { getAllPhotosThunk } from "../../redux/photos";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./AllPhotos.css";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -19,9 +19,13 @@ const AllPhotos = () => {
   const photos = useSelector((state) => state.photos.photos_arr);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   // ka
   const allFavorites = useSelector((state) => state.favorites.allFavorites);
   const currentUser = useSelector((state) => state.session.user);
+  const [isFav, setIsFav] = useState({})
+
+
   // ka
 
   useEffect(() => {
@@ -32,22 +36,33 @@ const AllPhotos = () => {
   }, [dispatch]);
 
   // ka
+
   useEffect(() => {
     if (currentUser) {
-      dispatch(allFavThunk()).catch((error) => {
+      dispatch(allFavThunk()).then((favorites) => {
+        let favPic = {};
+        favorites.forEach((fav) => {
+          favPic[fav.photoId] = true;
+        });
+        setIsFav(favPic);
+      })
+      .catch((error) => {
         console.error("Error fetching favorites:", error);
       });
     }
   }, [dispatch, currentUser]);
 
-  const handleHeartClick = (photoId) => {
+  const handleHeartClick = async(photoId) => {
     const isFavorite = allFavorites.find((fav) => fav.photoId === photoId);
 
-    if (!isFavorite) {
-      dispatch(favPhotoThunk(photoId));
+    if (isFav[photoId]) {
+      await dispatch(unfavPhotoThunk(photoId));
     } else {
-      dispatch(unfavPhotoThunk(photoId));
+      await dispatch(favPhotoThunk(photoId));
+
     }
+    setIsFav((prev) => ({ ...prev, [photoId]: !prev[photoId] }));
+
   };
 
   // ka
@@ -60,6 +75,7 @@ const AllPhotos = () => {
     <div>
       <div className="photos-grid">
         {photos.map((photo) => (
+
           <>
             <div className="photo-div">
             {/* <NavLink
@@ -82,14 +98,11 @@ const AllPhotos = () => {
                 {/* ka */}
                 {currentUser && (
                 <FontAwesomeIcon
-                  icon={
-                    allFavorites.find((fav) => fav.photoId === photo.id)
-                      ? solidHeart
-                      : regularHeart
-                  }
+                  icon={isFav[photo.id] ? solidHeart : regularHeart}
                   onClick={() => handleHeartClick(photo.id)}
                 />
               )}
+
                 {/* ka */}
               </div>
               <div style={{ marginBottom: "30px" }}></div>

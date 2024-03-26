@@ -144,13 +144,16 @@ const DetailedPhoto = () => {
       <div>
         <h2 style={{ paddingLeft: "1rem" }}>Comments</h2>
         <div>
-          {allComments.length === 0 && (
-            <span className="">
-              <div>
-                <h3 style={{ paddingLeft: "1rem" }}>Be the first person to comment</h3>
-              </div>
-            </span>
-          )}
+          {allComments.length === 0 &&
+            sessionUser &&
+            sessionUser.id !== currentPhoto.userId && (
+              <span className="">
+                <div>
+                  <h3 style={{ paddingLeft: "1rem" }}>Be the first person to comment</h3>
+                </div>
+              </span>
+            )}
+
         </div>
         <div style={{ paddingLeft: "1rem", paddingBottom: "1rem" }}>
           {sessionUser &&
@@ -164,8 +167,18 @@ const DetailedPhoto = () => {
         <div style={{ paddingLeft: "1rem", paddingBottom: "2rem" }}>
           {allComments.map((comment) => (
             <div key={comment.id} style={{ marginBottom: "20px" }}>
-              <div style={{ paddingBottom: "0.5rem" }}>
-                {comment.userName} : {comment.comment}
+              <div
+                style={{
+                  fontWeight: "normal",
+                  fontSize: "16px",
+                  marginTop: "20px",
+                  marginBottom: "3px",
+                  fontSize: "20px",
+                  paddingBottom: "0.5rem"
+                }}
+              >
+                {comment.userName} : "{comment.comment}"
+
               </div>
 
               {sessionUser && sessionUser.id == comment.userId && (
@@ -189,8 +202,6 @@ const DetailedPhoto = () => {
       </div>
       {/* // ka */}
     </div>
-
-
   );
 };
 
