@@ -53,6 +53,7 @@ export const favPhotoThunk=(photoId)=>async(dispatch)=>{
       headers: { "Content-Type": "application/json" },
     });
     if (response.ok) {
+      const data = await response.json()
       dispatch(favPhoto(photoId));
       return photoId;
     }else {

@@ -32,6 +32,11 @@ const CreateNewPhoto = () => {
         return file
     };
 
+
+
+
+
+
     const validate = () => {
         foundError = false;
         setErrors({});

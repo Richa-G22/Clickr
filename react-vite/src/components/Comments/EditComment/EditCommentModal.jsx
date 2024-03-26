@@ -46,10 +46,7 @@ const EditComment = (props) => {
       {errors.content ? (
         <>{errors.content}</>
       ) : (
-        <div
-          className="comment-edit-form"
-          style={{ width: "100%", padding: "10px", border: "1px solid #ccc" }}
-        >
+        <div className="comment-edit-form">
           <form onSubmit={handleSubmit}>
             <div
               className="errors"
@@ -64,12 +61,20 @@ const EditComment = (props) => {
                 placeholder="Add a comment about this photo"
                 rows="10"
                 value={comment}
-                style={{ width: "100%", padding: "5px", marginBottom: "10px" }}
+                style={{ width: "95%", padding: "10px" }}
               ></textarea>
               <div className="edit-button" style={{ textAlign: "center" }}>
                 <button
                   type="submit"
-                  style={{ marginRight: "5px", fontSize: "25px" }}
+                  style={{
+                    marginRight: "5px",
+                    fontSize: "15px",
+                    backgroundColor: "rgb(84, 132, 213)",
+                    textAlign: "center",
+                    padding: "10px",
+                    width: "100%",
+                    margin: "0 10px",
+                  }}
                 >
                   Edit comment
                 </button>
@@ -82,8 +87,13 @@ const EditComment = (props) => {
                   type="button"
                   style={{
                     marginRight: "5px",
-                    fontSize: "25px",
-                    color: "gray",
+                    fontSize: "15px",
+                    color: "black",
+                    backgroundColor: "rgb(120, 119, 119)",
+                    padding: "10px",
+                    textAlign: "center",
+                    width: "100%",
+                    margin: "0 10px",
                   }}
                   onClick={handleCancelSubmit}
                 >
@@ -96,6 +106,10 @@ const EditComment = (props) => {
       )}
     </>
   );
+
 };
+
+
+
 
 export default EditComment;
