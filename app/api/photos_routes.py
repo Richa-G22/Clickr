@@ -47,7 +47,7 @@ def create_new_photo(user_id):
    
     form = PhotoForm()
     form['csrf_token'].data = request.cookies['csrf_token']
-    
+    print("form in route before validation", form.title, form.description, form.url)
     if form.validate_on_submit():
 
         try:
@@ -145,13 +145,35 @@ def update_photo(id):
     if form.validate_on_submit():
         try:
             photo_to_be_updated = Photo.query.get(id)
-            if not Photo:
-                raise Exception("Photo can not be found")
+            if not photo_to_be_updated:
+                 raise Exception("Photo can not be found")
+            
+            if "url" in request.files:
+                image = request.files["url"]
+                if not allowed_file(image.filename):
+                    raise TypeError("ImageType file not permitted")
+                image.filename = get_unique_filename(image.filename)
+                upload = upload_file_to_s3(image)
+                if "url" not in upload:
+                    raise TypeError("There was an error with AWS")
+                photo_to_be_updated.url = upload["url"] 
 
             photo_to_be_updated.title = form.data["title"]
             photo_to_be_updated.label = form.data["label"]
             photo_to_be_updated.description = form.data["description"]
-            photo_to_be_updated.url = form.data["url"]
+            # photo_to_be_updated.url = form.data["url"]
+            photo_to_be_updated.userId = current_user.id  
+
+
+
+            # photo_to_be_updated = Photo.query.get(id)
+            # if not Photo:
+            #     raise Exception("Photo can not be found")
+
+            # photo_to_be_updated.title = form.data["title"]
+            # photo_to_be_updated.label = form.data["label"]
+            # photo_to_be_updated.description = form.data["description"]
+            # photo_to_be_updated.url = form.data["url"]
             # photo_to_be_updated.userId = current_user.id 
             db.session.commit()
             return photo_to_be_updated.to_dict()

@@ -8,7 +8,7 @@ const EditPhotos = () => {
     // console.log('.......inside update Photo function........');
     let { id } = useParams();
     id = parseInt(id);
-    // console.log('.....photoId......', id, typeof(id))
+    console.log('.....photoId......', id, typeof(id))
     const user = useSelector((state) => state.session.user.id);
     const currentPhoto = useSelector((state) => state.photos.byId[id]);
     console.log('.......currentPhoto........', currentPhoto);
@@ -20,6 +20,22 @@ const EditPhotos = () => {
     const [label, setLabel] = useState(currentPhoto? currentPhoto.label : label);
     const [errors, setErrors] = useState({});
     let foundError = false;
+    const [showUpload, setShowUpload] = useState(true);
+    const [previewUrl, setPreviewUrl] = useState("");
+
+    // AWS 
+    const updateImage = async (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            setPreviewUrl(reader.result);
+        };
+        setUrl(file);
+        setShowUpload(false);
+        return file
+    };
+  
 
     if (!currentPhoto) {
         return <h2>Photo to be edited not found!!</h2>
@@ -30,26 +46,26 @@ const EditPhotos = () => {
         setErrors({});
         console.log('.......inside validate........')
 
-        if (!title) {
+        if (!title.trim()) {
           foundError = true;
           setErrors((errors) => ({ ...errors, title: "Title is required" }));     
         }
 
-        if (url) {
-            try {
-                new URL(url);
-                return true;
-            } catch (errors) {
-                foundError = true;
-                setErrors((errors) => ({ ...errors, url: "Please enter a valid URL " }));
+        // if (url) {
+        //     try {
+        //         new URL(url);
+        //         return true;
+        //     } catch (errors) {
+        //         foundError = true;
+        //         setErrors((errors) => ({ ...errors, url: "Please enter a valid URL " }));
     
-            }
-        }
+        //     }
+        // }
     
-        if (!url) {
-            foundError = true;
-            setErrors((errors) => ({ ...errors, url: "Photo URL is required" })); 
-        }
+        // if (!url) {
+        //     foundError = true;
+        //     setErrors((errors) => ({ ...errors, url: "Photo URL is required" })); 
+        // }
     };
 
     const handleSubmit = async (e) => {
@@ -79,7 +95,7 @@ const EditPhotos = () => {
                 if (data.errors) {
                     setErrors((errors) => ({ ...errors, ...data.errors }));
                 }
-        };
+        }
     };
 
     return (
@@ -129,6 +145,33 @@ const EditPhotos = () => {
             </div>
 
             <div className="input-row">
+                {showUpload && (
+                <>
+                <label htmlFor="file-upload">
+                Select from device *    &nbsp;<span className="error">{errors.url}</span>
+                </label>
+                <input
+                className="input-wide"
+                type="file"
+                // defaultValue=" "
+                onChange={updateImage}
+                placeholder="Photo"
+                id="file-upload"
+                accept=".pdf, .png, .jpg, .jpeg, .gif"
+                name="imageURL"
+                />
+                </>)}
+                {!showUpload && (
+                    <img  
+                      src={previewUrl}
+                      className="preview-image"
+                      alt="preview"
+                    />
+                )}
+            </div>
+
+
+            {/* <div className="input-row">
                 <label htmlFor="url">
                 Photo URL *   &nbsp;<span className="error">{errors.url}</span>
                 </label>
@@ -140,7 +183,7 @@ const EditPhotos = () => {
                 placeholder="Photo"
                 id="url"
                 />
-            </div>
+            </div> */}
 
             <div className="submit-button-div">
                 <button className="submit-button" type="submit">

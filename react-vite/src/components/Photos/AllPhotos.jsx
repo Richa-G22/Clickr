@@ -2,7 +2,7 @@ import { getAllPhotosThunk } from "../../redux/photos";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./AllPhotos.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 // ka
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as solidHeart } from "@fortawesome/free-solid-svg-icons";
@@ -18,6 +18,7 @@ const AllPhotos = () => {
   // const user = useSelector((state) => state.session.user);
   const photos = useSelector((state) => state.photos.photos_arr);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // ka
   const allFavorites = useSelector((state) => state.favorites.allFavorites);
   const currentUser = useSelector((state) => state.session.user);
@@ -59,24 +60,27 @@ const AllPhotos = () => {
     <div>
       <div className="photos-grid">
         {photos.map((photo) => (
-          <NavLink
-            key={photo.id}
-            className="photo-div"
-            to={`/photos/${photo.id}`}
-            title={photo.title}
-          >
-            <div className="polaroid">
-              <img
-                className="photo-image"
-                src={photo.url}
-                alt="Displaying default image"
-              />
+          <>
+            <div className="photo-div">
+            {/* <NavLink
+              key={photo.id}
+              className="photo-div"
+              to={`/photos/${photo.id}`}
+              title={photo.title}
+            > */}
+              <div className="polaroid">
+                <img
+                  className="photo-image"
+                  onClick={() => navigate(`/photos/${photo.id}`)}
+                  src={photo.url}
+                  alt="Displaying default image"
+                />
 
-              <div className="title">
-                <p>{photo.title}</p>
-              </div>
-              {/* ka */}
-              {currentUser && (
+                <div className="title">
+                  <p>{photo.title}</p>
+                </div>
+                {/* ka */}
+                {currentUser && (
                 <FontAwesomeIcon
                   icon={
                     allFavorites.find((fav) => fav.photoId === photo.id)
@@ -86,10 +90,12 @@ const AllPhotos = () => {
                   onClick={() => handleHeartClick(photo.id)}
                 />
               )}
-              {/* ka */}
-            </div>
-            <div style={{ marginBottom: "30px" }}></div>
-          </NavLink>
+                {/* ka */}
+              </div>
+              <div style={{ marginBottom: "30px" }}></div>
+              </div>
+            {/* </NavLink> */}
+          </>
         ))}
       </div>
     </div>

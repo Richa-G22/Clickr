@@ -41,7 +41,7 @@ const CreateNewPhoto = () => {
     setErrors({});
     console.log('.......inside validate........')
 
-    if (!title) {
+    if (!title.trim()) {
       foundError = true;
       setErrors((errors) => ({ ...errors, title: "Title is required" }));
     }
