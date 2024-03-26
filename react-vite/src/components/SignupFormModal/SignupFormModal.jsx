@@ -91,14 +91,16 @@ function SignupFormModal() {
           {errors.email && <p className="error-message">{errors.email}</p>}
           {/* <label>
             Username */}
-          <input
-            className="signup-input"
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+          <div className="signup-label-div">
+            <input
+              className="signup-input"
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
           {/* </label> */}
           {errors.username && (
             <p className="error-message">{errors.username}</p>
@@ -128,7 +130,11 @@ function SignupFormModal() {
           />
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>} */}
-          <button className="signup-btn" type="submit">
+          <button
+            className="signup-btn"
+            type="submit"
+            // style={{ backgroundColor: "rgb(51, 141, 225)" }}
+          >
             Sign Up
           </button>
         </form>

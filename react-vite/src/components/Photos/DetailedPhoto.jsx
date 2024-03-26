@@ -113,13 +113,15 @@ const DetailedPhoto = () => {
       <div>
         <h3>Comments</h3>
         <div>
-          {allComments.length === 0 && (
-            <span className="">
-              <div>
-                <h3>Be the first person to comment</h3>
-              </div>
-            </span>
-          )}
+          {allComments.length === 0 &&
+            sessionUser &&
+            sessionUser.id !== currentPhoto.userId && (
+              <span className="">
+                <div>
+                  <h3>Be the first person to comment</h3>
+                </div>
+              </span>
+            )}
         </div>
         <div>
           {sessionUser &&
@@ -133,8 +135,16 @@ const DetailedPhoto = () => {
         <div>
           {allComments.map((comment) => (
             <div key={comment.id} style={{ marginBottom: "20px" }}>
-              <div>
-                {comment.userName} : {comment.comment}
+              <div
+                style={{
+                  fontWeight: "normal",
+                  fontSize: "16px",
+                  marginTop: "20px",
+                  marginBottom: "3px",
+                  fontSize: "20px",
+                }}
+              >
+                {comment.userName} : "{comment.comment}"
               </div>
 
               {sessionUser && sessionUser.id == comment.userId && (
@@ -156,10 +166,8 @@ const DetailedPhoto = () => {
           ))}
         </div>
       </div>
-      // ka
+      {/* // ka */}
     </div>
-
-
   );
 };
 
