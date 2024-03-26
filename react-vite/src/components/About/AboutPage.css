@@ -1,0 +1,44 @@
+/* .container {
+    display: inline-block;
+    padding-left: 0px;
+} */
+
+.team {
+    display: flex;
+    flex-direction: row;
+    /* flex-wrap: wrap; */
+    align-content: flex-start;
+    margin-bottom: 80px ;
+    padding-left: 0px;
+}
+   
+/* .container{
+    background-image: url("https://marketplace.canva.com/EAE9rkxE9fA/1/0/1067w/canva-beige-elegant-minimalist-travel-scrapbook-photo-collage-%28portrait%29-Vbtv_yLZdys.jpg");
+    opacity: 0.5;
+    width: 100%;
+    position: fixed;
+    z-index: -10;
+    background-repeat: no-repeat; */
+    /* display: flex; */
+  /* height: 300px;
+  width: 100%; */
+  /* background-position: center; */
+  /* background-repeat: no-repeat; */
+  /* background-size: cover; */
+  /* position: relative; */
+/* }  */
+
+.multicolor-text {
+    text-align: center;
+    font-size: 40px;
+    background: linear-gradient(to left,
+            violet,
+            indigo,
+            blue,
+            green,
+            yellow,
+            orange,
+            red);
+    -webkit-background-clip: text;
+    color: transparent;
+}

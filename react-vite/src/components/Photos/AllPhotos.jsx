@@ -18,7 +18,8 @@ const AllPhotos = () => {
   // const user = useSelector((state) => state.session.user);
   const photos = useSelector((state) => state.photos.photos_arr);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
   // ka
   const allFavorites = useSelector((state) => state.favorites.allFavorites);
   const currentUser = useSelector((state) => state.session.user);
@@ -74,36 +75,40 @@ const AllPhotos = () => {
     <div>
       <div className="photos-grid">
         {photos.map((photo) => (
-          // <NavLink
-          //   key={photo.id}
-          //   className="photo-div"
-          //   // to={`/photos/${photo.id}`}
-          //   title={photo.title}
-          // >
-          <div className="photo-div">
-            <div className="polaroid">
-              <img
-                className="photo-image"
-                onClick={() => navigate(`/photos/${photo.id}`)}
-                src={photo.url}
-                alt="Displaying default image"
-              />
 
-              <div className="title">
-                <p>{photo.title}</p>
-              </div>
-              {/* ka */}
-              {currentUser && (
+          <>
+            <div className="photo-div">
+            {/* <NavLink
+              key={photo.id}
+              className="photo-div"
+              to={`/photos/${photo.id}`}
+              title={photo.title}
+            > */}
+              <div className="polaroid">
+                <img
+                  className="photo-image"
+                  onClick={() => navigate(`/photos/${photo.id}`)}
+                  src={photo.url}
+                  alt="Displaying default image"
+                />
+
+                <div className="title">
+                  <p>{photo.title}</p>
+                </div>
+                {/* ka */}
+                {currentUser && (
                 <FontAwesomeIcon
                   icon={isFav[photo.id] ? solidHeart : regularHeart}
                   onClick={() => handleHeartClick(photo.id)}
                 />
               )}
-              {/* ka */}
-            </div>
-            <div style={{ marginBottom: "30px" }}></div>
-            {/* // </NavLink> */}
-          </div>
+
+                {/* ka */}
+              </div>
+              <div style={{ marginBottom: "30px" }}></div>
+              </div>
+            {/* </NavLink> */}
+          </>
         ))}
       </div>
     </div>

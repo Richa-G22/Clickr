@@ -22,6 +22,7 @@
     box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2), 0px 6px 20px 0px rgba(0, 0, 0, 0.19);
     margin-bottom: 50px;
     padding-top: 25px;
+    transition: all 1s ease;
 }
 
 .photo-image {
@@ -31,6 +32,7 @@
 
 .polaroid:hover {
     box-shadow: 0 10px 18px 0 rgba(0, 0, 0, 1.5), 0 16px 20px 0 rgba(0, 0, 0, 0.29);
+    transform: scale(0.95);
 }
 
 .menu{

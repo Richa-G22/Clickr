@@ -49,7 +49,7 @@ const CreateNewComment = ({ photo }) => {
 
       <div className="post-a-comment">
         <div className="Heading">
-          <h2>Post new comment</h2>
+          <h3>Post new comment</h3>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="comment-input-field">
