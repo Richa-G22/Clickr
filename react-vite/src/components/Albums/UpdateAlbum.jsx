@@ -8,7 +8,7 @@ const UpdateAlbum = () => {
     console.log('.......inside update Album function........');
     const { id } = useParams();
     const albumId = parseInt(id);
-    console.log('.....albumId......', albumId,)
+    console.log('.....albumId......', albumId, typeof(albumId))
     // const currentAlbum = useSelector((state) => state.albums.allAlbums[0]);
     const currentAlbum = useSelector((state) => state.albums.byId[albumId]);
     console.log('.......currentAlbum........', currentAlbum);
@@ -19,6 +19,21 @@ const UpdateAlbum = () => {
     const [image_url, setImage_url] = useState(currentAlbum? currentAlbum.image_url : image_url);
     const [errors, setErrors] = useState({});
     let foundError = false;
+    const [showUpload, setShowUpload] = useState(true);
+    const [previewUrl, setPreviewUrl] = useState("");
+
+    // AWS 
+    const updateImage = async (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            setPreviewUrl(reader.result);
+        };
+        setImage_url(file);
+        setShowUpload(false);
+        return file
+    };
 
     useEffect(() => {
         dispatch(detailedAlbumThunk(albumId));
@@ -33,20 +48,24 @@ const UpdateAlbum = () => {
         setErrors({});
         console.log('.......inside validate........')
 
-        if (!title) {
+        if (!title.trim()) {
           foundError = true;
           setErrors((errors) => ({ ...errors, title: "Album Title is required" }));
           console.log('...........inside title loop...........')
           console.log('........title.....', title);
         }
 
-        if (image_url) {
-            if (!/^http(s)?:\/\/.+\..+$/.test(image_url.trim())) {
-                foundError = true;
-                setErrors((errors) => ({ ...errors, image_url: "Please enter a valid URL " }));
-                console.log('...........inside IMAGE_URL loop...........')
-                console.log('........IMAGE_URL.....', image_url);
-            }
+        // if (image_url) {
+        //     if (!/^http(s)?:\/\/.+\..+$/.test(image_url.trim())) {
+        //         foundError = true;
+        //         setErrors((errors) => ({ ...errors, image_url: "Please enter a valid URL " }));
+        //         console.log('...........inside IMAGE_URL loop...........')
+        //         console.log('........IMAGE_URL.....', image_url);
+        //     }
+        // }
+        if (!image_url) {
+            foundError = true;
+            setErrors((errors) => ({ ...errors, image_url: "Album Photo is required" })); 
         }
     };
 
@@ -114,17 +133,29 @@ const UpdateAlbum = () => {
             </div>
 
             <div className="input-row">
-                <label htmlFor="image_url">
-                    Album Image <span className="error">{errors.image_url}</span>
+                {showUpload && (
+                <>
+                <label htmlFor="file-upload">
+                Select from device *     <span className="error">{errors.image_url}</span>
                 </label>
                 <input
                     className="input-wide"
-                    type="text"
-                    defaultValue={currentAlbum.image_url}
-                    onChange={(e) => setImage_url(e.target.value)}
+                    type="file"
+                    // defaultValue={updateImage}
+                    onChange={updateImage}
                     placeholder="Album Image"
-                    id="image_url"
+                    id="file-upload"
+                    accept=".pdf, .png, .jpg, .jpeg, .gif"
+                    name="image_url"
                 />
+                </>)}
+                {!showUpload && (
+                    <img  
+                      src={previewUrl}
+                      className="preview-image"
+                      alt="preview"
+                    />
+                )}
             </div>
 
             <div className="submit-button-div">

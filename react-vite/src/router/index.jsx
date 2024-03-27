@@ -23,6 +23,7 @@ import ViewAllFavorites from '../components/Favorites/ViewAllFavorites';
 
 import Layout from './Layout';
 import NotFound from '../components/NotFound/NotFound';
+import AboutPage from '../components/About/AboutPage';
 
 export const router = createBrowserRouter([
   {
@@ -31,6 +32,11 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <AllPhotos />,
+        // element: <AboutPage />,
+      },
+      {
+        path: "/about/",
+        element: <AboutPage />,
       },
       {
         path: "/photos/",

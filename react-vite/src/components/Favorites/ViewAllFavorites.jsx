@@ -24,7 +24,7 @@ function ViewAllFavorites() {
   return (
     <div className="ViewAllFavorites-container">
       <div>
-        <h2 className="all-fav-title">All Favorites</h2>
+        {/* <h2 className="all-fav-title">All Favorites</h2> */}
         <div className="fav-grid">
           {isLoggedIn ? (
             favorites.length > 0 ? (
@@ -39,7 +39,7 @@ function ViewAllFavorites() {
                     key={favorite.id}
                     title={photo.title}
                   >
-                    <div>
+                    <div className="fav-polaroid">
                       <img
                         className="fav-photo"
                         src={photo.url}
@@ -48,7 +48,7 @@ function ViewAllFavorites() {
                       <div>
                         <p className="fav-title">{photo.title}</p>
                       </div>
-                    </div>
+                    {/* </div> */}
                     <div>
                       {isLoggedIn && (
                         <FontAwesomeIcon
@@ -57,6 +57,7 @@ function ViewAllFavorites() {
                           className="favorite-heart-icon"
                         />
                       )}
+                    </div>
                     </div>
                   </div>
                 );

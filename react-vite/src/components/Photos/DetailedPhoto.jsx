@@ -12,23 +12,36 @@ import CreateNewComment from "../Comments/CreateNewComment/CreateNewComment";
 import EditComment from "../Comments/EditComment/EditCommentModal";
 import DeleteComment from "../Comments/DeleteComment/DeleteCommentModal";
 
+export const Modal = ({ src, alt, title, onClose }) => {
+  return (
+    <div className="modal">
+      <span className="close" onClick={onClose}>
+        &times;
+      </span>
+      <img className="modal-content" src={src} alt={alt} />
+      <div className="caption">{title}</div>
+    </div>
+  )
+}
 
 const DetailedPhoto = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { id } = useParams();
-    const photoId = parseInt(id);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const photoId = parseInt(id);
 
-    const sessionUser = useSelector((state) => state.session.user);
-    const currentPhoto = useSelector((state) => state.photos.byId[id]);
-    const [isLoaded, setisLoaded] = useState(false);
-    // Ka
-    const allComments = useSelector((state) => state.comments.allComments);
-    // ka
+  const sessionUser = useSelector((state) => state.session.user);
+  const currentPhoto = useSelector((state) => state.photos.byId[id]);
+  const [isLoaded, setisLoaded] = useState(false);
+  // Ka
+  const allComments = useSelector((state) => state.comments.allComments);
+  // ka
+  const [isOpen, setIsOpen] = useState(false)
+  const showModal = () => setIsOpen(true)
 
-    console.log("&&&&&&&&&&", currentPhoto);
+  console.log("&&&&&&&&&&", currentPhoto);
 
-    useEffect(() => {
+  useEffect(() => {
 
     const getData = async () => {
       await dispatch(detailedPhotoThunk(photoId));
@@ -82,18 +95,36 @@ const DetailedPhoto = () => {
                 <h2> 404 : Requested photo does not exist</h2>
               )}
             </div>
+            <div className="pic-detail-info">
+              {/* <div style={{ fontSize: "20px", fontWeight: "bold" }}> */}
+              <div>
+                {" "}
+                <h2 style={{ textTransform: "uppercase", paddingBottom: "0", borderBottom: "0", marginBottom: "0px" }}>{currentPhoto.title}</h2>
+              </div>
+              {currentPhoto.description ? (
+                <div style={{ paddingTop: "0", fontStyle: "italic", fontSize: "1.15rem" }}>
+                  <h4>{currentPhoto.description}</h4>
+                </div>
+              ) : null}
+            </div>
 
-            <div
-              style={{ paddingTop: "27px" }}
-              className="pic-detail-image-div"
-            >
+            <div className="pic-detail-image-div">
               <img
                 className="pic-detail-preview-image"
+                onClick={showModal}
                 src={currentPhoto.url}
                 alt="previewImage"
               />
+              {isOpen && (
+                <Modal
+                  src={currentPhoto.url}
+                  alt="previewImage"
+                  title={currentPhoto.title}
+                  onClose={() => setIsOpen(false)}
+                />
+              )}
             </div>
-            <div className="pic-detail-info">
+            {/* <div className="pic-detail-info">
               <div style={{ fontSize: "20px", fontWeight: "bold" }}>
                 {" "}
                 {currentPhoto.title}
@@ -103,7 +134,7 @@ const DetailedPhoto = () => {
                   &nbsp;&nbsp;: &nbsp;&nbsp;{currentPhoto.description}
                 </div>
               ) : null}
-            </div>
+            </div> */}
           </div>
         ) : (
           <span>Loading...</span>
@@ -111,17 +142,20 @@ const DetailedPhoto = () => {
       </div>
       {/* // ka */}
       <div>
-        <h3>Comments</h3>
+        <h2 style={{ paddingLeft: "1rem" }}>Comments</h2>
         <div>
-          {allComments.length === 0 && (
-            <span className="">
-              <div>
-                <h3>Be the first person to comment</h3>
-              </div>
-            </span>
-          )}
+          {allComments.length === 0 &&
+            sessionUser &&
+            sessionUser.id !== currentPhoto.userId && (
+              <span className="">
+                <div>
+                  <h3 style={{ paddingLeft: "1rem" }}>Be the first person to comment</h3>
+                </div>
+              </span>
+            )}
+
         </div>
-        <div>
+        <div style={{ paddingLeft: "1rem", paddingBottom: "1rem" }}>
           {sessionUser &&
             currentPhoto &&
             sessionUser.id !== currentPhoto.userId && (
@@ -130,11 +164,21 @@ const DetailedPhoto = () => {
               </div>
             )}
         </div>
-        <div>
+        <div style={{ paddingLeft: "1rem", paddingBottom: "2rem" }}>
           {allComments.map((comment) => (
             <div key={comment.id} style={{ marginBottom: "20px" }}>
-              <div>
-                {comment.userName} : {comment.comment}
+              <div
+                style={{
+                  fontWeight: "normal",
+                  fontSize: "16px",
+                  marginTop: "20px",
+                  marginBottom: "3px",
+                  fontSize: "20px",
+                  paddingBottom: "0.5rem"
+                }}
+              >
+                {comment.userName} : "{comment.comment}"
+
               </div>
 
               {sessionUser && sessionUser.id == comment.userId && (
@@ -156,10 +200,8 @@ const DetailedPhoto = () => {
           ))}
         </div>
       </div>
-      // ka
+      {/* // ka */}
     </div>
-
-
   );
 };
 

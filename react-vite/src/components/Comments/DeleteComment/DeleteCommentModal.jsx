@@ -30,7 +30,7 @@ const DeleteComment = (props)=>{
 return (
   <div className="div-comment-dlt">
     <h2>Delete Comment</h2>
-    <p>Are you sure you want to delete this comment?</p>
+    <p className="comment-message">Are you sure you want to delete this comment?</p>
 
     <button
       className="comment-dlt-button-ok"

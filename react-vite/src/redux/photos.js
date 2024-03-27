@@ -103,19 +103,20 @@ export const detailedPhotoThunk = (id) => async (dispatch) => {
 // Create a new Photo
 export const createNewPhotoThunk = (form) => async (dispatch) => {
     try {
+
         const { title, description, label, url, user } = form;
+        const formData = new FormData()
+        formData.append("title",title)
+        formData.append("description",description)
+        formData.append("label",label)
+        formData.append("url",url)
+      
+        console.log("formData in photo thunk", formData)
         const options = {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                label,
-                title,
-                description,
-                url,
-                user
-            })
+            body: formData        
         }
-        const response = await fetch("/api/photos/new", options);
+        const response = await fetch(`/api/photos/new/${user}`, options);
 
         if (response.ok) {
             const data = await response.json();
@@ -180,17 +181,23 @@ export const deletePhotoThunk = (id) => async (dispatch) => {
 };
 
 //----------------------------------------------------------------------------------------
-
-// Update a Photo
-export const editPhotosThunk = (id, photo) => async(dispatch) => {
+// Update a Photo AWS
+export const editPhotosThunk = (id, form) => async(dispatch) => {
  
     try {
-         console.log('...................reached edit photo thunk............')
-         console.log('$$$$$$$$$$$$$$$$$ . id, photo......',id, photo)
+        console.log('...................reached edit photo thunk............')
+        console.log('$$$$$$$$$$$$$$$$$ . id, photo......',id, form)
+
+        const { title, description, label, url, user } = form;
+        const formData = new FormData()
+        formData.append("title",title)
+        formData.append("description",description)
+        formData.append("label",label)
+        formData.append("url",url)
+        
          const options = {
             method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(photo)
+            body: formData
         };
         const response = await fetch(`/api/photos/update/${id}`, options);
         console.log('&&&&&&&&&&&&&&response', response)
@@ -209,32 +216,37 @@ export const editPhotosThunk = (id, photo) => async(dispatch) => {
     }
 };
 
-// export const updateTweetThunk = (tweetId, updatedTweet) => async(dispatch) => {
-//     try {
 
-//         const options = {
+
+//------------------------------------------------------------------------------------
+// Update a Photo
+// export const editPhotosThunk = (id, photo) => async(dispatch) => {
+ 
+//     try {
+//          console.log('...................reached edit photo thunk............')
+//          console.log('$$$$$$$$$$$$$$$$$ . id, photo......',id, photo)
+//          const options = {
 //             method: 'PUT',
 //             headers: {'Content-Type': 'application/json'},
-//             body: JSON.stringify({
-//                tweet_id: tweetId,
-//                updated_tweet: updatedTweet
-//             })
+//             body: JSON.stringify(photo)
 //         };
-
-//         const response = await fetch(`/api/tweets/${tweetId}`, options);
-//         if(response.ok){
-//             const data = await response.json();
-//             dispatch(updateTweet(data))
-//             return data;
-//         } else{
-//             throw response;
+//         const response = await fetch(`/api/photos/update/${id}`, options);
+//         console.log('&&&&&&&&&&&&&&response', response)
+//         if (response.ok) {
+//             console.log('&&&&&&&&&&&&&&response', response)
+//                 const data = await response.json();
+//                 console.log('&&&&&&&&&&&&&&data', data)
+//                 dispatch(updatePhoto(data));
+//                 return data;
+//         } else {
+//                 throw response;
 //         }
-
-//     } catch (error) {
-//         const errors = error.json();
+//     } catch (e) {
+//         const errors =  e.json();
 //         return errors;
 //     }
-// }
+// };
+
 //----------------------------------------------------------------------------------------
 
 // Albums Reducer
