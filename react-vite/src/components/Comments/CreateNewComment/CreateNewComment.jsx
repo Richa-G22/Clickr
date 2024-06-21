@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { add_comment_thunk } from "../../../redux/comments";
 import { get_comments_thunk } from "../../../redux/comments";
 
+let commentLength = 30;
+
 const CreateNewComment = ({ photo }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -22,6 +24,18 @@ const CreateNewComment = ({ photo }) => {
         setErrors({});
       }, [comment1]);
 
+  const handleInputChange = (e) => {
+    const newComment = e.target.value;
+    if (newComment.length <= commentLength) {
+      setComment1(newComment);
+      setErrors({});
+    } else {
+      setErrors({
+        comment: `Comment cannot be longer than ${commentLength} characters`,
+      });
+    }
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +43,12 @@ const CreateNewComment = ({ photo }) => {
     // Empty Comment Validation
     if (!comment1.trim()) {
       setErrors({ comment: "Comment cannot be empty" });
+      return;
+    }
+    if (comment1.length > commentLength) {
+      setErrors({
+        comment: `Comment cannot be longer than ${commentLength} characters`,
+      });
       return;
     }
 
@@ -40,7 +60,7 @@ const CreateNewComment = ({ photo }) => {
     } catch (error) {
       console.log(error);
     }
-  
+
   };
 
   return (
@@ -58,7 +78,8 @@ const CreateNewComment = ({ photo }) => {
                 id="input-comment"
                 type="text"
                 value={comment1}
-                onChange={(e) => setComment1(e.target.value)}
+                // onChange={(e) => setComment1(e.target.value)}
+                onChange={handleInputChange}
                 placeholder="Add a comment about this photo"
                 rows="10"
                 required
