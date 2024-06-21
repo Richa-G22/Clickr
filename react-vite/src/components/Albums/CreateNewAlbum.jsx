@@ -33,12 +33,10 @@ const NewAlbum = () => {
   const validate = () => {
     foundError = false;
     setErrors({});
-    console.log('.......inside validate........')
+    
 
     if (!title.trim()) {
       foundError = true;
-      console.log(".....foundError....", foundError)
-      console.log("errors", errors);
       setErrors((errors) => ({ ...errors, title: "Album Title is required" }));
     }
 
@@ -62,25 +60,21 @@ const NewAlbum = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     validate();
-    console.log(".....foundError123....", foundError)
-    console.log("errors123", errors);
+    
         try {
             if (!foundError) {
                 const newAlbum =  await dispatch(
                 createNewAlbumThunk({ title, description, image_url, user }),
                
             ). catch (async (res) => {
-                console.log("in 1st catch")
                 const data = await res.json();
-                console.log("data123", data)
+                
                 if (data.errors) {
                 setErrors((errors) => ({ ...errors, ...data.errors }));
             } 
             })
         navigate('/albums/all')
         }} catch (error) {
-            console.log("....error", error)
-            console.log("in 2nd catch")
                 const data = await error.json(); 
                 if (data.errors) {
                     setErrors((errors) => ({ ...errors, ...data.errors }));

@@ -39,7 +39,7 @@ const DetailedPhoto = () => {
   const [isOpen, setIsOpen] = useState(false)
   const showModal = () => setIsOpen(true)
 
-  console.log("&&&&&&&&&&", currentPhoto);
+  
 
   useEffect(() => {
 
@@ -62,7 +62,7 @@ const DetailedPhoto = () => {
     return "Photo not found";
   }
 
-  console.log("Detailed Photo here");
+  
   return (
     <div>
       <div>
@@ -142,18 +142,24 @@ const DetailedPhoto = () => {
       </div>
       {/* // ka */}
       <div>
-        <h2 style={{ paddingLeft: "1rem" }}>Comments</h2>
+        <h2
+          style={{ paddingLeft: "1rem", marginTop: "30px", fontSize: "1.5rem" }}
+        >
+          <i className="fa-solid fa-comment"></i>
+          {" "} Comments:{" "}
+        </h2>
         <div>
           {allComments.length === 0 &&
             sessionUser &&
             sessionUser.id !== currentPhoto.userId && (
               <span className="">
                 <div>
-                  <h3 style={{ paddingLeft: "1rem" }}>Be the first person to comment</h3>
+                  <h3 style={{ paddingLeft: "1rem" }}>
+                    Be the first person to comment
+                  </h3>
                 </div>
               </span>
             )}
-
         </div>
         <div style={{ paddingLeft: "1rem", paddingBottom: "1rem" }}>
           {sessionUser &&
@@ -173,28 +179,81 @@ const DetailedPhoto = () => {
                   fontSize: "16px",
                   marginTop: "20px",
                   marginBottom: "3px",
-                  fontSize: "20px",
-                  paddingBottom: "0.5rem"
+                  fontSize: "23px",
+                  paddingBottom: "0.5rem",
                 }}
               >
-                {comment.userName} : "{comment.comment}"
-
+                {/* {comment.userName } : "{comment.comment}" */}
+                <span style={{ textDecoration: "underline", fontWeight:"bold" }}>
+                  {comment.userName}
+                </span>{" "}
+                : "{comment.comment}"
               </div>
 
               {sessionUser && sessionUser.id == comment.userId && (
-                <span>
-                  <OpenModalButton
-                    buttonText={"Edit Comment"}
-                    modalComponent={
-                      <EditComment props={{ comment: comment, photoId: id }} />
-                    }
-                  />
+                // <span>
+                //   <OpenModalButton
+                //     buttonText={"Edit Comment"}
+                //     modalComponent={
+                //       <EditComment props={{ comment: comment, photoId: id }} />
+                //     }
+                //   />
 
-                  <OpenModalButton
-                    buttonText={"Delete Comment"}
-                    modalComponent={<DeleteComment comment={comment} />}
-                  />
-                </span>
+                //   <OpenModalButton
+                //     buttonText={"Delete Comment"}
+                //     modalComponent={<DeleteComment comment={comment} />}
+                //   />
+                // </span>
+                <div>
+                  <div style={{ display: "inline-block", marginRight: "10px" }}>
+                    <OpenModalButton
+                      buttonText={
+                        <span
+                          style={{
+                            display: "inline-block",
+                            width: "100px",
+                            marginRight: "10px",
+                          }}
+                        >
+                          <i
+                            className="fa-solid fa-pen-to-square"
+                            style={{ color: "blue", marginRight: "5px" }}
+                          ></i>
+                          <span style={{ color: "black", fontSize: "18px" }}>
+                            Edit
+                          </span>
+                        </span>
+                      }
+                      modalComponent={
+                        <EditComment
+                          props={{ comment: comment, photoId: id }}
+                        />
+                      }
+                    />
+                  </div>
+                  <div style={{ display: "inline-block", marginLeft: "10px" }}>
+                    <OpenModalButton
+                      buttonText={
+                        <span
+                          style={{
+                            display: "inline-block",
+                            width: "100px",
+                            marginLeft: "10px",
+                          }}
+                        >
+                          <i
+                            className="fa-solid fa-trash"
+                            style={{ color: "red", marginRight: "5px" }}
+                          ></i>
+                          <span style={{ color: "black", fontSize: "18px" }}>
+                            Delete
+                          </span>
+                        </span>
+                      }
+                      modalComponent={<DeleteComment comment={comment} />}
+                    />
+                  </div>
+                </div>
               )}
             </div>
           ))}
@@ -204,6 +263,7 @@ const DetailedPhoto = () => {
     </div>
   );
 };
+
 
 
 export default DetailedPhoto;

@@ -4,8 +4,7 @@ import { useModal } from '../../context/Modal';
 import './DeletePhotoModal.css';
 
 function DeletePhotoModal({albumId, photoId, setDeleteMode}) {
-  console.log('......albumId inside deleteModal..albumId..',albumId, typeof(albumId));
-  console.log('......photoId inside deleteModal..photoId...',photoId, typeof(photoId));
+  
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 

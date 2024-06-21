@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import './DeleteAlbumModal.css';
 
 function DeleteAlbumModal( albumId ) {
-  console.log('......albumId inside deleteModal.....',albumId);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { closeModal } = useModal();

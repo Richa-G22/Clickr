@@ -5,13 +5,13 @@ import { editAlbumThunk, detailedAlbumThunk } from '../../redux/albums';
 import "./UpdateAlbum.css";
 
 const UpdateAlbum = () => {
-    console.log('.......inside update Album function........');
+   
     const { id } = useParams();
     const albumId = parseInt(id);
-    console.log('.....albumId......', albumId, typeof(albumId))
+    
     // const currentAlbum = useSelector((state) => state.albums.allAlbums[0]);
     const currentAlbum = useSelector((state) => state.albums.byId[albumId]);
-    console.log('.......currentAlbum........', currentAlbum);
+   
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [title, setTitle] = useState(currentAlbum? currentAlbum.title : title);
@@ -46,21 +46,19 @@ const UpdateAlbum = () => {
     const validate = () => {
         foundError = false;
         setErrors({});
-        console.log('.......inside validate........')
+       
 
         if (!title.trim()) {
           foundError = true;
           setErrors((errors) => ({ ...errors, title: "Album Title is required" }));
-          console.log('...........inside title loop...........')
-          console.log('........title.....', title);
+          
         }
 
         // if (image_url) {
         //     if (!/^http(s)?:\/\/.+\..+$/.test(image_url.trim())) {
         //         foundError = true;
         //         setErrors((errors) => ({ ...errors, image_url: "Please enter a valid URL " }));
-        //         console.log('...........inside IMAGE_URL loop...........')
-        //         console.log('........IMAGE_URL.....', image_url);
+       
         //     }
         // }
         if (!image_url) {
@@ -69,7 +67,7 @@ const UpdateAlbum = () => {
         }
     };
 
-    console.log('..control here after detailed album current album...', currentAlbum)
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -93,7 +91,7 @@ const UpdateAlbum = () => {
         navigate('/albums/all')
         }} catch (error) {
             const data = await error.json();
-            console.log('$$$$$$$$$$data', data)
+            
                 if (data.errors) {
                     setErrors((errors) => ({ ...errors, ...data.errors }));
                 }

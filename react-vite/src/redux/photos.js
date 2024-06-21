@@ -111,7 +111,7 @@ export const createNewPhotoThunk = (form) => async (dispatch) => {
         formData.append("label",label)
         formData.append("url",url)
       
-        console.log("formData in photo thunk", formData)
+        //console.log("formData in photo thunk", formData)
         const options = {
             method: 'POST',
             body: formData        
@@ -185,8 +185,7 @@ export const deletePhotoThunk = (id) => async (dispatch) => {
 export const editPhotosThunk = (id, form) => async(dispatch) => {
  
     try {
-        console.log('...................reached edit photo thunk............')
-        console.log('$$$$$$$$$$$$$$$$$ . id, photo......',id, form)
+        
 
         const { title, description, label, url, user } = form;
         const formData = new FormData()
@@ -200,11 +199,11 @@ export const editPhotosThunk = (id, form) => async(dispatch) => {
             body: formData
         };
         const response = await fetch(`/api/photos/update/${id}`, options);
-        console.log('&&&&&&&&&&&&&&response', response)
+        
         if (response.ok) {
-            console.log('&&&&&&&&&&&&&&response', response)
+            
                 const data = await response.json();
-                console.log('&&&&&&&&&&&&&&data', data)
+                
                 dispatch(updatePhoto(data));
                 return data;
         } else {
@@ -223,19 +222,17 @@ export const editPhotosThunk = (id, form) => async(dispatch) => {
 // export const editPhotosThunk = (id, photo) => async(dispatch) => {
  
 //     try {
-//          console.log('...................reached edit photo thunk............')
-//          console.log('$$$$$$$$$$$$$$$$$ . id, photo......',id, photo)
+
 //          const options = {
 //             method: 'PUT',
 //             headers: {'Content-Type': 'application/json'},
 //             body: JSON.stringify(photo)
 //         };
 //         const response = await fetch(`/api/photos/update/${id}`, options);
-//         console.log('&&&&&&&&&&&&&&response', response)
+
 //         if (response.ok) {
-//             console.log('&&&&&&&&&&&&&&response', response)
+
 //                 const data = await response.json();
-//                 console.log('&&&&&&&&&&&&&&data', data)
 //                 dispatch(updatePhoto(data));
 //                 return data;
 //         } else {
