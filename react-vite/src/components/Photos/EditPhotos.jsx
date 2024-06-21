@@ -5,13 +5,13 @@ import { editPhotosThunk } from '../../redux/photos';
 import "./EditPhotos.css";
 
 const EditPhotos = () => {
-    // console.log('.......inside update Photo function........');
+    
     let { id } = useParams();
     id = parseInt(id);
-    console.log('.....photoId......', id, typeof(id))
+    
     const user = useSelector((state) => state.session.user.id);
     const currentPhoto = useSelector((state) => state.photos.byId[id]);
-    console.log('.......currentPhoto........', currentPhoto);
+    
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [title, setTitle] = useState(currentPhoto? currentPhoto.title : title);
@@ -44,7 +44,7 @@ const EditPhotos = () => {
     const validate = () => {
         foundError = false;
         setErrors({});
-        console.log('.......inside validate........')
+        
 
         if (!title.trim()) {
           foundError = true;
@@ -95,7 +95,7 @@ const EditPhotos = () => {
         navigate('/photos/current')
         }} catch (error) {
             const data = await error.json();
-            console.log('$$$$$$$$$$data', data)
+            
                 if (data.errors) {
                     setErrors((errors) => ({ ...errors, ...data.errors }));
                 }

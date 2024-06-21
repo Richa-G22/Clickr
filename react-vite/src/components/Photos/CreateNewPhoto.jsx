@@ -20,7 +20,7 @@ const CreateNewPhoto = () => {
     let foundError = false;
     // AWS 
     const updateImage = async (e) => {
-        console.log("Inside updateImage AWS")
+        //console.log("Inside updateImage AWS")
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -40,7 +40,7 @@ const CreateNewPhoto = () => {
     const validate = () => {
         foundError = false;
         setErrors({});
-        console.log('.......inside validate........')
+        
 
         if (!title.trim()) {
             foundError = true;
@@ -140,8 +140,7 @@ const CreateNewPhoto = () => {
             </div>
 
             <div className="input-row">
-                {console.log("Inside input row of photo")}
-                {console.log("showUpload", showUpload)}
+                
                 {showUpload && (
                     <>
                         <label htmlFor="file-upload">

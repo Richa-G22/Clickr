@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import './DeleteImageModal.css';
 
 function DeleteImageModal({id} ) {
-  console.log('......photoId inside deleteModal..photoId...',id, typeof(id));
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { closeModal } = useModal();

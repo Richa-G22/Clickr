@@ -15,7 +15,7 @@
 //     const navigate = useNavigate();
 //     const { id } = useParams();
 //     const albumId = parseInt(id);
-//     console.log("*****", typeof id)
+
 //     // const sessionUser = useSelector((state) => state.session.user);
 //     // const currentAlbum = useSelector((state) => state.albums.byId[albumId]);
 //     // //const photos_available = useSelector((state) => state.albums.byId[id].photos);
@@ -41,9 +41,6 @@
 //     //         getData();
 //     // }, [dispatch]);
 
-
-//     //console.log("Detailed Album here", photos_available, typeof(photos_available));
-//     console.log("All photos here", all_photos_in_state, typeof(all_photos_in_state));
 
 //     if (!isLoaded) {
 //         return <span>Loading...</span>
@@ -142,11 +139,10 @@ const DetailedAlbum = () => {
 
     // const sessionUser = useSelector((state) => state.session.user);
     let currentAlbum = useSelector((state) => state.albums.byId[albumId]);
-    // const currentState = useSelector((state) => console.log(".....state....", state));
+   
     const all_photos_in_state = useSelector((state) => state.photos.photos_arr);
     const all_photos_in_state_obj = useSelector((state) => state.photos.byId);
-    console.log(".....id....albumId....", id, albumId);
-    console.log(".......currentAlbum......", currentAlbum);
+    
 
     const [isLoaded, setisLoaded] = useState(false);
     const [updateMode, setUpdateMode] = useState(false);
