@@ -16,3 +16,5 @@ Don't forget to run `npm run build` before merging your work to your production
 branch!
 
 [`localhost:5173`]: http://localhost:5173/
+
+--> to make changes/run use - `pipenv run flask run`  

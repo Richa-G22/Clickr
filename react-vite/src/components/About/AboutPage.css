@@ -2,6 +2,23 @@
     display: inline-block;
     padding-left: 0px;
 } */
+.abouts {
+    /* margin-left: 10%;
+    margin-right: 40%; */
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+    margin-bottom: 1%;
+}
+
+.about-body {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 80%;
+    height: 80%;
+    z-index: -1;
+}
 
 .team {
     display: flex;
