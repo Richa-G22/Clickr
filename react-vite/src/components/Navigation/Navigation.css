@@ -56,12 +56,14 @@
 
 .bottom-menu{
   display: flex;
+  /* justify-content: space-between; */
   border-bottom: 2px solid rgb(211, 208, 208);
   /* height: 40px; */
   height: 2.5em;
-  align-items:center;
+  align-items: center;
   padding-bottom: 2px;
   box-sizing: border-box;
+  /* padding-left: 25%; */
 }
 
 .menu{

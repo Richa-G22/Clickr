@@ -52,7 +52,7 @@ function Navigation() {
                         </NavLink> */}
                         {sessionUser ?
                             // <div style={{display:"inline-flex", position:"relative", boxSizing:"border-box",flexWrap:"wrap", gap:"20em", alignContent:"space-between", justifyItems:"center"}}>
-                            <div> 
+                            <div style={{display: 'flex', justifyContent: 'space-evenly', width: '80%'}}> 
                                 {/* <NavLink style={{paddingLeft: '200px'  }} className="nav-links" to="/photos/current"> */}
                                 {/* <NavLink style={{ paddingLeft: '40em' }} className="nav-links" to="/about/">
                                     About
@@ -69,32 +69,32 @@ function Navigation() {
                                 <NavLink style={{ paddingLeft: '10em' }} className="nav-links" to="/favorites">
                                     Favorites
                                 </NavLink> */}
-                                <NavLink style={{ paddingLeft: '20rem' }} className="nav-links" to="/about/">
+                                <NavLink style={{ marginLeft: '20%' }} className="nav-links" to="/about/">
                                     About
                                 </NavLink>
-                                <NavLink style={{ paddingLeft: '20rem' }} className="nav-links" to="/photos/">
+                                <NavLink style={{ marginLeft: '20%' }} className="nav-links" to="/photos/">
                                     PhotoStream
                                 </NavLink>
-                                <NavLink style={{ paddingLeft: '20rem' }} className="nav-links" to="/photos/current">
+                                <NavLink style={{ marginLeft: '20%' }} className="nav-links" to="/photos/current">
                                     Manage
                                 </NavLink>
-                                <NavLink style={{ paddingLeft: '20rem' }} className="nav-links" to="/albums/all">
+                                <NavLink style={{ marginLeft: '20%' }} className="nav-links" to="/albums/all">
                                     Albums
                                 </NavLink>
-                                <NavLink style={{ paddingLeft: '20rem' }} className="nav-links" to="/favorites">
+                                <NavLink style={{ marginLeft: '20%' }} className="nav-links" to="/favorites">
                                     Favorites
                                 </NavLink>
                             </div>
                             // : null}
                             :
-                            <>
-                                <NavLink style={{ paddingLeft: '50rem' }} className="nav-links" to="/about/">
+                            <div  style={{display: 'flex', justifyContent: 'space-evenly', width: '80%'}}>
+                                <NavLink style={{ marginLeft: '20%'}} className="nav-links" to="/about/">
                                     About
                                 </NavLink>
-                                <NavLink style={{ paddingLeft: '20rem' }} className="nav-links" to="/photos/">
+                                <NavLink className="nav-links" to="/photos/">
                                     PhotoStream
                                 </NavLink>
-                            </>}
+                            </div>}
                     </div>
                 </nav>
 
